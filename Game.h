@@ -1,0 +1,33 @@
+#pragma once
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <memory>
+#include "Character.h"
+#include "Draw.h"
+#include "Rect.h"
+#include "Sprite.h"
+#include "Player.h"
+#include "Input.h"
+#include "Movement.h"
+#include "Animation.h"
+#include "Skeleton.h"
+#include "Obstacle.h"
+#include "Wrapper.h"
+#include "Update.h"
+#include "CollisionHandler.h"
+#include "Delete.h"
+#include "Create.h"
+#include "Mark.h"
+#include "Shoot.h"
+
+class Game
+{
+public:
+	Game();
+	~Game();
+	bool play();
+	//void createRoom(int roomSize, int roomStartX, int roomStartY, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown, std::vector<std::unique_ptr<Wrapper >> & obstacles, Obstacle & o);
+};
+
