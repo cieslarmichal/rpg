@@ -7,7 +7,7 @@ Character::Character(std::string n, int hpp, int ad, int as, int exp, int c, flo
 {
 	direction = 1;
 	walkCounter = counter = 0;
-	movementLength = 65;
+	randomMovementLength = 65;
 	canMoveUp = canMoveDown = canMoveLeft = canMoveRight = true;
 }
 
@@ -87,9 +87,9 @@ void Character::setCounter(int inp)
 	counter = inp;
 }
 
-void Character::setMovementLength(int inp)
+void Character::setRandomMovementLength(int inp)
 {
-	movementLength = inp;
+	randomMovementLength = inp;
 }
 
 void Character::setDead(bool inp)
@@ -122,6 +122,10 @@ void Character::setMarked(bool inp)
 	marked = inp;
 }
 
+void Character::setFighting(bool inp)
+{
+	fighting = inp;
+}
 
 //getters
 std::string Character::getName() const
@@ -199,9 +203,9 @@ int Character::getCounter() const
 	return counter;
 }
 
-int Character::getMovementLength() const
+int Character::getRandomMovementLength() const
 {
-	return movementLength;
+	return randomMovementLength;
 }
 
 bool Character::getDead() const
@@ -213,6 +217,11 @@ bool Character::getDead() const
 bool Character::isMarked() const
 {
 	return marked;
+}
+
+bool Character::isFighting() const
+{
+	return fighting;
 }
 
 //methods

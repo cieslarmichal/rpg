@@ -110,16 +110,19 @@ bool CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 	bool anyCollision = false;
 	for (auto & iter : enemies)
 	{
+		enemies[counter].first->rect->character->setFighting(false);
 		bool case1 = false, case2 = false, case3 = false, case4 = false;
 		if (isIntersecting(*player->rect, *enemies[counter].first->rect))
 		{
+			enemies[counter].first->rect->character->setFighting(true);
 			//player gets damage
 			if (elapsed1.asSeconds() >= 1)
 			{
 				clock1.restart();
+				std::cout << " " << enemies[counter].first->rect->character->isFighting() << std::endl;
 				int playerDamagedHp = player->rect->character->getCurrentHp() - enemies[counter].first->rect->character->getAttackDamage();
 				player->rect->character->setCurrentHp(playerDamagedHp);
-				setMessage(enemies[counter].first->rect->character->getAttackDamage(), player, texts);
+				setDamageMessage(enemies[counter].first->rect->character->getAttackDamage(), player, texts);
 			}
 			//enemies get damage
 			if (elapsed2.asSeconds() >= 0.5 && enemies[counter].first->rect->character->isMarked())
@@ -127,7 +130,7 @@ bool CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 				clock2.restart();
 				int enemyDamagedHp = enemies[counter].first->rect->character->getCurrentHp() - player->rect->character->getAttackDamage();
 				enemies[counter].first->rect->character->setCurrentHp(enemyDamagedHp);
-				setMessage(player->rect->character->getAttackDamage(),enemies[counter].first, texts);
+				setDamageMessage(player->rect->character->getAttackDamage(),enemies[counter].first, texts);
 			}
 
 			int topDistance = abs(enemies[counter].first->rect->getBottomEdge() - player->rect->getTopEdge()); //distance up
@@ -194,7 +197,7 @@ bool CollisionHandler::projectilesWithEnemies(std::vector<std::unique_ptr<Wrappe
 			projectiles[counter]->rect->projectile->setDestroyed(true);
 			int enemyDamagedHp = enemies[enemyIndex].first->rect->character->getCurrentHp() - projectiles[counter]->rect->projectile->getDamage();
 			enemies[enemyIndex].first->rect->character->setCurrentHp(enemyDamagedHp);
-			setMessage(projectiles[counter]->rect->projectile->getDamage(), enemies[enemyIndex].first, texts);
+			setDamageMessage(projectiles[counter]->rect->projectile->getDamage(), enemies[enemyIndex].first, texts);
 		}
 		counter++;
 	}
@@ -221,7 +224,7 @@ bool CollisionHandler::projectilesWithWalls(std::vector<std::unique_ptr<Wrapper>
 }
 
 //change from attackDamage to random damage based on attackdamge
-void CollisionHandler::setMessage(int takenHp, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & texts)
+void CollisionHandler::setDamageMessage(int takenHp, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & texts)
 {
 	std::string msg = std::to_string(takenHp);
 	sf::Vector2f pos = { victim->rect->rect.getPosition().x+14,	victim->rect->rect.getPosition().y -10 };

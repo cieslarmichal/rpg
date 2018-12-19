@@ -9,6 +9,6 @@ class Mark
 public:
 	Mark();
 	void markEnemy(int key, enemyPair & enemies, sf::RenderWindow & window);
-	enum {RIGHTMOUSE = 5};
+	enum {LEFTMOUSE = 5};
 };
 

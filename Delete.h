@@ -12,6 +12,5 @@ public:
 	void removeEnemies(enemyPair & characters);
 	void removeText(std::vector < std::unique_ptr<Text>> & texts);
 	void removeProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles);
-
 };
 
