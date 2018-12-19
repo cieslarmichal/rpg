@@ -14,8 +14,9 @@ class Movement
 {
 public:
 	Movement();
-	bool move(Rect & character, int dirc);
-	bool moveRandom(Rect & character);
+	bool move(Rect & player, int dirc);
+	bool moveEnemy(Rect & enemy, Rect & player);
+	bool moveRandom(Rect & enemy);
 	bool moveText(Text & text);
 	void moveProjectile(Rect & projectile, enemyPair & enemies);
 	enum { UP = 1, DOWN = 2, LEFT = 3, RIGHT = 4 };

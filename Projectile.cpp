@@ -7,10 +7,7 @@ Projectile::Projectile(int id)
 	enemyID = id;
 	movementSpeed = 15;
 	damage = 1;
-	counterLifetime = 0;
-	lifetime = 200;
 	destroyed = false;
-	velocity = { 0,0 };
 }
 
 //setters
@@ -28,12 +25,6 @@ void Projectile::setDirection(int inp)
 {
 	direction = inp;
 }
-
-void Projectile::setCounterLifeTime(int inp)
-{
-	counterLifetime = inp;
-}
-
 
 void Projectile::setDestroyed(bool inp)
 {
@@ -59,16 +50,6 @@ int Projectile::getDirection() const
 int Projectile::getEnemyID() const
 {
 	return enemyID;
-}
-
-int Projectile::getCounterLifeTime() const
-{
-	return counterLifetime;
-}
-
-int Projectile::getLifetime() const
-{
-	return lifetime;
 }
 
 bool Projectile::isDestroyed() const

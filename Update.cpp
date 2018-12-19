@@ -16,12 +16,13 @@ void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar
 	player->rect->setEdges(); // calculate edges distances
 }
 
-void Update::updateEnemies(enemyPair & enemies, int nothing)
+void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player)
 {
 	int counter = 0;
 	for (std::pair<std::unique_ptr<Wrapper>, StatusBar > & x : enemies)
 	{
-		bool flagMovement = movement.moveRandom(*enemies[counter].first->rect);
+		bool flagMovement = movement.moveEnemy(*enemies[counter].first->rect,*player->rect);
+		std::cout << "FLAG = " << flagMovement << std::endl;
 		if (flagMovement) enemies[counter].first->animation->update(enemies[counter].first->rect->character->getDirection());
 		enemies[counter].first->sprite->setPosition(enemies[counter].first->rect->getPosition());
 		enemies[counter].second.update(enemies[counter].first); // update status bar health

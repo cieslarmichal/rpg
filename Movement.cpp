@@ -39,17 +39,46 @@ bool Movement::move(Rect & rect, int dirc)
 	return true;
 }
 
-bool Movement::moveRandom(Rect & rect)
+bool Movement::moveRandom(Rect & enemy)
 {
-	rect.character->setCounter(rect.character->getCounter() + 1);
-	if (rect.character->getCounter() >= rect.character->getMovementLength())
+	enemy.character->setCounter(enemy.character->getCounter() + 1);
+	if (enemy.character->getCounter() >= enemy.character->getRandomMovementLength())
 	{
-		rect.character->setDirection((std::rand() % 4) + 1);
-		rect.character->setMovementLength((std::rand() % 30) + 40);
-		rect.character->setCounter(0);
+		enemy.character->setDirection((std::rand() % 4) + 1);
+		enemy.character->setRandomMovementLength((std::rand() % 30) + 40);
+		enemy.character->setCounter(0);
 	}
-	return (move(rect, rect.character->getDirection()));
+	return (move(enemy, enemy.character->getDirection()));
 }
+
+bool Movement::moveEnemy(Rect & enemy, Rect & player)
+{
+	int deltaX = enemy.getPosition().x - player.getPosition().x;
+	int deltaY = enemy.getPosition().y - player.getPosition().y;
+	double absDistance = std::sqrt(deltaX*deltaX + deltaY * deltaY);
+	if (absDistance > 300)
+	{
+		 return moveRandom(enemy);
+	}
+	else
+	{
+		if (!enemy.character->isFighting())
+		{
+			if (std::abs(deltaX) >= std::abs(deltaY))
+			{
+				(deltaX >= 0) ? move(enemy, LEFT) : move(enemy, RIGHT);
+			}
+			else
+			{
+				(deltaY >= 0) ? move(enemy, UP) : move(enemy, DOWN);
+			}
+		}
+		else return false;
+	}
+	return true;
+}
+
+
 
 bool Movement::moveText(Text & text)
 {
@@ -70,11 +99,5 @@ void Movement::moveProjectile(Rect & rect, enemyPair & enemies)
 	double angle = std::atan2(abs(deltaY), abs(deltaX));
 
 	rect.rect.move(flagX * rect.projectile->getMovementSpeed()*std::cos(angle), flagY * rect.projectile->getMovementSpeed() * std::sin(angle));
-
-	rect.projectile->setCounterLifeTime(rect.projectile->getCounterLifeTime() + 1);
-	if (rect.projectile->getCounterLifeTime() >= rect.projectile->getLifetime())
-	{
-		rect.projectile->setDestroyed(true);
-	}
 }
 

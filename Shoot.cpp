@@ -16,7 +16,7 @@ void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, st
 		int targetY = enemies[enemyIndex].first->rect->getPosition().y;
 		int deltaX = targetX - player->rect->getPosition().x;
 		int deltaY = targetY - player->rect->getPosition().y;
-		double absDistance(std::sqrt(deltaX*deltaX + deltaY * deltaY));
+		double absDistance = std::sqrt(deltaX*deltaX + deltaY * deltaY);
 		int flagX = (deltaX >= 0) ? 1 : -1;
 		int flagY = (deltaY >= 0) ? 1 : -1;
 		double angle = std::atan2(abs(deltaY), abs(deltaX));

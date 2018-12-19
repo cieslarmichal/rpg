@@ -1,6 +1,6 @@
 #include "Draw.h"
 
-
+Draw::Draw(sf::RenderWindow & win) : window(win) {}
 
 
 void Draw::drawPlayer(std::unique_ptr<Wrapper> & player)

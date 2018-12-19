@@ -28,6 +28,5 @@ public:
 	Game();
 	~Game();
 	bool play();
-	//void createRoom(int roomSize, int roomStartX, int roomStartY, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown, std::vector<std::unique_ptr<Wrapper >> & obstacles, Obstacle & o);
 };
 

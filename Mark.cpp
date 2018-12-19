@@ -9,20 +9,18 @@ Mark::Mark()
 
 void Mark::markEnemy(int key, enemyPair & enemies, sf::RenderWindow & window)
 {
-	if (key == RIGHTMOUSE)
+	if (key == LEFTMOUSE)
 	{
 		//conversion view to window mouse coordinates 
 		sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
 		// convert it to world coordinates
 		sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
 
-		//unmark all enemies
 		for (std::pair<std::unique_ptr<Wrapper>, StatusBar > & x : enemies)
 		{
 			x.first->rect->character->setMarked(false);
 		}
 
-		//mark particular one enemy
 		int counter = 0;
 		for (std::pair<std::unique_ptr<Wrapper>, StatusBar > & x : enemies)
 		{

@@ -124,7 +124,7 @@ bool Game::play()
 		shooter.shootEnemy(player,enemies,projectiles);
 
 		//update enemies
-		updater.updateEnemies(enemies,0);
+		updater.updateEnemies(enemies, player);
 
 		//update texts
 		updater.updateText(messages, view);

@@ -24,11 +24,12 @@ public:
 	void setCanMoveRight(bool);
 	void setWalkCounter(int);
 	void setCounter(int);
-	void setMovementLength(int);
+	void setRandomMovementLength(int);
 	void setDead(bool);
 	void setCanMoveNum(int);
 	void canMoveEverywhere();
 	void setMarked(bool);
+	void setFighting(bool);
 	//getters
 	std::string getName() const;
 	int getMaxHp() const;
@@ -45,11 +46,10 @@ public:
 	bool getCanMoveRight() const;
 	int getWalkCounter() const;
 	int getCounter() const;
-	int getMovementLength() const;
+	int getRandomMovementLength() const;
 	bool getDead() const;
 	bool isMarked() const;
-	//methods
-	virtual void update() = 0 {}
+	bool isFighting() const;
 private:
 	std::string name;
 	int hpMax, hp;
@@ -58,12 +58,13 @@ private:
 	int coins;
 	//std::vector<item> inventory;
 	float movementSpeed;
-	int direction; //1 up 2 down 3 left 4 right
+	int direction;
 	bool canMoveUp, canMoveDown, canMoveLeft, canMoveRight;
 	int counter, walkCounter;
-	int movementLength; //length of AFK random movements
+	int randomMovementLength;
 	bool dead = false;
 	bool marked = false;
+	bool fighting = false;
 };
 
 

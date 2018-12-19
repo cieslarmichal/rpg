@@ -7,21 +7,9 @@ Player::Player(std::string name, int hp, int stamina, int attackDamage, int atta
 {
 	level = distanceLevel = meleeLevel = magicLevel = 1;
 	distCounter = melCounter, magCounter = 0;
-	staminaCounter = 0;
-	renewStaminaAt = 7;
 }
 
 //setters
-
-void Player::setMaxStamina(int inp)
-{
-	staminaMax = inp;
-}
-
-void Player::setCurrentStamina(int inp)
-{
-	stamina = inp;
-}
 
 void Player::levelUp()
 {
@@ -59,16 +47,6 @@ void Player::magCounterUp()
 }
 
 //getters
-
-int Player::getMaxStamina() const
-{
-	return staminaMax;
-}
-
-int Player::getCurrentStamina() const
-{
-	return stamina;
-}
 
 int Player::getLevel() const
 {
@@ -108,12 +86,6 @@ int Player::getMagCounter() const
 
 //methods
 void Player::deadHuman()
-{
-
-}
-
-
-void Player::update()
 {
 
 }
