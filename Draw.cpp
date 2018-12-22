@@ -8,51 +8,35 @@ void Draw::drawPlayer(std::unique_ptr<Wrapper> & player)
 	window.draw(player->sprite->getSprite());
 }
 
-void Draw::drawEnemies(enemyPair & enemies)
-{
-	/*int counter = 0;
-	for (auto & x : enemies)
-	{
-		window.draw(enemies[counter].first->sprite.getSprite());
-		window.draw(enemies[counter].second.rect);
-		window.draw(enemies[counter].second.text);
-		counter++;
-	}*/
-	enemyPair::iterator iter = enemies.begin();
-	while (iter != enemies.end())
-	{
-		window.draw(iter->first->sprite->getSprite());
-
-		window.draw(iter->second.getRect());
-
-		window.draw(iter->second.getText()); //read access violation
-		++iter;
-	}
-}
-
 void Draw::drawStatusBar(StatusBar & statusBar)
 {
 	window.draw(statusBar.getRect());
 	window.draw(statusBar.getText());
 }
 
+void Draw::drawEnemies(enemyPair & enemies)
+{
+	for (auto & enemy : enemies)
+	{
+		window.draw(enemy.first->sprite->getSprite());
+		window.draw(enemy.second.getRect());
+		window.draw(enemy.second.getText());
+	}
+}
+
 void Draw::drawObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles)
 {
-	int counter = 0;
-	for (std::unique_ptr<Wrapper> & x : obstacles)
+	for (std::unique_ptr<Wrapper> & obstacle : obstacles)
 	{
-		window.draw(obstacles[counter]->sprite->getSprite());
-		counter++;
+		window.draw(obstacle->sprite->getSprite());
 	}
 }
 
 void Draw::drawText(std::vector<std::unique_ptr<Text>> & texts)
 {
-	int counter = 0;
-	for (std::unique_ptr<Text> & x : texts)
+	for (std::unique_ptr<Text> & text : texts)
 	{
-		window.draw(texts[counter]->getText());
-		counter++;
+		window.draw(text->getText());
 	}
 }
 
@@ -64,10 +48,8 @@ void Draw::drawRect(Rect & rect)
 
 void Draw::drawRects(std::vector<std::unique_ptr<Wrapper>> & tests)
 {
-	int counter = 0;
-	for (std::unique_ptr<Wrapper> & x : tests)
+	for (std::unique_ptr<Wrapper> & test : tests)
 	{
-		window.draw(tests[counter]->rect->rect);
-		counter++;
+		window.draw(test->rect->rect);
 	}
 }

@@ -13,7 +13,7 @@ public:
 	bool isDestroyed() const;
 	//etc
 	void update(std::unique_ptr<Wrapper> & character);
-	StatusBar & operator=(StatusBar other);
+	StatusBar & operator=(StatusBar other); //necessary
 private:
 	sf::RectangleShape rect;
 	sf::Text text;

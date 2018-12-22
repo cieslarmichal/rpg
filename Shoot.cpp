@@ -9,30 +9,28 @@ void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, st
 {
 	elapsed = clock.getElapsedTime();
 	int enemyIndex = findTargetEnemy(enemies);
-	if (enemyIndex != OUT)
-	{
+	if (enemyIndex == (int)Others::RESET) return;
 
-		int targetX = enemies[enemyIndex].first->rect->getPosition().x;
-		int targetY = enemies[enemyIndex].first->rect->getPosition().y;
-		int deltaX = targetX - player->rect->getPosition().x;
-		int deltaY = targetY - player->rect->getPosition().y;
-		double absDistance = std::sqrt(deltaX*deltaX + deltaY * deltaY);
-		int flagX = (deltaX >= 0) ? 1 : -1;
-		int flagY = (deltaY >= 0) ? 1 : -1;
-		double angle = std::atan2(abs(deltaY), abs(deltaX));
-		//sprite setting
-		sf::Vector2i dimSprite;
-		dimSprite.x = 0;
-		dimSprite.y = calculateSpriteDimension(flagX, flagY, angle);
-		if (absDistance <= 275) // shoot if absolute distance is less than 275
+	int targetX = (int)enemies[enemyIndex].first->rect->getPosition().x;
+	int targetY = (int)enemies[enemyIndex].first->rect->getPosition().y;
+	int deltaX = targetX - (int)player->rect->getPosition().x;
+	int deltaY = targetY - (int)player->rect->getPosition().y;
+	double absDistance = std::sqrt(deltaX*deltaX + deltaY * deltaY);
+	int flagX = (deltaX >= 0) ? 1 : -1;
+	int flagY = (deltaY >= 0) ? 1 : -1;
+	double angle = std::atan2(abs(deltaY), abs(deltaX));
+	//sprite setting
+	sf::Vector2i dimSprite;
+	dimSprite.x = 0;
+	dimSprite.y = calculateSpriteDimension(flagX, flagY, angle);
+	if (absDistance <= 275) // shoot if absolute distance is less than 275
+	{
+		if (elapsed.asSeconds() >= 1)
 		{
-			if (elapsed.asSeconds() >= 1)
-			{
-				clock.restart();
-				Projectile projectile(enemyIndex);
-				projectile.setDamage(player->rect->character->getAttackDamage());
-				creator.createProjectile(player, projectile, projectiles,dimSprite);
-			}
+			clock.restart();
+			Projectile projectile(enemyIndex);
+			projectile.setDamage(player->rect->character->getAttackDamage());
+			creator.createProjectile(player, projectile, projectiles, dimSprite);
 		}
 	}
 }
@@ -48,7 +46,7 @@ int Shoot::findTargetEnemy(enemyPair & enemies)
 		}
 		counter++;
 	}
-	return OUT;
+	return (int)Others::RESET;
 }
 
 int Shoot::calculateSpriteDimension(int flagX, int flagY, double angle)

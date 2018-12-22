@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include "Directions.h"
 
 typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 
@@ -17,9 +18,7 @@ public:
 	bool move(Rect & player, int dirc);
 	bool moveEnemy(Rect & enemy, Rect & player);
 	bool moveRandom(Rect & enemy);
-	bool moveText(Text & text);
+	void moveText(Text & text);
 	void moveProjectile(Rect & projectile, enemyPair & enemies);
-	enum { UP = 1, DOWN = 2, LEFT = 3, RIGHT = 4 };
-
 };
 

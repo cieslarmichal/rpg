@@ -26,7 +26,7 @@ void Text::setDestroyed()
 }
 
 //getters
-int Text::getMovementSpeed() const
+float Text::getMovementSpeed() const
 {
 	return movementSpeed;
 }
@@ -59,7 +59,7 @@ void Text::update(sf::View view)
 
 void Text::setup()
 {
-	font.loadFromFile("C:\\Users\\Micha³\\Desktop\\cpp\\SFML\\RPG\\RPG\\stuff\\font.ttf");
+	font.loadFromFile("stuff/font.ttf");
 	text.setOutlineColor(sf::Color::Black);
 	text.setOutlineThickness(1);
 	text.setFont(font);

@@ -9,37 +9,12 @@ Sprite::Sprite(std::string path, int sx, int sy, int dimx, int dimy) : spriteX(s
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(dimx, dimy, spriteX, spriteY));
 
-	if (path == "C:\\Users\\Micha³\\Desktop\\cpp\\SFML\\RPG\\RPG\\stuff\\player.png")
+	if (path == "stuff/player.png")
 	{
 		offByRectX = -16;
 		offByRectY = -20;
 	}
 }
-
-Sprite::Sprite(Sprite & other)
-{
-	sprite = other.sprite;
-	texture = other.texture;
-	spriteX = other.spriteX;
-	spriteY = other.spriteY;
-	offByRectX = other.offByRectX;
-	offByRectY = other.offByRectY;
-	pathName = other.pathName;
-}
-
-Sprite & Sprite::operator=(Sprite & other)
-{
-	sprite = other.sprite;
-	texture = other.texture;
-	spriteX = other.spriteX;
-	spriteY = other.spriteY;
-	offByRectX = other.offByRectX;
-	offByRectY = other.offByRectY;
-	pathName = other.pathName;
-	return *this;
-}
-
-
 
 void Sprite::setTextureRect(int dimx, int dimy, int sx, int sy)
 {
@@ -48,12 +23,12 @@ void Sprite::setTextureRect(int dimx, int dimy, int sx, int sy)
 
 void Sprite::setPosition(int x, int y)
 {
-	sprite.setPosition(sf::Vector2f(x + offByRectX, y + offByRectY));
+	sprite.setPosition(sf::Vector2f((float)(x + offByRectX), (float)(y + offByRectY)));
 }
 
 void Sprite::setPosition(sf::Vector2f position)
 {
-	sprite.setPosition(position.x + offByRectX, position.y + offByRectY);
+	sprite.setPosition(position.x + (float)offByRectX, position.y + (float)offByRectY);
 }
 
 //getters

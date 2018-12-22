@@ -7,6 +7,7 @@ Player::Player(std::string name, int hp, int stamina, int attackDamage, int atta
 {
 	level = distanceLevel = meleeLevel = magicLevel = 1;
 	distCounter = melCounter, magCounter = 0;
+	setMarked(true);
 }
 
 //setters

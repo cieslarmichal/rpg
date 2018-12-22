@@ -3,6 +3,7 @@
 #include "StatusBar.h"
 #include "Create.h"
 #include <cmath>
+#include "Directions.h"
 
 typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 
@@ -15,7 +16,6 @@ public:
 	int calculateSpriteDimension(int flagX, int flagY, double angle);
 private:
 	Create creator;
-	enum { OUT = -1 };
 	sf::Clock clock;
 	sf::Time elapsed;
 };

@@ -13,9 +13,6 @@ public:
 	Rect(Skeleton &, int dimX, int dimY, sf::Vector2f pos = { 0,0 });
 	Rect(Obstacle &, int dimX, int dimY, sf::Vector2f pos = { 0,0 });
 	Rect(Projectile &, int dimX, int dimY, sf::Vector2f pos = { 0,0 });
-	Rect(Rect & other);
-	Rect & operator=(Rect & other);
-	~Rect() { character.release(); obstacle.release(); }
 	std::unique_ptr<Character> character;
 	std::unique_ptr<Obstacle> obstacle;
 	std::unique_ptr<Projectile> projectile;

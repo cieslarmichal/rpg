@@ -101,16 +101,16 @@ void Character::setCanMoveNum(int inp)
 {
 	switch (inp)
 	{
-	case 1:
+	case (int)Directions::UP:
 		setCanMoveUp(true);
 		break;
-	case 2:
+	case (int)Directions::DOWN:
 		setCanMoveDown(true);
 		break;
-	case 3:
+	case (int)Directions::LEFT:
 		setCanMoveLeft(true);
 		break;
-	case 4:
+	case (int)Directions::RIGHT:
 		setCanMoveRight(true);
 		break;
 	}
@@ -212,7 +212,6 @@ bool Character::getDead() const
 {
 	return dead;
 }
-
 
 bool Character::isMarked() const
 {

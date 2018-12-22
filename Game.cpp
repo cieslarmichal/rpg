@@ -4,8 +4,21 @@
 
 Game::Game()
 {
-	//jesli bledy vectora to w collisionPlayerWithEnemy odkomentowac
-
+	//kolizja enemy vs enemy
+	//virtualna metoda atakujaca np w charackter
+	// posprzatac komentarze
+	// klasy w collisionhandler obslugujace wymiane dmg z okreslona predkoscia
+	//ogarnac collisionhandler zmniejszyc liczbe metod
+	// ogarnac w draw tez uniwersalne metody
+	//pokoje potworzyc do testowania pathfinding dobre
+	//show must go on
+	//randomize with marsenne
+	//pathfinding
+	//dodac dragona
+	//dodac inventory
+	//std::pair playera z healthBar
+	//loot z potworow
+	//konczyc to bo trzeba tmp robic tez
 }
 
 
@@ -22,7 +35,7 @@ bool Game::play()
 
 	//View
 	sf::View view(sf::FloatRect(200, 200, 300, 200));
-	view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
+	view.setSize(sf::Vector2f(sf::Vector2u(window.getSize())));
 	view.setCenter(sf::Vector2f(view.getSize().x / 2, view.getSize().y / 2));
 	window.setView(view);
 
@@ -37,14 +50,15 @@ bool Game::play()
 
 	//adding player
 	StatusBar playerHealthBar;
-	Player characterPlayer("michal", 20, 20, 20, 20, 20, 20, 2);
+	Player characterPlayer("michal", 100,5, 20, 10,20, 20, 2);
 	std::unique_ptr<Wrapper> player = creator.createPlayer(characterPlayer,{200,250});
 
 	std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar> > enemies;
 	// adding enemy
-	Skeleton characterSkeleton("skeleton", 100000, 5, 0, 70, 0, 1.5, 0);
-	creator.createSkeleton(characterSkeleton, enemies, { 300,300 });
-	//creator.createSkeleton(characterSkeleton, enemies, { 400,300 });
+	Skeleton characterSkeleton("skeleton", 100, 5,1, 70, 0, 1.5, 0);
+	creator.createSkeleton(characterSkeleton, enemies, { 200,150 });
+	creator.createSkeleton(characterSkeleton, enemies, { 350,150 });
+	creator.createSkeleton(characterSkeleton, enemies, { 200,200 });
 
 	//projectiles vector
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
@@ -76,87 +90,49 @@ bool Game::play()
 		}
 		window.clear();
 
-		// collision player with walls
-		collisionHandler.playerWithObstacles(player, obstacles);
-
-		//collision player with enemies
-		bool anyCollision = collisionHandler.playerWithEnemies(player, enemies, messages);
-		if (!anyCollision) // setting possibility to move with blocked direction from previous collision 
 		{
-			player->rect->character->setCanMoveNum(collisionHandler.playerCantMove);
-			if (collisionHandler.enemyIndex > CollisionHandler::OUT)
-			{
-				enemies[collisionHandler.enemyIndex].first->rect->character->setCanMoveNum(collisionHandler.enemyCantMove);
-				collisionHandler.enemyCantMove = CollisionHandler::RESET;
-				collisionHandler.enemyIndex = CollisionHandler::OUT;
-			}
-			collisionHandler.playerCantMove = CollisionHandler::RESET;
+			collisionHandler.characterWithObstacles(player, obstacles);
+			collisionHandler.playerWithEnemies(player, enemies, messages);
+			collisionHandler.enemiesWithObstacles(enemies, obstacles);
+			collisionHandler.projectilesWithWalls(projectiles, obstacles);
+			collisionHandler.projectilesWithEnemies(projectiles, enemies, messages);
 		}
 
-		//collision enemies with walls
-		collisionHandler.enemiesWithObstacles(enemies, obstacles);
+		{
+			deleter.removeText(messages);
+			deleter.removeProjectiles(projectiles);
+			deleter.removeEnemies(enemies);
+		}
 
-		//collision projectiles with walls
-		collisionHandler.projectilesWithWalls(projectiles, obstacles);
-
-		//collision projectiles with enemies
-		collisionHandler.projectilesWithEnemies(projectiles, enemies, messages);
-
-		//delete texts
-		deleter.removeText(messages);
-
-		//delete projectiles
-		deleter.removeProjectiles(projectiles);
-
-		//delete enemies
-		deleter.removeEnemies(enemies);
-
-		//input from keyboard
-		int inputKey = input.read();
-
-		//update player
-		updater.updatePlayer(player, playerHealthBar, inputKey);
+		int *inputKeys = input.read();
 
 		//mark enemy if mouse is clicked on him
-		marker.markEnemy(inputKey, enemies, window);
+		marker.markEnemy(inputKeys[Input::ACTION], enemies, window);
 
-		//shoot target enemy, creating projectiles
-		shooter.shootEnemy(player,enemies,projectiles);
+		//shoot marked enemy, creating projectiles
+		//shooter.shootEnemy(player, enemies, projectiles);
 
-		//update enemies
-		updater.updateEnemies(enemies, player);
+		{
+			updater.updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION]);
+			updater.updateEnemies(enemies, player);
+			updater.updateText(messages, view);
+			updater.updateObstacles(obstacles);
+			updater.updateProjectiles(projectiles, enemies);
+		}
 
-		//update texts
-		updater.updateText(messages, view);
+		{
+			draw.drawObstacles(obstacles);
+			draw.drawStatusBar(playerHealthBar);
+			draw.drawEnemies(enemies);
+			draw.drawPlayer(player);
+			draw.drawText(messages);
+			//draw projectiles
+			draw.drawObstacles(projectiles);
+		}
 
-		// update obstacles
-		updater.updateObstacles(obstacles);
-
-		//update projectiles
-		updater.updateProjectiles(projectiles,enemies);
-
-		//draw obstacles
-		draw.drawObstacles(obstacles);
-
-		//draw player healthBar
-		draw.drawStatusBar(playerHealthBar);
-
-		//draw enemies
-		draw.drawEnemies(enemies);
-
-		//draw player
-		draw.drawPlayer(player);
-
-		//draw texts
-		draw.drawText(messages);
-
-		//draw projectiles
-		draw.drawObstacles(projectiles);
-
-		//player view
 		window.setView(view);
 		view.setCenter(player->rect->rect.getPosition());
-
+		
 		window.display();
 	}
 	return true;
