@@ -15,4 +15,3 @@ private:
 	//add coins logic
 	float lootChance, item; //item to do
 };
-

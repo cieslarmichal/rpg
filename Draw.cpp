@@ -32,6 +32,12 @@ void Draw::drawObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles)
 	}
 }
 
+void Draw::drawProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles)
+{
+	drawObstacles(projectiles);
+}
+
+
 void Draw::drawText(std::vector<std::unique_ptr<Text>> & texts)
 {
 	for (std::unique_ptr<Text> & text : texts)

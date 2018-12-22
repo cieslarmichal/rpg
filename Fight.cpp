@@ -1,12 +1,7 @@
 #include "Fight.h"
 
-Fight::Fight()
-{
 
-}
-
-
-void Fight::attack(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim)
+void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim)
 {
 	if (isAttackPossible(attacker,victim))
 	{
@@ -14,6 +9,12 @@ void Fight::attack(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper>
 		int damagedHp = victim->rect->character->getCurrentHp() - attacker->rect->character->getAttackDamage();
 		victim->rect->character->setCurrentHp(damagedHp);
 	}
+}
+
+void Fight::attackDistance(std::unique_ptr<Wrapper> & projectile, std::unique_ptr<Wrapper> & victim)
+{
+	int damagedHp = victim->rect->character->getCurrentHp() - projectile->rect->projectile->getDamage();
+	victim->rect->character->setCurrentHp(damagedHp);
 }
 
 void Fight::setFighting(std::unique_ptr<Wrapper> & character, bool inp)

@@ -29,4 +29,3 @@ private:
 	bool positionMid;
 	void setup();
 };
-

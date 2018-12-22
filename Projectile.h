@@ -21,4 +21,3 @@ private:
 	int direction; 
 	bool destroyed = false;
 };
-

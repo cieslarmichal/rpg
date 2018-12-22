@@ -25,4 +25,3 @@ private:
 	bool set = false, destroyed = false;
 	void setup(std::unique_ptr<Wrapper> & character);
 };
-

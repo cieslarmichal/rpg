@@ -89,3 +89,4 @@ Text & Text::operator=(Text other)
 	positionMid = other.positionMid;
 	return *this;
 }
+

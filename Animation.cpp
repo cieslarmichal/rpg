@@ -50,6 +50,3 @@ void Animation::update(int direction)
 		}
 	}
 }
-
-
-

@@ -1,12 +1,6 @@
 #include "Movement.h"
 
 
-Movement::Movement()
-{
-	std::srand((unsigned)std::time(NULL));
-}
-
-
 bool Movement::move(Rect & rect, int dirc)
 {
 	if (dirc > (int)Directions::RIGHT || dirc < (int)Directions::UP) return false;
@@ -98,4 +92,3 @@ void Movement::moveProjectile(Rect & rect, enemyPair & enemies)
 
 	rect.rect.move(flagX * rect.projectile->getMovementSpeed()*std::cos(angle), flagY * rect.projectile->getMovementSpeed() * std::sin(angle));
 }
-

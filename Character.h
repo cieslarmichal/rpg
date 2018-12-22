@@ -67,5 +67,3 @@ private:
 	bool marked = false;
 	bool fighting = false;
 };
-
-

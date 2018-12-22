@@ -30,4 +30,3 @@ private:
 	int distCounter, melCounter, magCounter;
 	//std::vector<item> inventory;
 };
-

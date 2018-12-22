@@ -1,13 +1,8 @@
 #include "Shoot.h"
 
-Shoot::Shoot()
-{
-}
-
 
 void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & projectiles)
 {
-	elapsed = clock.getElapsedTime();
 	int enemyIndex = findTargetEnemy(enemies);
 	if (enemyIndex == (int)Others::RESET) return;
 
@@ -25,12 +20,12 @@ void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, st
 	dimSprite.y = calculateSpriteDimension(flagX, flagY, angle);
 	if (absDistance <= 275) // shoot if absolute distance is less than 275
 	{
-		if (elapsed.asSeconds() >= 1)
+		if (player->timing.getElapsedSeconds() >= 5/(5))
 		{
-			clock.restart();
+			player->timing.reset();
 			Projectile projectile(enemyIndex);
 			projectile.setDamage(player->rect->character->getAttackDamage());
-			creator.createProjectile(player, projectile, projectiles, dimSprite);
+			Create::createProjectile(player, projectile, projectiles, dimSprite);
 		}
 	}
 }

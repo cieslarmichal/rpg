@@ -1,11 +1,12 @@
 #pragma once
 
 class Blocked {
+public:
 	friend class CollisionHandler;
+	bool isDestroyed() const;
+	void setDestroyed(bool);
 private:
 	Blocked(int ind, int dirc);
-	bool isDestroyed() const;
-private:
 	enum { PLAYERINDEX = -1 };
 	int characterIndex;
 	int blockedDirection;

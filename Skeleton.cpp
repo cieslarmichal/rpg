@@ -6,4 +6,3 @@ Skeleton::Skeleton(std::string name, int hp,int attackDamage, int attackSpeed, i
 	: Enemy(name,hp,attackDamage,attackSpeed,exp,coins,movementSpeed,lootChance)
 {
 }
-

@@ -6,3 +6,8 @@ bool Blocked::isDestroyed() const
 { 
 	return destroyed;
 }
+
+void Blocked::setDestroyed(bool inp)
+{
+	destroyed = inp;
+}

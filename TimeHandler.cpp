@@ -17,4 +17,3 @@ int TimeHandler::getElapsedSeconds()
 	elapsed = clock.getElapsedTime();
 	return (int)elapsed.asSeconds();
 }
-
