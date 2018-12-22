@@ -9,8 +9,9 @@ Update::Update()
 
 void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction)
 {
-	bool flagMovement = movement.move(*player->rect, direction); //movement
-	if (flagMovement) player->animation->update(direction); //update animation
+
+	bool isMoving = movement.move(*player->rect, direction); //movement
+	if (isMoving) player->animation->update(direction); //update animation
 	player->sprite->setPosition(player->rect->getPosition()); //synchronize sprite with rect
 	statBar.update(player); // update status bar health
 	player->rect->setEdges(); // calculate edges distances
@@ -21,9 +22,8 @@ void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & playe
 	int counter = 0;
 	for (std::pair<std::unique_ptr<Wrapper>, StatusBar > & x : enemies)
 	{
-		bool flagMovement = movement.moveEnemy(*enemies[counter].first->rect,*player->rect);
-		std::cout << "FLAG = " << flagMovement << std::endl;
-		if (flagMovement) enemies[counter].first->animation->update(enemies[counter].first->rect->character->getDirection());
+		bool isMoving = movement.moveEnemy(*enemies[counter].first->rect,*player->rect);
+		if (isMoving) enemies[counter].first->animation->update(enemies[counter].first->rect->character->getDirection());
 		enemies[counter].first->sprite->setPosition(enemies[counter].first->rect->getPosition());
 		enemies[counter].second.update(enemies[counter].first); // update status bar health
 		enemies[counter].first->rect->setEdges();
@@ -62,7 +62,7 @@ void Update::updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectil
 	for (std::unique_ptr<Wrapper> & x : projectiles)
 	{
 		movement.moveProjectile(*projectiles[counter]->rect, enemies);
-		projectiles[counter]->sprite->setPosition(projectiles[counter]->rect->getPosition().x-10, projectiles[counter]->rect->getPosition().y-15);
+		projectiles[counter]->sprite->setPosition((int)projectiles[counter]->rect->getPosition().x - 10, (int)projectiles[counter]->rect->getPosition().y - 15);
 		counter++;
 	}
 }

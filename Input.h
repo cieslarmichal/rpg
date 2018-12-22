@@ -1,10 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Directions.h"
+
 class Input
 {
 public:
 	Input();
-	int read();
-	enum { UP = 1, DOWN = 2, LEFT = 3, RIGHT = 4, MOUSELEFT = 5 };
+	int * read();
+	int pressedKeys[2];
+	enum { DIRECTION = 0, ACTION = 1 };
 };
 

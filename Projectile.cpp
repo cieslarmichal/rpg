@@ -2,12 +2,10 @@
 
 
 
-Projectile::Projectile(int id)
+Projectile::Projectile(int id) :enemyID(id)
 {
-	enemyID = id;
-	movementSpeed = 15;
+	movementSpeed = 15.f;
 	damage = 1;
-	destroyed = false;
 }
 
 //setters

@@ -67,14 +67,14 @@ void StatusBar::update(std::unique_ptr<Wrapper> & character)
 	}
 	else
 	{
-		rect.setSize(sf::Vector2f(character->rect->character->getCurrentHp() * sizeX / max, sizeY));
+		rect.setSize(sf::Vector2f((float)(character->rect->character->getCurrentHp() * sizeX / max), (float)sizeY));
 	}
 }
 
 void StatusBar::setup(std::unique_ptr<Wrapper> & character)
 {
 	max = character->rect->character->getMaxHp();
-	font.loadFromFile("C:\\Users\\Micha³\\Desktop\\cpp\\SFML\\RPG\\RPG\\stuff\\font.ttf");
+	font.loadFromFile("stuff/font.ttf");
 	text.setOutlineColor(sf::Color::Black);
 	text.setOutlineThickness(1);
 	rect.setOutlineColor(sf::Color::Black);
@@ -83,7 +83,7 @@ void StatusBar::setup(std::unique_ptr<Wrapper> & character)
 	text.setCharacterSize(12);
 	text.setString(character->rect->character->getName());
 
-	if (character->sprite->getPathName() == "C:\\Users\\Micha³\\Desktop\\cpp\\SFML\\RPG\\RPG\\stuff\\skeleton.png")
+	if (character->sprite->getPathName() == "stuff/skeleton.png")
 	{
 		offTextX = 6;
 		offTextY = -21;

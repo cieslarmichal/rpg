@@ -10,11 +10,11 @@ public:
 	void setDestroyed();
 	//getters
 	sf::Text & getText();
-	int getMovementSpeed() const;
+	float getMovementSpeed() const;
 	bool isDestroyed() const;
 	//etc
 	void update(sf::View);
-	Text & operator=(Text other);
+	Text & operator=(Text other); //necassary
 private:
 	std::string message;
 	sf::Vector2f position;
@@ -22,7 +22,7 @@ private:
 	sf::Font font;
 	sf::Color color;
 	int fontSize;
-	int movementSpeed;
+	float movementSpeed;
 	int lifetime, counter;
 	bool destroyed, set = false;
 	bool moving;
