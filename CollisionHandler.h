@@ -27,6 +27,10 @@ private:
 	bool canUnclockPlayerDirection(const Blocked & blocked, bool * playerCollision);
 	bool canUnlockEnemyDirection(const Blocked & blocked, bool enemyCollidingWithPlayer, int enemyIndex);
 	void unlockBlockedCharacter(std::unique_ptr<Wrapper> & character, Blocked & blocked);
+	void addBlockedCharacter(int characterIndex, int direction);
+	void addBlockedEnemy(int enemyIndex, int direction);
+	bool possibleToAddBlockedCharacter(int characterIndex, int direction);
+	bool possibleToAddBlockedEnemy(int enemyIndex, int direction);
 	bool topDistanceShortest(int * distances);
 	bool botDistanceShortest(int * distances);
 	bool leftDistanceShortest(int * distances);

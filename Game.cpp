@@ -4,8 +4,8 @@
 
 Game::Game()
 {
-	//shooting handling time
-	//kolizja enemy vs enemy
+	//usunac countery
+	//w shooter wyjebac stamtad liczace sprite jako funcke static w Sprite moze albo Animation
 	//virtualna metoda atakujaca np w charackter
 	// posprzatac komentarze
 	// klasy w collisionhandler obslugujace wymiane dmg z okreslona predkoscia
@@ -53,7 +53,8 @@ bool Game::play()
 
 	Create::createSkeleton(characterSkeleton, enemies, { 150,150 });
 	Create::createSkeleton(characterSkeleton, enemies, { 350,350 });
-	//Create::createSkeleton(characterSkeleton, enemies, { 150,200 });
+	Create::createSkeleton(characterSkeleton, enemies, { 400,400 });
+	Create::createSkeleton(characterSkeleton, enemies, { 550,500 });
 
 	//projectiles vector
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
