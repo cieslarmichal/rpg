@@ -1,12 +1,6 @@
 #include "Mark.h"
 
 
-
-Mark::Mark()
-{
-}
-
-
 void Mark::markEnemy(int key, enemyPair & enemies, sf::RenderWindow & window)
 {
 	if (key == (int)InputKeys::MOUSELEFT)

@@ -1,12 +1,5 @@
 #include "Create.h"
 
-
-
-Create::Create()
-{
-}
-
-
 std::unique_ptr<Wrapper> Create::createPlayer(Player & player, sf::Vector2f position)
 {
 	return std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(player, 40, 40, position)),
@@ -80,3 +73,4 @@ void Create::createRoom(int roomSize, sf::Vector2f position, int doorLocRight, i
 		counter++;
 	}
 }
+

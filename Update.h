@@ -9,13 +9,10 @@ typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 class Update
 {
 public:
-	Update();
-	void updatePlayer(std::unique_ptr<Wrapper> & player,StatusBar & statBar, int direction);
-	void updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player);
-	void updateObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	void updateText(std::vector<std::unique_ptr<Text>> & text, sf::View view);
-	void updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies);
-private:
-	Movement movement;
+	Update() = delete;
+	static void updatePlayer(std::unique_ptr<Wrapper> & player,StatusBar & statBar, int direction);
+	static void updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player);
+	static void updateObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles);
+	static void updateText(std::vector<std::unique_ptr<Text>> & text, sf::View view);
+	static void updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies);
 };
-

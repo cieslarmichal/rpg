@@ -13,6 +13,3 @@ private:
 	int hp;
 	bool destructable, destroyed;
 };
-
-
-

@@ -7,6 +7,7 @@
 #include "Directions.h"
 #include "Fight.h"
 #include "Blocked.h"
+#include "Delete.h"
 
 typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 
@@ -17,9 +18,9 @@ public:
 	bool isIntersecting(Rect & r1, Rect & r2) const;
 	void characterWithObstacles(std::unique_ptr<Wrapper> & character, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	void enemiesWithObstacles(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	void playerWithEnemies(std::unique_ptr<Wrapper> & player, enemyPair & enemies, std::vector<std::unique_ptr<Text>> & texts);
+	void playerWithEnemies(std::unique_ptr<Wrapper> & player, enemyPair & enemies);
 	void enemiesWithEnemies(enemyPair & enemies);
-	void projectilesWithEnemies(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies, std::vector<std::unique_ptr<Text>> & texts);
+	void projectilesWithEnemies(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies);
 	void projectilesWithWalls(std::vector<std::unique_ptr<Wrapper>> & projectiles, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 private:
 	void setEnemyCollidingWithPlayer(std::vector<bool> & enemiesCollidingWithPlayer, int enemyIndex, bool isColliding);
@@ -32,6 +33,6 @@ private:
 	bool rightDistanceShortest(int * distances);
 	enum { TOP = 0, BOT = 1, LEFT = 2, RIGHT = 3 };
 	std::vector<Blocked> blockedCharacters;
-	void setDamageMessage(int takenHp, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & texts); //to delete
+	std::vector<Blocked> blockedEnemies;
+	//void setDamageMessage(int takenHp, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & texts); //to delete
 };
-

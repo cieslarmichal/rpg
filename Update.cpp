@@ -1,16 +1,8 @@
 #include "Update.h"
 
-
-
-Update::Update()
-{
-}
-
-
 void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction)
 {
-
-	bool isMoving = movement.move(*player->rect, direction); //movement
+	bool isMoving = Movement::move(*player->rect, direction); //movement
 	if (isMoving) player->animation->update(direction); //update animation
 	player->sprite->setPosition(player->rect->getPosition()); //synchronize sprite with rect
 	statBar.update(player); // update status bar health
@@ -22,7 +14,7 @@ void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & playe
 	int counter = 0;
 	for (std::pair<std::unique_ptr<Wrapper>, StatusBar > & x : enemies)
 	{
-		bool isMoving = movement.moveEnemy(*enemies[counter].first->rect,*player->rect);
+		bool isMoving = Movement::moveEnemy(*enemies[counter].first->rect,*player->rect);
 		if (isMoving) enemies[counter].first->animation->update(enemies[counter].first->rect->character->getDirection());
 		enemies[counter].first->sprite->setPosition(enemies[counter].first->rect->getPosition());
 		enemies[counter].second.update(enemies[counter].first); // update status bar health
@@ -50,7 +42,7 @@ void Update::updateText(std::vector<std::unique_ptr<Text>> & texts, sf::View vie
 	int counter = 0;
 	for (std::unique_ptr<Text> & x : texts)
 	{
-		movement.moveText(*texts[counter]);
+		Movement::moveText(*texts[counter]);
 		texts[counter]->update(view);
 		counter++;
 	}
@@ -61,10 +53,8 @@ void Update::updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectil
 	int counter = 0;
 	for (std::unique_ptr<Wrapper> & x : projectiles)
 	{
-		movement.moveProjectile(*projectiles[counter]->rect, enemies);
+		Movement::moveProjectile(*projectiles[counter]->rect, enemies);
 		projectiles[counter]->sprite->setPosition((int)projectiles[counter]->rect->getPosition().x - 10, (int)projectiles[counter]->rect->getPosition().y - 15);
 		counter++;
 	}
 }
-
-

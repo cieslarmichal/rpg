@@ -18,4 +18,3 @@ public:
 	float H;
 
 };
-

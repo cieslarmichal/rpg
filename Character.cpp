@@ -228,5 +228,3 @@ void Character::canMoveEverywhere()
 {
 	canMoveUp = canMoveDown = canMoveLeft = canMoveRight = true;
 }
-
-

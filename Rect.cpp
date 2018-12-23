@@ -103,5 +103,3 @@ void Rect::setEdges()
 	bottomEdge = (int)rect.getPosition().y + dimY;
 	topEdge = (int)rect.getPosition().y;
 }
-
-

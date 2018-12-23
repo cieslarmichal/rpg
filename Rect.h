@@ -35,4 +35,3 @@ private:
 	int leftEdge, rightEdge, topEdge, bottomEdge;
 	int dimX, dimY;
 };
-

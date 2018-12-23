@@ -28,5 +28,6 @@ public:
 	Game();
 	~Game();
 	bool play();
+private:
+	void clearWindow(sf::RenderWindow & window);
 };
-

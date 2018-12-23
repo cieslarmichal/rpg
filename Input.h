@@ -10,4 +10,3 @@ public:
 	int pressedKeys[2];
 	enum { DIRECTION = 0, ACTION = 1 };
 };
-
