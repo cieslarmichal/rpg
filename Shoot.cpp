@@ -32,14 +32,14 @@ void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, st
 
 int Shoot::findTargetEnemy(enemyPair & enemies)
 {
-	int counter = 0;
-	for (std::pair<std::unique_ptr<Wrapper>, StatusBar > & x : enemies)
+	int enemyIndex = 0;
+	for (auto & enemy : enemies)
 	{
-		if (enemies[counter].first->rect->character->isMarked())
+		if (enemy.first->rect->character->isMarked())
 		{
-			return counter;
+			return enemyIndex;
 		}
-		counter++;
+		enemyIndex++;
 	}
 	return (int)Others::RESET;
 }

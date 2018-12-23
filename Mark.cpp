@@ -10,24 +10,22 @@ void Mark::markEnemy(int key, enemyPair & enemies, sf::RenderWindow & window)
 		// convert it to world coordinates
 		sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
 
-		for (std::pair<std::unique_ptr<Wrapper>, StatusBar > & x : enemies)
+		for (auto & enemy : enemies)
 		{
-			x.first->rect->character->setMarked(false);
+			enemy.first->rect->character->setMarked(false);
 		}
 
-		int counter = 0;
-		for (std::pair<std::unique_ptr<Wrapper>, StatusBar > & x : enemies)
+		for (auto & enemy : enemies)
 		{
-			int x = (int)enemies[counter].first->rect->getPosition().x;
-			int dx = x + enemies[counter].first->rect->getDimX();
-			int y = (int)enemies[counter].first->rect->getPosition().y;
-			int dy = y + enemies[counter].first->rect->getDimY();
+			int x = (int)enemy.first->rect->getPosition().x;
+			int dx = x + enemy.first->rect->getDimX();
+			int y = (int)enemy.first->rect->getPosition().y;
+			int dy = y + enemy.first->rect->getDimY();
 
 			if (worldPos.x >= x && worldPos.x <= dx && worldPos.y >= y && worldPos.y <= dy)
 			{
-				enemies[counter].first->rect->character->setMarked(true);
+				enemy.first->rect->character->setMarked(true);
 			}
-			counter++;
 		}
 	}
 }

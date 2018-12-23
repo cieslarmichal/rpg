@@ -34,7 +34,7 @@ sf::Text & StatusBar::getText()
 }
 
 //etc
-void StatusBar::update(std::unique_ptr<Wrapper> & character)
+void StatusBar::updateStatusBar(std::unique_ptr<Wrapper> & character)
 {
 	if(!set) setup(character);
 

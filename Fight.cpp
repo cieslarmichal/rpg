@@ -17,7 +17,7 @@ void Fight::attackDistance(std::unique_ptr<Wrapper> & projectile, std::unique_pt
 	victim->rect->character->setCurrentHp(damagedHp);
 }
 
-void Fight::setFighting(std::unique_ptr<Wrapper> & character, bool inp)
+void Fight::setFightingMode(std::unique_ptr<Wrapper> & character, bool inp)
 {
 	character->rect->character->setFighting(inp);
 }

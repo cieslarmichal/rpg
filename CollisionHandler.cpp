@@ -60,12 +60,12 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 	bool playerCollision[4] = { false,false,false,false };
 	for (auto & iter : enemies)
 	{
-		Fight::setFighting(enemies[enemyIndex].first, false);
+		Fight::setFightingMode(enemies[enemyIndex].first, false);
 		if (isIntersecting(*player->rect, *enemies[enemyIndex].first->rect))
 		{
 			setEnemyCollidingWithPlayer(enemiesCollidingWithPlayer, enemyIndex, true);
 
-			Fight::setFighting(enemies[enemyIndex].first, true);
+			Fight::setFightingMode(enemies[enemyIndex].first, true);
 			//setDamageMessage(enemies[counter].first->rect->character->getAttackDamage(), player, texts);
 			Fight::attackMelee(enemies[enemyIndex].first, player);
 			Fight::attackMelee(player, enemies[enemyIndex].first);
@@ -80,32 +80,32 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 			{
 				player->rect->character->setCanMoveUp(false);
 				enemies[enemyIndex].first->rect->character->setCanMoveDown(false);
-				blockedCharacters.push_back(Blocked(Blocked::PLAYERINDEX, (int)Directions::UP));
-				blockedCharacters.push_back(Blocked(enemyIndex, (int)Directions::DOWN));
+				addBlockedCharacter(Blocked::PLAYERINDEX, (int)Directions::UP);
+				addBlockedCharacter(enemyIndex, (int)Directions::DOWN);
 				playerCollision[TOP] = true;
 			}
 			else if (botDistanceShortest(distances))
 			{
 				player->rect->character->setCanMoveDown(false);
 				enemies[enemyIndex].first->rect->character->setCanMoveUp(false);
-				blockedCharacters.push_back(Blocked(Blocked::PLAYERINDEX, (int)Directions::DOWN));
-				blockedCharacters.push_back(Blocked(enemyIndex, (int)Directions::UP));
+				addBlockedCharacter(Blocked::PLAYERINDEX, (int)Directions::DOWN);
+				addBlockedCharacter(enemyIndex, (int)Directions::UP);
 				playerCollision[BOT] = true;
 			}
 			else if (leftDistanceShortest(distances))
 			{
 				player->rect->character->setCanMoveLeft(false);
 				enemies[enemyIndex].first->rect->character->setCanMoveRight(false);
-				blockedCharacters.push_back(Blocked(Blocked::PLAYERINDEX, (int)Directions::LEFT));
-				blockedCharacters.push_back(Blocked(enemyIndex, (int)Directions::RIGHT));
+				addBlockedCharacter(Blocked::PLAYERINDEX, (int)Directions::LEFT);
+				addBlockedCharacter(enemyIndex, (int)Directions::RIGHT);
 				playerCollision[LEFT] = true;
 			}
 			else if (rightDistanceShortest(distances))
 			{
 				player->rect->character->setCanMoveRight(false);
 				enemies[enemyIndex].first->rect->character->setCanMoveLeft(false);
-				blockedCharacters.push_back(Blocked(Blocked::PLAYERINDEX, (int)Directions::RIGHT));
-				blockedCharacters.push_back(Blocked(enemyIndex, (int)Directions::LEFT));
+				addBlockedCharacter(Blocked::PLAYERINDEX, (int)Directions::RIGHT);
+				addBlockedCharacter(enemyIndex, (int)Directions::LEFT);
 				playerCollision[RIGHT] = true;
 			}
 		}
@@ -144,7 +144,7 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 {
 	std::vector<bool> enemiesCollidingWithEnemies;
-
+	//nachodza na siebie te zjeby kurwa
 	int enemyIndex = 0;
 	for (auto & enemy : enemies)
 	{
@@ -155,7 +155,7 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 			{
 				if (isIntersecting(*enemies[enemyIndex].first->rect, *enemies[otherEnemyIndex].first->rect))
 				{
-					setEnemyCollidingWithPlayer(enemiesCollidingWithEnemies, enemyIndex, true);
+					setEnemyCollidingWithPlayer(enemiesCollidingWithEnemies, enemyIndex, true); //chyba problem tutaj
 
 					int distances[4];
 					distances[TOP] = abs(otherEnemy.first->rect->getBottomEdge() - enemy.first->rect->getTopEdge());
@@ -166,22 +166,22 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 					if (topDistanceShortest(distances))
 					{
 						enemy.first->rect->character->setCanMoveUp(false);
-						if(!enemy.first->rect->character->getDead()) blockedEnemies.push_back(Blocked(enemyIndex, (int)Directions::UP));
+						addBlockedEnemy(enemyIndex, (int)Directions::UP);
 					}
 					else if (botDistanceShortest(distances))
 					{
 						enemy.first->rect->character->setCanMoveDown(false);
-						if (!enemy.first->rect->character->getDead()) blockedEnemies.push_back(Blocked(enemyIndex, (int)Directions::DOWN));
+						addBlockedEnemy(enemyIndex, (int)Directions::DOWN);
 					}
 					else if (leftDistanceShortest(distances))
 					{
 						enemy.first->rect->character->setCanMoveLeft(false);
-						if (!enemy.first->rect->character->getDead()) blockedEnemies.push_back(Blocked(enemyIndex, (int)Directions::LEFT));
+						addBlockedEnemy(enemyIndex, (int)Directions::LEFT);
 					}
 					else if (rightDistanceShortest(distances))
 					{
 						enemy.first->rect->character->setCanMoveRight(false);
-						if (!enemy.first->rect->character->getDead()) blockedEnemies.push_back(Blocked(enemyIndex, (int)Directions::RIGHT));
+						addBlockedEnemy(enemyIndex, (int)Directions::RIGHT);
 					}
 				}
 				else
@@ -193,27 +193,22 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 		}
 		enemyIndex++;
 	}
-	int counter = 0;
-	for (auto  x : enemiesCollidingWithEnemies)
+
+	int bIndex = 0;
+	for (auto x : enemiesCollidingWithEnemies)
 	{
-		std::cout << counter<<" "<<(bool)x<<std::endl;
-		counter++;
+		std::cout <<bIndex<<" = "<< x<<std::endl;
+		bIndex++;
 	}
 
 	enemyIndex = 0;
 	for (auto & enemy : enemies)
 	{
-		//zmniejszyc ilosc blockedEnemies
 		for (auto & blockedEnemy : blockedEnemies)
 		{
-			if (blockedEnemy.characterIndex == enemyIndex && enemy.first->rect->character->getDead())
-			{
-				blockedEnemy.destroyed = true;
-				continue;
-			}
 			if (enemiesCollidingWithEnemies.size() > 0)
 			{
-				if (canUnlockEnemyDirection(blockedEnemy, enemiesCollidingWithEnemies[enemyIndex], enemyIndex)) //when enemy is killed when blocked vector allocation problem
+				if (canUnlockEnemyDirection(blockedEnemy, enemiesCollidingWithEnemies[enemyIndex], enemyIndex)) 
 				{
 					unlockBlockedCharacter(enemy.first, blockedEnemy);
 				}
@@ -222,7 +217,13 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 		enemyIndex++;
 	}
 
+	//int blockedcounter = 0;
+	//for (auto & blockedEnemy : blockedEnemies)
+	//	blockedcounter++;
+	//std::cout << "ILOSC W BLOCKENEMEMIES = " << blockedcounter << std::endl;
+
 	Delete::removeBlocked(blockedEnemies);
+
 }
 
 void CollisionHandler::projectilesWithEnemies(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies)
@@ -309,6 +310,42 @@ void CollisionHandler::setEnemyCollidingWithPlayer(std::vector<bool> & enemiesCo
 	{
 		enemiesCollidingWithPlayer[enemyIndex] = isColliding;
 	}
+}
+
+void CollisionHandler::addBlockedCharacter(int characterIndex, int direction)
+{
+	if (possibleToAddBlockedCharacter(characterIndex, direction))
+	{
+		blockedCharacters.push_back(Blocked(characterIndex, direction));
+	}
+}
+
+void CollisionHandler::addBlockedEnemy(int enemyIndex, int direction)
+{
+	if (possibleToAddBlockedEnemy(enemyIndex, direction))
+	{
+		blockedEnemies.push_back(Blocked(enemyIndex, direction));
+	}
+
+}
+
+bool CollisionHandler::possibleToAddBlockedEnemy(int enemyIndex, int direction)
+{
+	for (auto & blocked : blockedEnemies)
+	{
+		if (blocked.characterIndex == enemyIndex && blocked.blockedDirection == direction) return false;
+	}
+	return true;
+}
+
+
+bool CollisionHandler::possibleToAddBlockedCharacter(int characterIndex, int direction)
+{
+	for (auto & blocked : blockedCharacters)
+	{
+		if (blocked.characterIndex == characterIndex && blocked.blockedDirection == direction) return false;
+	}
+	return true;
 }
 
 ////change from attackDamage to random damage based on attackdamge
