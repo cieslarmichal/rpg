@@ -15,7 +15,7 @@ Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, bool mid
 		movementSpeed = 0;
 		lifetime = 150;
 	}
-	counter = 0;
+	lifeCounter = 0;
 	destroyed = false;
 }
 
@@ -49,9 +49,9 @@ void Text::update(sf::View view)
 	//if positionMid stick to the one position
 	if (positionMid) text.setPosition(view.getCenter().x - 145, view.getCenter().y - 80);
 
-	counter++;
+	lifeCounter++;
 
-	if (counter >= lifetime)
+	if (lifeCounter >= lifetime)
 	{
 		destroyed = true;
 	}
@@ -84,7 +84,7 @@ Text & Text::operator=(Text other)
 	fontSize = other.fontSize;
 	movementSpeed = other.movementSpeed;
 	lifetime = other.lifetime;
-	counter = other.counter;
+	lifeCounter = other.lifeCounter;
 	moving = other.moving;
 	positionMid = other.positionMid;
 	return *this;

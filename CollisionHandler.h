@@ -26,6 +26,7 @@ private:
 	void setEnemyCollidingWithPlayer(std::vector<bool> & enemiesCollidingWithPlayer, int enemyIndex, bool isColliding);
 	bool canUnclockPlayerDirection(const Blocked & blocked, bool * playerCollision);
 	bool canUnlockEnemyDirection(const Blocked & blocked, bool enemyCollidingWithPlayer, int enemyIndex);
+	bool canUnlockEnemyDirection(const Blocked & blocked, std::vector<bool> enemyCollision, int enemyIndex);
 	void unlockBlockedCharacter(std::unique_ptr<Wrapper> & character, Blocked & blocked);
 	void addBlockedCharacter(int characterIndex, int direction);
 	void addBlockedEnemy(int enemyIndex, int direction);

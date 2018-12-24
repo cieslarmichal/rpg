@@ -30,47 +30,47 @@ void Create::createObstacle(sf::Vector2f position, std::vector<std::unique_ptr<W
 void Create::createRoom(int roomSize, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown, std::vector<std::unique_ptr<Wrapper>> & obstacles)
 {
 	//create horizontal wall
-	int counter = 0;
-	while (counter < roomSize)
+	int wallIndex = 0;
+	while (wallIndex < roomSize)
 	{
-		if (counter != doorLocTop && counter != doorLocTop + 1)
+		if (wallIndex != doorLocTop && wallIndex != doorLocTop + 1)
 		{
-			createObstacle({ (float)(32 * counter + position.x),(float)position.y }, obstacles);
+			createObstacle({ (float)(32 * wallIndex + position.x),(float)position.y }, obstacles);
 		}
-		counter++;
+		wallIndex++;
 	}
 
 	//create horizontal wall
-	counter = 0;
-	while (counter < roomSize)
+	wallIndex = 0;
+	while (wallIndex < roomSize)
 	{
-		if (counter != doorLocDown && counter != doorLocDown + 1)
+		if (wallIndex != doorLocDown && wallIndex != doorLocDown + 1)
 		{
-			createObstacle({ (float)(32 * counter + position.x),(float)(32 * roomSize + position.y) }, obstacles);
+			createObstacle({ (float)(32 * wallIndex + position.x),(float)(32 * roomSize + position.y) }, obstacles);
 		}
-		counter++;
+		wallIndex++;
 	}
 
 	//create vertical wall
-	counter = 0;
-	while (counter < roomSize)
+	wallIndex = 0;
+	while (wallIndex < roomSize)
 	{
-		if (counter != doorLocLeft && counter != doorLocLeft + 1)
+		if (wallIndex != doorLocLeft && wallIndex != doorLocLeft + 1)
 		{
-			createObstacle({ (float)position.x,(float)(32 * counter + position.y) }, obstacles);
+			createObstacle({ (float)position.x,(float)(32 * wallIndex + position.y) }, obstacles);
 		}
-		counter++;
+		wallIndex++;
 	}
 
 	//create vertical wall
-	counter = 0;
-	while (counter < roomSize +1 )
+	wallIndex = 0;
+	while (wallIndex < roomSize +1 )
 	{
-		if (counter != doorLocRight && counter != doorLocRight + 1)
+		if (wallIndex != doorLocRight && wallIndex != doorLocRight + 1)
 		{
-			createObstacle({ (float)(position.x + 32 * roomSize),(float)(32 * counter + position.y) }, obstacles);
+			createObstacle({ (float)(position.x + 32 * roomSize),(float)(32 * wallIndex + position.y) }, obstacles);
 		}
-		counter++;
+		wallIndex++;
 	}
 }
 

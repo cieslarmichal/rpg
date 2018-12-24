@@ -58,7 +58,7 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 
 	int enemyIndex = 0;
 	bool playerCollision[4] = { false,false,false,false };
-	for (auto & iter : enemies)
+	for (auto & enemy : enemies)
 	{
 		Fight::setFightingMode(enemies[enemyIndex].first, false);
 		if (isIntersecting(*player->rect, *enemies[enemyIndex].first->rect))
@@ -143,11 +143,12 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 
 void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 {
-	std::vector<bool> enemiesCollidingWithEnemies;
+	std::vector<std::vector<bool>> enemiesCollidingWithEnemies;
 	//nachodza na siebie te zjeby kurwa
 	int enemyIndex = 0;
 	for (auto & enemy : enemies)
 	{
+		std::vector<bool> enemyCollision{ false,false,false,false };
 		int otherEnemyIndex = 0;
 		for (auto & otherEnemy : enemies)
 		{
@@ -155,8 +156,6 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 			{
 				if (isIntersecting(*enemies[enemyIndex].first->rect, *enemies[otherEnemyIndex].first->rect))
 				{
-					setEnemyCollidingWithPlayer(enemiesCollidingWithEnemies, enemyIndex, true); //chyba problem tutaj
-
 					int distances[4];
 					distances[TOP] = abs(otherEnemy.first->rect->getBottomEdge() - enemy.first->rect->getTopEdge());
 					distances[BOT] = abs(otherEnemy.first->rect->getTopEdge() - enemy.first->rect->getBottomEdge());
@@ -167,38 +166,39 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 					{
 						enemy.first->rect->character->setCanMoveUp(false);
 						addBlockedEnemy(enemyIndex, (int)Directions::UP);
+						enemyCollision[TOP] = true;
 					}
 					else if (botDistanceShortest(distances))
 					{
 						enemy.first->rect->character->setCanMoveDown(false);
 						addBlockedEnemy(enemyIndex, (int)Directions::DOWN);
+						enemyCollision[BOT] = true;
 					}
 					else if (leftDistanceShortest(distances))
 					{
 						enemy.first->rect->character->setCanMoveLeft(false);
 						addBlockedEnemy(enemyIndex, (int)Directions::LEFT);
+						enemyCollision[LEFT] = true;
 					}
 					else if (rightDistanceShortest(distances))
 					{
 						enemy.first->rect->character->setCanMoveRight(false);
 						addBlockedEnemy(enemyIndex, (int)Directions::RIGHT);
+						enemyCollision[RIGHT] = true;
 					}
-				}
-				else
-				{
-					setEnemyCollidingWithPlayer(enemiesCollidingWithEnemies, enemyIndex, false);
 				}
 			}
 			otherEnemyIndex++;
 		}
+		enemiesCollidingWithEnemies.push_back(enemyCollision);
 		enemyIndex++;
 	}
-
-	int bIndex = 0;
+	//zmienia enemyCollision[] wszystkie na raz :(
+	int index = 0;
 	for (auto x : enemiesCollidingWithEnemies)
 	{
-		std::cout <<bIndex<<" = "<< x<<std::endl;
-		bIndex++;
+		std::cout << "ENEMY " << index << " : " << x[0] << x[1] << x[2] << x[3] << std::endl;
+		index++;
 	}
 
 	enemyIndex = 0;
@@ -208,7 +208,7 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 		{
 			if (enemiesCollidingWithEnemies.size() > 0)
 			{
-				if (canUnlockEnemyDirection(blockedEnemy, enemiesCollidingWithEnemies[enemyIndex], enemyIndex)) 
+				if (canUnlockEnemyDirection(blockedEnemy,enemiesCollidingWithEnemies[enemyIndex],enemyIndex))
 				{
 					unlockBlockedCharacter(enemy.first, blockedEnemy);
 				}
@@ -217,13 +217,13 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 		enemyIndex++;
 	}
 
-	//int blockedcounter = 0;
-	//for (auto & blockedEnemy : blockedEnemies)
-	//	blockedcounter++;
-	//std::cout << "ILOSC W BLOCKENEMEMIES = " << blockedcounter << std::endl;
-
+	int counter = 0;
+	for (auto & blockedEnemy : blockedEnemies)
+	{
+		counter++;
+	}
+		std::cout << "BLOCKED = "<<counter << std::endl;
 	Delete::removeBlocked(blockedEnemies);
-
 }
 
 void CollisionHandler::projectilesWithEnemies(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies)
@@ -292,6 +292,18 @@ bool CollisionHandler::canUnclockPlayerDirection(const Blocked & blocked, bool *
 bool CollisionHandler::canUnlockEnemyDirection(const Blocked & blocked, bool enemyCollidingWithPlayer, int enemyIndex)
 {
 	return (!enemyCollidingWithPlayer && blocked.characterIndex == enemyIndex);
+}
+
+bool CollisionHandler::canUnlockEnemyDirection(const Blocked & blocked, std::vector<bool> enemyCollision, int enemyIndex)
+{
+	
+	bool index = (blocked.characterIndex == enemyIndex);
+	bool canUnlockTop = (blocked.blockedDirection == (int)Directions::UP && !enemyCollision[TOP]);
+	bool canUnlockBot = (blocked.blockedDirection == (int)Directions::DOWN && !enemyCollision[BOT]);
+	bool canUnlockLeft = (blocked.blockedDirection == (int)Directions::LEFT && !enemyCollision[LEFT]);
+	bool canUnlockRight = (blocked.blockedDirection == (int)Directions::RIGHT && !enemyCollision[RIGHT]);
+
+	return (!blocked.destroyed && enemyIndex && (canUnlockTop || canUnlockBot || canUnlockLeft || canUnlockRight));
 }
 
 void CollisionHandler::unlockBlockedCharacter(std::unique_ptr<Wrapper> & character, Blocked & blocked)

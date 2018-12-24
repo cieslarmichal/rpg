@@ -23,7 +23,7 @@ private:
 	sf::Color color;
 	int fontSize;
 	float movementSpeed;
-	int lifetime, counter;
+	int lifetime, lifeCounter;
 	bool destroyed, set = false;
 	bool moving;
 	bool positionMid;

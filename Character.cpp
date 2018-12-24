@@ -6,7 +6,7 @@ Character::Character(std::string n, int hpp, int ad, int as, int exp, int c, flo
 	: name(n), hpMax(hpp), hp(hpp), attackDamage(ad), attackSpeed(as), experience(exp), coins(c), movementSpeed(movSpeed)
 {
 	direction = 1;
-	walkCounter = counter = 0;
+	walkCounter = 0;
 	randomMovementLength = 65;
 	canMoveUp = canMoveDown = canMoveLeft = canMoveRight = true;
 }
@@ -80,11 +80,6 @@ void Character::setCanMoveRight(bool inp)
 void Character::setWalkCounter(int inp)
 {
 	walkCounter = inp;
-}
-
-void Character::setCounter(int inp)
-{
-	counter = inp;
 }
 
 void Character::setRandomMovementLength(int inp)
@@ -196,11 +191,6 @@ bool Character::getCanMoveRight() const
 int Character::getWalkCounter() const
 {
 	return walkCounter;
-}
-
-int Character::getCounter() const
-{
-	return counter;
 }
 
 int Character::getRandomMovementLength() const
