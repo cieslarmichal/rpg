@@ -10,6 +10,7 @@ public:
 	void setTextureRect(int dimx, int dimy, int spriteX, int spriteY);
 	void setPosition(sf::Vector2f position);
 	void setPosition(int x, int y);
+	static sf::Vector2i calculateProjectileSprite(bool positiveX, bool positiveY, double angle);
 	//getters
 	std::string getPathName();
 	int getSpriteX() const;

@@ -24,7 +24,6 @@ public:
 	void setCanMoveLeft(bool);
 	void setCanMoveRight(bool);
 	void setWalkCounter(int);
-	void setCounter(int);
 	void setRandomMovementLength(int);
 	void setDead(bool);
 	void setCanMoveNum(int);
@@ -46,7 +45,6 @@ public:
 	bool getCanMoveLeft() const;
 	bool getCanMoveRight() const;
 	int getWalkCounter() const;
-	int getCounter() const;
 	int getRandomMovementLength() const;
 	bool getDead() const;
 	bool isMarked() const;
@@ -61,7 +59,7 @@ private:
 	float movementSpeed;
 	int direction;
 	bool canMoveUp, canMoveDown, canMoveLeft, canMoveRight;
-	int counter, walkCounter;
+	int walkCounter;
 	int randomMovementLength;
 	bool dead = false;
 	bool marked = false;

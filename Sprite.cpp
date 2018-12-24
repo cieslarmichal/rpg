@@ -62,3 +62,41 @@ sf::Vector2f Sprite::getPosition() const
 {
 	return sprite.getPosition();
 }
+
+sf::Vector2i Sprite::calculateProjectileSprite(bool positiveX, bool positiveY, double angle)
+{
+	sf::Vector2i dimension = { 0,0 };
+
+	if (positiveX)
+	{
+		if (!positiveY)
+		{
+			if (angle >= 0 && angle <= 0.45) dimension.y = 4 * 64;
+			else if (angle > 0.45 && angle <= 1.1) dimension.y = 3 * 64;
+			else dimension.y = 2 * 64;
+		}
+		else if (positiveY)
+		{
+			if (angle >= 0 && angle <= 0.45) dimension.y = 4 * 64;
+			else if (angle > 0.45 && angle <= 1.1) dimension.y = 5 * 64;
+			else dimension.y = 6 * 64;
+		}
+	}
+	else if (!positiveX)
+	{
+		if (!positiveY)
+		{
+			if (angle >= 0 && angle <= 0.45) dimension.y = 0;
+			else if (angle > 0.45 && angle <= 1.1) dimension.y = 1 * 64;
+			else dimension.y = 2 * 64;
+		}
+		else if (positiveY)
+		{
+			if (angle >= 0 && angle <= 0.45) dimension.y = 0;
+			else if (angle > 0.45 && angle <= 1.1) dimension.y = 7 * 64;
+			else dimension.y = 6 * 64;
+		}
+	}
+
+	return dimension;
+}

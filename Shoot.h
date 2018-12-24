@@ -12,5 +12,4 @@ class Shoot
 public:
 	static void shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & projectiles);
 	static int findTargetEnemy(enemyPair & enemies);
-	static int calculateSpriteDimension(int flagX, int flagY, double angle);
 };

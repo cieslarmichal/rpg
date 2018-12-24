@@ -4,15 +4,12 @@
 
 Game::Game()
 {
+	//messages w collisionhandler
 	//usunac countery
-	//w shooter wyjebac stamtad liczace sprite jako funcke static w Sprite moze albo Animation
 	//virtualna metoda atakujaca np w charackter
 	// posprzatac komentarze
-	// klasy w collisionhandler obslugujace wymiane dmg z okreslona predkoscia
-	//ogarnac collisionhandler zmniejszyc liczbe metod
 	// ogarnac w draw tez uniwersalne metody
 	//pokoje potworzyc do testowania pathfinding dobre
-	//show must go on
 	//randomize with marsenne
 	//pathfinding
 	//dodac dragona
@@ -45,16 +42,15 @@ bool Game::play()
 	//adding player
 	StatusBar playerHealthBar;
 	Player characterPlayer("michal", 100,5, 20, 10,20, 20, 2);
-	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer,{200,250});
+	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer,{700,250});
 
 	std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar> > enemies;
 	// adding enemy
 	Skeleton characterSkeleton("skeleton", 100, 5,1, 70, 0, 1.5, 0);
 
 	Create::createSkeleton(characterSkeleton, enemies, { 150,150 });
-	Create::createSkeleton(characterSkeleton, enemies, { 350,350 });
-	Create::createSkeleton(characterSkeleton, enemies, { 400,400 });
-	Create::createSkeleton(characterSkeleton, enemies, { 550,500 });
+	Create::createSkeleton(characterSkeleton, enemies, { 200,150 });
+	Create::createSkeleton(characterSkeleton, enemies, { 200,200 });
 
 	//projectiles vector
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
@@ -74,11 +70,11 @@ bool Game::play()
 		clearWindow(window);
 
 		collisionHandler.characterWithObstacles(player, obstacles);
-		collisionHandler.playerWithEnemies(player, enemies);
 		collisionHandler.enemiesWithObstacles(enemies, obstacles);
+		collisionHandler.enemiesWithEnemies(enemies);
+		collisionHandler.playerWithEnemies(player, enemies);
 		collisionHandler.projectilesWithWalls(projectiles, obstacles);
 		collisionHandler.projectilesWithEnemies(projectiles, enemies);
-		collisionHandler.enemiesWithEnemies(enemies);
 
 		Delete::removeText(messages);
 		Delete::removeProjectiles(projectiles);

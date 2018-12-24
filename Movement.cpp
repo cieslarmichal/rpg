@@ -36,12 +36,12 @@ bool Movement::move(Rect & rect, int dirc)
 
 bool Movement::moveRandom(Rect & enemy)
 {
-	enemy.character->setCounter(enemy.character->getCounter() + 1);
-	if (enemy.character->getCounter() >= enemy.character->getRandomMovementLength())
+	enemy.character->setWalkCounter(enemy.character->getWalkCounter() + 1);
+	if (enemy.character->getWalkCounter() >= enemy.character->getRandomMovementLength())
 	{
 		enemy.character->setDirection((std::rand() % 4) + 1);
 		enemy.character->setRandomMovementLength((std::rand() % 30) + 40);
-		enemy.character->setCounter(0);
+		enemy.character->setWalkCounter(0);
 	}
 	return (move(enemy, enemy.character->getDirection()));
 }
