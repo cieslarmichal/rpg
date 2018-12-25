@@ -4,11 +4,7 @@
 
 Game::Game()
 {
-	//blad podczas wyswitlenia notifications gdy jest wylaczany program
-	//messages w collisionhandler
 	//virtualna metoda atakujaca np w charackter
-	// ogarnac w draw tez uniwersalne metody
-	//pokoje potworzyc do testowania pathfinding dobre
 	//randomize with marsenne
 	//pathfinding
 	//dodac dragona
@@ -38,13 +34,12 @@ bool Game::play()
 	Draw draw(window);
 	CollisionHandler collisionHandler;
 
-
 	StatusBar playerHealthBar;
-	Player characterPlayer("michal", 100,5, 20, 3,20, 20, 2);
-	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer,{700,250});
+	Player characterPlayer("michal", 100, 5, 20, 3, 20, 20, 2);
+	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer, { 700,250 });
 
-	std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar> > enemies;
-	Skeleton characterSkeleton("skeleton", 100, 5,1, 70, 0, 1.5, 0);
+	std::vector <std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemies;
+	Skeleton characterSkeleton("skeleton", 100, 5, 1, 70, 0, 1.5, 0);
 
 	Create::createSkeleton(characterSkeleton, enemies, { 150,150 });
 	Create::createSkeleton(characterSkeleton, enemies, { 200,150 });
@@ -52,11 +47,16 @@ bool Game::play()
 
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
 
+	std::vector<std::unique_ptr<Text>> notifications;
 
 	std::vector<std::unique_ptr<Wrapper>> obstacles;
-	//Create::createRoom(5, { 0, 0 }, 3, -10, 2, -10, obstacles);;
-	//Create::createRoom(10, { 5 * 32, 0 }, 2, 3, -10, 5, obstacles);
-	//Create::createRoom(7, { 5 * 32, 10 * 32 }, -10, -10, 5, -10, obstacles);
+	Create::createRoom(5, { 0, 0 }, 3, -10, 2, -10, obstacles);;
+	Create::createRoom(10, { 5 * 32, 0 }, 2, 3, 6, 5, obstacles);
+	Create::createRoom(7, { 15 * 32,0 }, 5, 2, -10, -10, obstacles);
+	Create::createRoom(6, { 20 * 32,7 * 32 }, -10, -10, 3, -10, obstacles);
+	Create::createRoom(13, { 5 * 32, -32 * 13 }, -10, -10, 4, 6, obstacles);
+	Create::createRoom(7, { 5 * 32, 10 * 32 }, -10, -10, 5, -10, obstacles);
+	Create::createRoom(4, { 22 * 32,3 * 32 }, -10, 2, -10, 1, obstacles);
 
 
 	while (window.isOpen())
@@ -66,14 +66,14 @@ bool Game::play()
 		collisionHandler.characterWithObstacles(player, obstacles);
 		collisionHandler.enemiesWithObstacles(enemies, obstacles);
 		collisionHandler.enemiesWithEnemies(enemies);
-		collisionHandler.playerWithEnemies(player, enemies);
+		collisionHandler.playerWithEnemies(player, enemies, notifications);
 		collisionHandler.projectilesWithWalls(projectiles, obstacles);
-		collisionHandler.projectilesWithEnemies(projectiles, enemies);
+		collisionHandler.projectilesWithEnemies(projectiles, enemies, notifications);
 
 		Delete::removeText(notifications);
 		Delete::removeProjectiles(projectiles);
 		Delete::removeEnemies(enemies);
-	
+
 		int *inputKeys = input.read();
 		Mark::markEnemy(inputKeys[Input::ACTION], enemies, window);
 
@@ -92,7 +92,7 @@ bool Game::play()
 		draw.drawEnemies(enemies);
 		draw.drawPlayer(player);
 		draw.drawText(notifications);
-	
+
 
 		window.setView(view);
 		view.setCenter(player->rect->rect.getPosition());
@@ -114,7 +114,6 @@ void Game::clearWindow(sf::RenderWindow & window)
 
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 		{
-			notifications.erase(notifications.begin(), notifications.end());
 			window.close();
 		}
 	}

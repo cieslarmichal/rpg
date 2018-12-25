@@ -56,7 +56,7 @@ void Rect::setTopEdge(int inp)
 
 void Rect::setBottomEdge(int inp)
 {
-	bottomEdge=inp;
+	bottomEdge = inp;
 }
 
 //getters

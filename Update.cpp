@@ -3,9 +3,9 @@
 void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction)
 {
 	bool isMoving = Movement::move(*player->rect, direction);
-	if (isMoving) player->animation->update(direction); 
+	if (isMoving) player->animation->update(direction);
 	player->sprite->setPosition(player->rect->getPosition());
-	statBar.updateStatusBar(player); 
+	statBar.updateStatusBar(player);
 	player->rect->setEdges();
 }
 
@@ -13,10 +13,10 @@ void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & playe
 {
 	for (auto & enemy : enemies)
 	{
-		bool isMoving = Movement::moveEnemy(*enemy.first->rect,*player->rect);
+		bool isMoving = Movement::moveEnemy(*enemy.first->rect, *player->rect);
 		if (isMoving) enemy.first->animation->update(enemy.first->rect->character->getDirection());
 		enemy.first->sprite->setPosition(enemy.first->rect->getPosition());
-		enemy.second.updateStatusBar(enemy.first); 
+		enemy.second.updateStatusBar(enemy.first);
 		enemy.first->rect->setEdges();
 		if (enemy.first->rect->character->getCurrentHp() <= 0)
 		{

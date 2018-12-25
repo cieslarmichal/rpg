@@ -36,7 +36,7 @@ sf::Text & StatusBar::getText()
 //etc
 void StatusBar::updateStatusBar(std::unique_ptr<Wrapper> & character)
 {
-	if(!set) setup(character);
+	if (!set) setup(character);
 
 	text.setPosition(character->rect->getPosition().x + offTextX, character->rect->getPosition().y + offTextY);
 	rect.setPosition(character->rect->getPosition().x + offRectX, character->rect->getPosition().y + offRectY);
