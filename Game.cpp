@@ -5,9 +5,7 @@
 Game::Game()
 {
 	//messages w collisionhandler
-	//usunac countery
 	//virtualna metoda atakujaca np w charackter
-	// posprzatac komentarze
 	// ogarnac w draw tez uniwersalne metody
 	//pokoje potworzyc do testowania pathfinding dobre
 	//randomize with marsenne
@@ -39,26 +37,22 @@ bool Game::play()
 	Draw draw(window);
 	CollisionHandler collisionHandler;
 
-	//adding player
+
 	StatusBar playerHealthBar;
-	Player characterPlayer("michal", 100,5, 20, 10,20, 20, 2);
+	Player characterPlayer("michal", 100,5, 20, 3,20, 20, 2);
 	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer,{700,250});
 
 	std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar> > enemies;
-	// adding enemy
 	Skeleton characterSkeleton("skeleton", 100, 5,1, 70, 0, 1.5, 0);
 
 	Create::createSkeleton(characterSkeleton, enemies, { 150,150 });
 	Create::createSkeleton(characterSkeleton, enemies, { 200,150 });
 	Create::createSkeleton(characterSkeleton, enemies, { 200,200 });
 
-	//projectiles vector
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
 
-	//texts vector
 	std::vector<std::unique_ptr<Text>> messages;
 
-	//adding walls
 	std::vector<std::unique_ptr<Wrapper>> obstacles;
 	//Create::createRoom(5, { 0, 0 }, 3, -10, 2, -10, obstacles);;
 	//Create::createRoom(10, { 5 * 32, 0 }, 2, 3, -10, 5, obstacles);

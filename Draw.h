@@ -2,7 +2,6 @@
 #include "Wrapper.h"
 #include "StatusBar.h"
 #include "Text.h"
-#include <vector>
 
 typedef std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 class Draw

@@ -12,8 +12,8 @@ void TimeHandler::reset()
 	clock.restart();
 }
 
-int TimeHandler::getElapsedSeconds()
+float TimeHandler::getElapsedSeconds()
 {
 	elapsed = clock.getElapsedTime();
-	return (int)elapsed.asSeconds();
+	return elapsed.asSeconds();
 }

@@ -144,10 +144,11 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 {
 	std::vector<std::vector<bool>> enemiesCollidingWithEnemies;
-	//nachodza na siebie te zjeby kurwa
+
 	int enemyIndex = 0;
 	for (auto & enemy : enemies)
 	{
+		Fight::setFightingMode(enemies[enemyIndex].first, false);
 		std::vector<bool> enemyCollision{ false,false,false,false };
 		int otherEnemyIndex = 0;
 		for (auto & otherEnemy : enemies)
@@ -156,6 +157,8 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 			{
 				if (isIntersecting(*enemies[enemyIndex].first->rect, *enemies[otherEnemyIndex].first->rect))
 				{
+					Fight::setFightingMode(enemies[enemyIndex].first, true);
+
 					int distances[4];
 					distances[TOP] = abs(otherEnemy.first->rect->getBottomEdge() - enemy.first->rect->getTopEdge());
 					distances[BOT] = abs(otherEnemy.first->rect->getTopEdge() - enemy.first->rect->getBottomEdge());
@@ -193,7 +196,6 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 		enemiesCollidingWithEnemies.push_back(enemyCollision);
 		enemyIndex++;
 	}
-	//zmienia enemyCollision[] wszystkie na raz :(
 	int index = 0;
 	for (auto x : enemiesCollidingWithEnemies)
 	{
@@ -303,11 +305,12 @@ bool CollisionHandler::canUnlockEnemyDirection(const Blocked & blocked, std::vec
 	bool canUnlockLeft = (blocked.blockedDirection == (int)Directions::LEFT && !enemyCollision[LEFT]);
 	bool canUnlockRight = (blocked.blockedDirection == (int)Directions::RIGHT && !enemyCollision[RIGHT]);
 
-	return (!blocked.destroyed && enemyIndex && (canUnlockTop || canUnlockBot || canUnlockLeft || canUnlockRight));
+	return (index && (canUnlockTop || canUnlockBot || canUnlockLeft || canUnlockRight));
 }
 
 void CollisionHandler::unlockBlockedCharacter(std::unique_ptr<Wrapper> & character, Blocked & blocked)
 {
+	std::cout << "unlocked : " << blocked.blockedDirection << std::endl;
 	character->rect->character->setCanMoveNum(blocked.blockedDirection);
 	Delete::setBlockedToDestroy(blocked);
 }

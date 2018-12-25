@@ -1,27 +1,26 @@
 #include "Movement.h"
 
 
-bool Movement::move(Rect & rect, int dirc)
+bool Movement::move(Rect & rect, int direction)
 {
-	if (dirc > (int)Directions::RIGHT || dirc < (int)Directions::UP) return false;
-	rect.character->setDirection(dirc);
+	rect.character->setDirection(direction);
 
-	if (dirc == (int)Directions::UP && rect.character->getCanMoveUp())
+	if (direction == (int)Directions::UP && rect.character->getCanMoveUp())
 	{
 		rect.rect.move(0, -rect.character->getMovementSpeed());
 		rect.character->canMoveEverywhere();
 	}
-	else if (dirc == (int)Directions::DOWN && rect.character->getCanMoveDown())
+	else if (direction == (int)Directions::DOWN && rect.character->getCanMoveDown())
 	{
 		rect.rect.move(0, rect.character->getMovementSpeed());
 		rect.character->canMoveEverywhere();
 	}
-	else if (dirc == (int)Directions::LEFT && rect.character->getCanMoveLeft())
+	else if (direction == (int)Directions::LEFT && rect.character->getCanMoveLeft())
 	{
 		rect.rect.move(-rect.character->getMovementSpeed(),0);
 		rect.character->canMoveEverywhere();
 	}
-	else if (dirc == (int)Directions::RIGHT && rect.character->getCanMoveRight())
+	else if (direction == (int)Directions::RIGHT && rect.character->getCanMoveRight())
 	{
 		rect.rect.move(rect.character->getMovementSpeed(),0);
 		rect.character->canMoveEverywhere();
@@ -59,11 +58,13 @@ bool Movement::moveEnemy(Rect & enemy, Rect & player)
 	{
 		if (std::abs(deltaX) >= std::abs(deltaY))
 		{
-			(deltaX >= 0) ? move(enemy, (int)Directions::LEFT) : move(enemy, (int)Directions::RIGHT);
+			if(deltaX >= 0) return move(enemy, (int)Directions::LEFT); 
+			else return move(enemy, (int)Directions::RIGHT);
 		}
 		else
 		{
-			(deltaY >= 0) ? move(enemy, (int)Directions::UP) : move(enemy, (int)Directions::DOWN);
+			if (deltaY >= 0) return move(enemy, (int)Directions::UP);
+			else return move(enemy, (int)Directions::DOWN);
 		}
 	}
 	else

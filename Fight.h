@@ -1,5 +1,6 @@
 #pragma once
 #include "Wrapper.h"
+
 class Fight
 {
 public:
