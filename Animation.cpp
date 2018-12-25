@@ -6,8 +6,8 @@ Animation::Animation(Sprite & spr, int num) : sprite(spr), numOfSprites(num)
 	if (sprite.getPathName() == "stuff/skeleton.png")
 	{
 		spriteChangingOrder[0] = 3;
-		spriteChangingOrder[1] = 0; 
-		spriteChangingOrder[2] = 1; 
+		spriteChangingOrder[1] = 0;
+		spriteChangingOrder[2] = 1;
 		spriteChangingOrder[3] = 2;
 		delayEachFrame = 0.06f;
 	}
@@ -22,7 +22,7 @@ void Animation::update(int direction)
 {
 	if (staticSprite) return;
 
-	if (timing.getElapsedSeconds()>= delayEachFrame)
+	if (timing.getElapsedSeconds() >= delayEachFrame)
 	{
 		timing.reset();
 

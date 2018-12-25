@@ -46,7 +46,7 @@ void Draw::drawText(std::vector<std::unique_ptr<Text>> & texts)
 	}
 }
 
-void Draw::drawRect(Rect & rect) 
+void Draw::drawRect(Rect & rect)
 {
 	window.draw(rect.rect);
 }

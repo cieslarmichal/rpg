@@ -17,7 +17,7 @@ void Create::createProjectile(std::unique_ptr<Wrapper>& player, Projectile & pro
 {
 	projectiles.push_back(std::unique_ptr<Wrapper>(new Wrapper
 	(std::unique_ptr<Rect>(new Rect(projectile, 20, 20, { player->rect->getPosition().x + 7,player->rect->getPosition().y + 15 })),
-		std::unique_ptr<Sprite>(new Sprite("stuff/projectile.png", 64, 64,dimSprite.x,dimSprite.y)))));
+		std::unique_ptr<Sprite>(new Sprite("stuff/projectile.png", 64, 64, dimSprite.x, dimSprite.y)))));
 }
 
 void Create::createObstacle(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles)
@@ -63,7 +63,7 @@ void Create::createRoom(int roomSize, sf::Vector2f position, int doorLocRight, i
 
 	//create vertical wall
 	wallVerticalIndex = 0;
-	while (wallVerticalIndex < roomSize +1 )
+	while (wallVerticalIndex < roomSize + 1)
 	{
 		if (wallVerticalIndex != doorLocRight && wallVerticalIndex != doorLocRight + 1)
 		{
@@ -73,14 +73,9 @@ void Create::createRoom(int roomSize, sf::Vector2f position, int doorLocRight, i
 	}
 }
 
-void Create::createBattleNotification(std::string message, sf::Vector2f position)
-{
-	notifications.push_back(std::unique_ptr<Text>(new Text(message, { position.x + 12,position.y-2 }, sf::Color::Red)));
-}
-
-void Create::createBattleNotification(int message, sf::Vector2f position)
+void Create::createBattleNotification(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications)
 {
 	std::string msg = std::to_string(message);
-	notifications.push_back(std::unique_ptr<Text>(new Text(msg, { position.x + 12,position.y-2 }, sf::Color::Red)));
+	notifications.push_back(std::unique_ptr<Text>(new Text(msg, { position.x + 12,position.y - 2 }, sf::Color::Red)));
 }
 

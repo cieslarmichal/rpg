@@ -19,7 +19,7 @@ void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, st
 	sf::Vector2i dimSprite = Sprite::calculateProjectileSprite(positiveX, positiveY, angle);
 	if (absDistance <= 275) // shoot if absolute distance is less than 275
 	{
-		if (player->timing.getElapsedSeconds() >= 10/player->rect->character->getAttackSpeed())
+		if (player->timing.getElapsedSeconds() >= 10 / player->rect->character->getAttackSpeed())
 		{
 			player->timing.reset();
 			Projectile projectile(enemyIndex);

@@ -17,12 +17,12 @@ bool Movement::move(Rect & rect, int direction)
 	}
 	else if (direction == (int)Directions::LEFT && rect.character->getCanMoveLeft())
 	{
-		rect.rect.move(-rect.character->getMovementSpeed(),0);
+		rect.rect.move(-rect.character->getMovementSpeed(), 0);
 		rect.character->canMoveEverywhere();
 	}
 	else if (direction == (int)Directions::RIGHT && rect.character->getCanMoveRight())
 	{
-		rect.rect.move(rect.character->getMovementSpeed(),0);
+		rect.rect.move(rect.character->getMovementSpeed(), 0);
 		rect.character->canMoveEverywhere();
 	}
 
@@ -38,7 +38,9 @@ bool Movement::moveRandom(Rect & enemy)
 	enemy.character->setWalkCounter(enemy.character->getWalkCounter() + 1);
 	if (enemy.character->getWalkCounter() >= enemy.character->getRandomMovementLength())
 	{
-		enemy.character->setDirection((std::rand() % 4) + 1);
+		int random = std::rand() % 4;
+		std::cout << random << std::endl;
+		enemy.character->setDirection(random);
 		enemy.character->setRandomMovementLength((std::rand() % 30) + 40);
 		enemy.character->setWalkCounter(0);
 	}
@@ -47,23 +49,23 @@ bool Movement::moveRandom(Rect & enemy)
 
 bool Movement::moveEnemy(Rect & enemy, Rect & player)
 {
-	int deltaX = (int)(enemy.getPosition().x - player.getPosition().x);
-	int deltaY = (int)(enemy.getPosition().y - player.getPosition().y);
-	double absDistance = std::sqrt(deltaX*deltaX + deltaY * deltaY);
-	if (absDistance > 300)
+	int positiveX = (int)(enemy.getPosition().x - player.getPosition().x);
+	int positiveY = (int)(enemy.getPosition().y - player.getPosition().y);
+	double absoluteDistance = std::sqrt(positiveX*positiveX + positiveY * positiveY);
+	if (absoluteDistance > 300)
 	{
-		 return moveRandom(enemy);
+		return moveRandom(enemy);
 	}
 	else if (!enemy.character->isFighting())
 	{
-		if (std::abs(deltaX) >= std::abs(deltaY))
+		if (std::abs(positiveX) >= std::abs(positiveY))
 		{
-			if(deltaX >= 0) return move(enemy, (int)Directions::LEFT); 
+			if (positiveX >= 0) return move(enemy, (int)Directions::LEFT);
 			else return move(enemy, (int)Directions::RIGHT);
 		}
 		else
 		{
-			if (deltaY >= 0) return move(enemy, (int)Directions::UP);
+			if (positiveY >= 0) return move(enemy, (int)Directions::UP);
 			else return move(enemy, (int)Directions::DOWN);
 		}
 	}

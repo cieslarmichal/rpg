@@ -5,10 +5,8 @@ void Mark::markEnemy(int key, enemyPair & enemies, sf::RenderWindow & window)
 {
 	if (key == (int)InputKeys::MOUSELEFT)
 	{
-		//conversion view to window mouse coordinates 
-		sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
-		// convert it to world coordinates
-		sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+		sf::Vector2i windowCoordinates = sf::Mouse::getPosition(window);
+		sf::Vector2f worldCoordinates = window.mapPixelToCoords(windowCoordinates);
 
 		for (auto & enemy : enemies)
 		{
@@ -22,7 +20,7 @@ void Mark::markEnemy(int key, enemyPair & enemies, sf::RenderWindow & window)
 			int y = (int)enemy.first->rect->getPosition().y;
 			int dy = y + enemy.first->rect->getDimY();
 
-			if (worldPos.x >= x && worldPos.x <= dx && worldPos.y >= y && worldPos.y <= dy)
+			if (worldCoordinates.x >= x && worldCoordinates.x <= dx && worldCoordinates.y >= y && worldCoordinates.y <= dy)
 			{
 				enemy.first->rect->character->setMarked(true);
 			}

@@ -1,24 +1,24 @@
 #include "Fight.h"
 
 
-void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim)
+void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & notifications)
 {
-	if (isAttackPossible(attacker,victim))
+	if (isAttackPossible(attacker, victim))
 	{
 		attacker->timing.reset();
 		int damagedHp = victim->rect->character->getCurrentHp() - attacker->rect->character->getAttackDamage();
 		victim->rect->character->setCurrentHp(damagedHp);
 
-		Create::createBattleNotification(attacker->rect->character->getAttackDamage(), victim->rect->getPosition());
+		Create::createBattleNotification(attacker->rect->character->getAttackDamage(), victim->rect->getPosition(), notifications);
 	}
 }
 
-void Fight::attackDistance(std::unique_ptr<Wrapper> & projectile, std::unique_ptr<Wrapper> & victim)
+void Fight::attackDistance(std::unique_ptr<Wrapper> & projectile, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & notifications)
 {
 	int damagedHp = victim->rect->character->getCurrentHp() - projectile->rect->projectile->getDamage();
 	victim->rect->character->setCurrentHp(damagedHp);
 
-	Create::createBattleNotification(projectile->rect->projectile->getDamage(), victim->rect->getPosition());
+	Create::createBattleNotification(projectile->rect->projectile->getDamage(), victim->rect->getPosition(), notifications);
 }
 
 void Fight::setFightingMode(std::unique_ptr<Wrapper> & character, bool inp)

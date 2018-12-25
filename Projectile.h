@@ -18,6 +18,6 @@ private:
 	float movementSpeed;
 	int enemyID;
 	int damage;
-	int direction; 
+	int direction;
 	bool destroyed = false;
 };
