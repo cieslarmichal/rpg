@@ -21,6 +21,7 @@
 #include "Create.h"
 #include "Mark.h"
 #include "Shoot.h"
+#include "Notifications.h"
 
 class Game
 {

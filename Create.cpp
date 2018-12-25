@@ -29,48 +29,58 @@ void Create::createObstacle(sf::Vector2f position, std::vector<std::unique_ptr<W
 
 void Create::createRoom(int roomSize, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown, std::vector<std::unique_ptr<Wrapper>> & obstacles)
 {
-	//create horizontal wall
-	int wallIndex = 0;
-	while (wallIndex < roomSize)
+	int wallHorizontalIndex = 0;
+	while (wallHorizontalIndex < roomSize)
 	{
-		if (wallIndex != doorLocTop && wallIndex != doorLocTop + 1)
+		if (wallHorizontalIndex != doorLocTop && wallHorizontalIndex != doorLocTop + 1)
 		{
-			createObstacle({ (float)(32 * wallIndex + position.x),(float)position.y }, obstacles);
+			createObstacle({ (float)(32 * wallHorizontalIndex + position.x),(float)position.y }, obstacles);
 		}
-		wallIndex++;
+		wallHorizontalIndex++;
 	}
 
-	//create horizontal wall
-	wallIndex = 0;
-	while (wallIndex < roomSize)
-	{
-		if (wallIndex != doorLocDown && wallIndex != doorLocDown + 1)
-		{
-			createObstacle({ (float)(32 * wallIndex + position.x),(float)(32 * roomSize + position.y) }, obstacles);
-		}
-		wallIndex++;
-	}
 
-	//create vertical wall
-	wallIndex = 0;
-	while (wallIndex < roomSize)
+	wallHorizontalIndex = 0;
+	while (wallHorizontalIndex < roomSize)
 	{
-		if (wallIndex != doorLocLeft && wallIndex != doorLocLeft + 1)
+		if (wallHorizontalIndex != doorLocDown && wallHorizontalIndex != doorLocDown + 1)
 		{
-			createObstacle({ (float)position.x,(float)(32 * wallIndex + position.y) }, obstacles);
+			createObstacle({ (float)(32 * wallHorizontalIndex + position.x),(float)(32 * roomSize + position.y) }, obstacles);
 		}
-		wallIndex++;
+		wallHorizontalIndex++;
 	}
 
 	//create vertical wall
-	wallIndex = 0;
-	while (wallIndex < roomSize +1 )
+	int wallVerticalIndex = 0;
+	while (wallVerticalIndex < roomSize)
 	{
-		if (wallIndex != doorLocRight && wallIndex != doorLocRight + 1)
+		if (wallVerticalIndex != doorLocLeft && wallVerticalIndex != doorLocLeft + 1)
 		{
-			createObstacle({ (float)(position.x + 32 * roomSize),(float)(32 * wallIndex + position.y) }, obstacles);
+			createObstacle({ (float)position.x,(float)(32 * wallVerticalIndex + position.y) }, obstacles);
 		}
-		wallIndex++;
+		wallVerticalIndex++;
 	}
+
+	//create vertical wall
+	wallVerticalIndex = 0;
+	while (wallVerticalIndex < roomSize +1 )
+	{
+		if (wallVerticalIndex != doorLocRight && wallVerticalIndex != doorLocRight + 1)
+		{
+			createObstacle({ (float)(position.x + 32 * roomSize),(float)(32 * wallVerticalIndex + position.y) }, obstacles);
+		}
+		wallVerticalIndex++;
+	}
+}
+
+void Create::createBattleNotification(std::string message, sf::Vector2f position)
+{
+	notifications.push_back(std::unique_ptr<Text>(new Text(message, { position.x + 12,position.y-2 }, sf::Color::Red)));
+}
+
+void Create::createBattleNotification(int message, sf::Vector2f position)
+{
+	std::string msg = std::to_string(message);
+	notifications.push_back(std::unique_ptr<Text>(new Text(msg, { position.x + 12,position.y-2 }, sf::Color::Red)));
 }
 

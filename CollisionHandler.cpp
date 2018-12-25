@@ -66,7 +66,6 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 			setEnemyCollidingWithPlayer(enemiesCollidingWithPlayer, enemyIndex, true);
 
 			Fight::setFightingMode(enemies[enemyIndex].first, true);
-			//setDamageMessage(enemies[counter].first->rect->character->getAttackDamage(), player, texts);
 			Fight::attackMelee(enemies[enemyIndex].first, player);
 			Fight::attackMelee(player, enemies[enemyIndex].first);
 
@@ -196,12 +195,6 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 		enemiesCollidingWithEnemies.push_back(enemyCollision);
 		enemyIndex++;
 	}
-	int index = 0;
-	for (auto x : enemiesCollidingWithEnemies)
-	{
-		std::cout << "ENEMY " << index << " : " << x[0] << x[1] << x[2] << x[3] << std::endl;
-		index++;
-	}
 
 	enemyIndex = 0;
 	for (auto & enemy : enemies)
@@ -219,12 +212,7 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 		enemyIndex++;
 	}
 
-	int counter = 0;
-	for (auto & blockedEnemy : blockedEnemies)
-	{
-		counter++;
-	}
-		std::cout << "BLOCKED = "<<counter << std::endl;
+
 	Delete::removeBlocked(blockedEnemies);
 }
 
@@ -237,7 +225,6 @@ void CollisionHandler::projectilesWithEnemies(std::vector<std::unique_ptr<Wrappe
 		{
 			Fight::attackDistance(projectile, enemies[enemyIndex].first);
 			Delete::setProjectileToDestroy(projectile);
-			//setDamageMessage(projectile->rect->projectile->getDamage(), enemies[enemyIndex].first, texts);
 		}
 	}
 }
@@ -310,7 +297,6 @@ bool CollisionHandler::canUnlockEnemyDirection(const Blocked & blocked, std::vec
 
 void CollisionHandler::unlockBlockedCharacter(std::unique_ptr<Wrapper> & character, Blocked & blocked)
 {
-	std::cout << "unlocked : " << blocked.blockedDirection << std::endl;
 	character->rect->character->setCanMoveNum(blocked.blockedDirection);
 	Delete::setBlockedToDestroy(blocked);
 }
@@ -362,11 +348,3 @@ bool CollisionHandler::possibleToAddBlockedCharacter(int characterIndex, int dir
 	}
 	return true;
 }
-
-////change from attackDamage to random damage based on attackdamge
-//void CollisionHandler::setDamageMessage(int takenHp, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & texts)
-//{
-//	std::string msg = std::to_string(takenHp);
-//	sf::Vector2f pos = { victim->rect->rect.getPosition().x + 14,	victim->rect->rect.getPosition().y - 10 };
-//	texts.push_back(std::unique_ptr<Text>(new Text(msg, pos, sf::Color::Red)));
-//}
