@@ -38,5 +38,4 @@ private:
 	enum { TOP = 0, BOT = 1, LEFT = 2, RIGHT = 3 };
 	std::vector<Blocked> blockedCharacters;
 	std::vector<Blocked> blockedEnemies;
-	//void setDamageMessage(int takenHp, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & texts); //to delete
 };

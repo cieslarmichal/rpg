@@ -4,6 +4,7 @@
 
 Game::Game()
 {
+	//blad podczas wyswitlenia notifications gdy jest wylaczany program
 	//messages w collisionhandler
 	//virtualna metoda atakujaca np w charackter
 	// ogarnac w draw tez uniwersalne metody
@@ -51,7 +52,6 @@ bool Game::play()
 
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
 
-	std::vector<std::unique_ptr<Text>> messages;
 
 	std::vector<std::unique_ptr<Wrapper>> obstacles;
 	//Create::createRoom(5, { 0, 0 }, 3, -10, 2, -10, obstacles);;
@@ -70,7 +70,7 @@ bool Game::play()
 		collisionHandler.projectilesWithWalls(projectiles, obstacles);
 		collisionHandler.projectilesWithEnemies(projectiles, enemies);
 
-		Delete::removeText(messages);
+		Delete::removeText(notifications);
 		Delete::removeProjectiles(projectiles);
 		Delete::removeEnemies(enemies);
 	
@@ -81,7 +81,7 @@ bool Game::play()
 
 		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION]);
 		Update::updateEnemies(enemies, player);
-		Update::updateText(messages, view);
+		Update::updateText(notifications, view);
 		Update::updateObstacles(obstacles);
 		Update::updateProjectiles(projectiles, enemies);
 
@@ -91,12 +91,11 @@ bool Game::play()
 		draw.drawStatusBar(playerHealthBar);
 		draw.drawEnemies(enemies);
 		draw.drawPlayer(player);
-		draw.drawText(messages);
+		draw.drawText(notifications);
 	
 
 		window.setView(view);
 		view.setCenter(player->rect->rect.getPosition());
-		
 		window.display();
 	}
 	return true;
@@ -115,6 +114,7 @@ void Game::clearWindow(sf::RenderWindow & window)
 
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 		{
+			notifications.erase(notifications.begin(), notifications.end());
 			window.close();
 		}
 	}
