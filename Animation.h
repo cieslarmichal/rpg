@@ -1,6 +1,7 @@
 #pragma once
 #include "Sprite.h"
 #include "Directions.h"
+#include "TimeHandler.h"
 
 class Animation
 {
@@ -13,8 +14,7 @@ private:
 	int spriteChangingOrder[4] = { 0,2,1,3 }; 
 	int currentSprite = 0;
 	int numOfSprites;
-	sf::Clock clock;
-	sf::Time elapsed;
+	TimeHandler timing;
 	float delayEachFrame = 0.018f;
 	bool staticSprite;
 };

@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <valarray>
 #include "Wrapper.h"
 #include "StatusBar.h"
 #include "Text.h"

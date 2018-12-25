@@ -20,13 +20,12 @@ Animation::Animation(Sprite & spr) :sprite(spr)
 
 void Animation::update(int direction)
 {
-	if (direction < (int)Directions::UP || direction >(int)Directions::RIGHT) return;
 	if (staticSprite) return;
 
-	elapsed = clock.getElapsedTime();
-	if (elapsed.asSeconds() >= delayEachFrame)
+	if (timing.getElapsedSeconds()>= delayEachFrame)
 	{
-		clock.restart();
+		timing.reset();
+
 		switch (direction)
 		{
 		case (int)Directions::UP:

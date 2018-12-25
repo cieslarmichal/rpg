@@ -34,9 +34,9 @@ sf::Text & StatusBar::getText()
 }
 
 //etc
-void StatusBar::updateStatusBar(std::unique_ptr<Wrapper> & character, int enemyIndex)
+void StatusBar::updateStatusBar(std::unique_ptr<Wrapper> & character)
 {
-	if(!set) setup(character, enemyIndex);
+	if(!set) setup(character);
 
 	text.setPosition(character->rect->getPosition().x + offTextX, character->rect->getPosition().y + offTextY);
 	rect.setPosition(character->rect->getPosition().x + offRectX, character->rect->getPosition().y + offRectY);
@@ -71,7 +71,7 @@ void StatusBar::updateStatusBar(std::unique_ptr<Wrapper> & character, int enemyI
 	}
 }
 
-void StatusBar::setup(std::unique_ptr<Wrapper> & character, int enemyIndex)
+void StatusBar::setup(std::unique_ptr<Wrapper> & character)
 {
 	max = character->rect->character->getMaxHp();
 	font.loadFromFile("stuff/font.ttf");
@@ -81,7 +81,7 @@ void StatusBar::setup(std::unique_ptr<Wrapper> & character, int enemyIndex)
 	rect.setOutlineThickness(1);
 	text.setFont(font);
 	text.setCharacterSize(12);
-	text.setString((character->rect->character->getName()) + std::to_string(enemyIndex));
+	text.setString((character->rect->character->getName()));
 
 	if (character->sprite->getPathName() == "stuff/skeleton.png")
 	{
