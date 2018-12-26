@@ -16,6 +16,7 @@ public:
 	void drawText(std::vector<std::unique_ptr<Text>> & texts);
 	void drawRect(Rect & rect);
 	void drawRects(std::vector<std::unique_ptr<Wrapper>> & tests);
+	void drawRects(enemyPair & enemies);
 private:
 	sf::RenderWindow & window;
 };

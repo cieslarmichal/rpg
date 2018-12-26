@@ -59,3 +59,11 @@ void Draw::drawRects(std::vector<std::unique_ptr<Wrapper>> & tests)
 		window.draw(test->rect->rect);
 	}
 }
+
+void Draw::drawRects(enemyPair & enemies)
+{
+	for (auto & enemy : enemies)
+	{
+		window.draw(enemy.first->rect->rect);
+	}
+}

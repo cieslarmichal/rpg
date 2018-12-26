@@ -39,7 +39,6 @@ bool Movement::moveRandom(Rect & enemy)
 	if (enemy.character->getWalkCounter() >= enemy.character->getRandomMovementLength())
 	{
 		int random = std::rand() % 4;
-		std::cout << random << std::endl;
 		enemy.character->setDirection(random);
 		enemy.character->setRandomMovementLength((std::rand() % 30) + 40);
 		enemy.character->setWalkCounter(0);

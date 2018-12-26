@@ -9,7 +9,7 @@ std::unique_ptr<Wrapper> Create::createPlayer(Player & player, sf::Vector2f posi
 void Create::createSkeleton(Skeleton & skeleton, enemyPair & enemies, sf::Vector2f position)
 {
 	StatusBar enemyStatusBar;
-	enemies.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(skeleton, 48, 48, position)),
+	enemies.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(skeleton, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/skeleton.png", 48, 48)), 3)), enemyStatusBar));
 }
 
@@ -23,53 +23,33 @@ void Create::createProjectile(std::unique_ptr<Wrapper>& player, Projectile & pro
 void Create::createObstacle(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles)
 {
 	Obstacle obstacle;
-	obstacles.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 32, 32, position)),
-		std::unique_ptr<Sprite>(new Sprite("stuff/walls.png", 32, 32, 32, 0)))));
+	obstacles.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
+		std::unique_ptr<Sprite>(new Sprite("stuff/wall.png", 40,40)))));
 }
 
-void Create::createRoom(int roomSize, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown, std::vector<std::unique_ptr<Wrapper>> & obstacles)
+void Create::createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & floor)
 {
-	int wallHorizontalIndex = 0;
-	while (wallHorizontalIndex < roomSize)
-	{
-		if (wallHorizontalIndex != doorLocTop && wallHorizontalIndex != doorLocTop + 1)
-		{
-			createObstacle({ (float)(32 * wallHorizontalIndex + position.x),(float)position.y }, obstacles);
-		}
-		wallHorizontalIndex++;
-	}
+	Obstacle obstacle;
+	floor.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
+		std::unique_ptr<Sprite>(new Sprite("stuff/floor.png", 40, 40)))));
+}
 
-
-	wallHorizontalIndex = 0;
-	while (wallHorizontalIndex < roomSize)
+void Create::createRoom(int roomSize, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
+	std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor)
+{
+	for (int vertical = 0; vertical <= roomSize; vertical++)
 	{
-		if (wallHorizontalIndex != doorLocDown && wallHorizontalIndex != doorLocDown + 1)
+		for (int horizontal = 0; horizontal <= roomSize; horizontal++)
 		{
-			createObstacle({ (float)(32 * wallHorizontalIndex + position.x),(float)(32 * roomSize + position.y) }, obstacles);
+			if ((!(horizontal == doorLocDown&& vertical==roomSize)) && (!(horizontal == doorLocTop && vertical==0)) &&
+				(!(vertical == doorLocRight && horizontal == roomSize)) && (!(vertical == doorLocLeft && horizontal == 0)) &&
+				(horizontal == 0 || horizontal == roomSize || vertical==0 ||vertical==roomSize))
+			{
+				createObstacle({ (float)(40 * horizontal + position.x),(float)(40 * vertical + position.y) }, walls);
+			}
+			createFloor({ (float)(40 * horizontal + position.x),(float)(40 * vertical + position.y) }, floor);
 		}
-		wallHorizontalIndex++;
-	}
 
-	//create vertical wall
-	int wallVerticalIndex = 0;
-	while (wallVerticalIndex < roomSize)
-	{
-		if (wallVerticalIndex != doorLocLeft && wallVerticalIndex != doorLocLeft + 1)
-		{
-			createObstacle({ (float)position.x,(float)(32 * wallVerticalIndex + position.y) }, obstacles);
-		}
-		wallVerticalIndex++;
-	}
-
-	//create vertical wall
-	wallVerticalIndex = 0;
-	while (wallVerticalIndex < roomSize + 1)
-	{
-		if (wallVerticalIndex != doorLocRight && wallVerticalIndex != doorLocRight + 1)
-		{
-			createObstacle({ (float)(position.x + 32 * roomSize),(float)(32 * wallVerticalIndex + position.y) }, obstacles);
-		}
-		wallVerticalIndex++;
 	}
 }
 

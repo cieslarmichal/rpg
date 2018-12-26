@@ -5,14 +5,20 @@
 Sprite::Sprite(std::string path, int sx, int sy, int dimx, int dimy) : spriteX(sx), spriteY(sy), pathName(path)
 {
 	offByRectX = offByRectY = 0;
-	texture.loadFromFile(pathName);
+	if (!texture.loadFromFile(pathName)) 
+		std::cerr << "error reading sprite from file\n";
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(dimx, dimy, spriteX, spriteY));
 
 	if (path == "stuff/player.png")
 	{
-		offByRectX = -16;
+		offByRectX = -11;
 		offByRectY = -20;
+	}
+	else if (path == "stuff/skeleton.png")
+	{
+		offByRectX = 0;
+		offByRectY = -4;
 	}
 }
 

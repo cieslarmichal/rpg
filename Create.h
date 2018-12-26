@@ -15,6 +15,8 @@ public:
 	static void createSkeleton(Skeleton & skeleton, enemyPair & enemies, sf::Vector2f position);
 	static void createProjectile(std::unique_ptr<Wrapper>& player, Projectile & projectile, std::vector<std::unique_ptr<Wrapper>> & projectiles, sf::Vector2i dimSprite);
 	static void createObstacle(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	static void createRoom(int roomSize, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown, std::vector<std::unique_ptr<Wrapper>> & obstacles);
+	static void createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);
+	static void createRoom(int roomSize, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
+		std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor);
 	static void createBattleNotification(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
 };
