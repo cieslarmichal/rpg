@@ -6,7 +6,7 @@ StatusBar::StatusBar()
 	max = 0;
 	sizeX = 34;
 	sizeY = 5;
-	offTextX = offRectX = 0;
+	offTextX = offRectX = 6;
 	offTextY = -32;
 	offRectY = -16;
 }
