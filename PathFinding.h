@@ -1,30 +1,22 @@
 #pragma once
-#include <vector>
-#include <SFML/Graphics.hpp>
-#include "SearchCell.h"
+#include "Node.h"
+#include "Tile.h"
+#include "Directions.h"
+#include <list>
+#include <iostream>
 
 class PathFinding
 {
-public:
+	public:
 	PathFinding();
 	~PathFinding();
-	void initialize(sf::Vector2i currentPos, sf::Vector2i targetPos);
-	sf::Vector2f nextPathPos();
-	void clearOpenList() { openList.clear(); }
-	void clearVisitedList() { visitedList.clear(); }
-	void clearPathToGoal() { pathToGoal.clear(); }
-	bool initializedStartGoal;
-	bool foundGoal;
-private:
-	void initializeStartGoal(SearchCell start, SearchCell goal);
-	void checkNeighbor(int x, int y, float newCost, SearchCell * parent);
-	SearchCell * getNextCell();
-	void iterate();
-
-	SearchCell * startCell;
-	SearchCell * goalCell;
-	std::vector<SearchCell*> openList;
-	std::vector<SearchCell*> visitedList;
-	std::vector<sf::Vector2i*> pathToGoal;
+	sf::Vector2i solveAStar();
+	void initializeStartEnd(sf::Vector2f startPosition, sf::Vector2f endPosition);
+	void initializeLogicMap(std::vector<std::unique_ptr<Tile>> & mapTiles);
+	void updateLogicMap(std::vector<std::unique_ptr<Tile>> & mapTiles);
+	void debugDrawMap(sf::RenderWindow & window);
+	static std::vector<Node> nodes;
+	Node * nodeStart = nullptr;
+	Node * nodeEnd = nullptr;
 };
 

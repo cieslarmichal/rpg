@@ -4,13 +4,7 @@
 
 Game::Game()
 {
-	//vector przechowujacy pozycje wszystkich obiektow 40x40 px
-	//virtualna metoda atakujaca np w charackter
-	//randomize with marsenne
-	//pathfinding
-	//dodac dragona
 	//dodac inventory
-	//std::pair playera z healthBar
 	//loot z potworow
 	//konczyc to bo trzeba tmp robic tez
 }
@@ -34,17 +28,18 @@ bool Game::play()
 	Input input;
 	Draw draw(window);
 	CollisionHandler collisionHandler;
+	PathFinding path;
 
 	StatusBar playerHealthBar;
-	Player characterPlayer("michal", 100, 5, 20, 3, 20, 20, 2);
-	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer, { 800,220 });
+	Player characterPlayer("Michal", 100, 5, 20, 3, 20, 20, 4);
+	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer, { 24*40,30*40 });
 
 	std::vector <std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemies;
-	Skeleton characterSkeleton("skeleton", 100, 5, 1, 70, 0, 1.5, 0);
+	Skeleton characterSkeleton("Skeleton", 100, 5, 3, 70, 0, 2, 0);
+	Dragon characterDragon("Dragon", 1000, 30, 2, 40, 4, 2, 0);
 
-	Create::createSkeleton(characterSkeleton, enemies, { 150,150 });
-	Create::createSkeleton(characterSkeleton, enemies, { 300,150 });
-	Create::createSkeleton(characterSkeleton, enemies, { 300,200 });
+	Create::createSkeleton(characterSkeleton, enemies, { 18*40,20*40 });
+	Create::createDragon(characterDragon, enemies, { 20 * 40,18 * 40 });
 
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
 
@@ -52,18 +47,61 @@ bool Game::play()
 
 	std::vector<std::unique_ptr<Wrapper>> walls;
 	std::vector<std::unique_ptr<Wrapper>> floor;
-	Create::createRoom(5, { 0, 0 }, 3, -10, 2, -10, walls, floor);
-	Create::createRoom(10, { 5 * 40, 0 }, 2, 3, 6, 5, walls, floor);
-	Create::createRoom(7, { 15 * 40,0 }, 5, 2, -10, -10, walls, floor);
-	Create::createRoom(6, { 20 * 40,7 * 40 }, -10, -10, 3, -10, walls, floor);
-	Create::createRoom(13, { 5 * 40, -40 * 13 }, -10, -10, 4, 6, walls, floor);
-	Create::createRoom(7, { 5 * 40, 10 * 40 }, -10, -10, 5, -10, walls, floor);
-	Create::createRoom(4, { 22 * 40,3 * 40 }, -10, 2, -10, 1, walls, floor);
+	Create::createRoom(40, { 0, 0 }, 3, -10, 2, -10, walls, floor);
+	//Create::createRoom(10, { 29, 28 }, -10, -10, 1, 9, walls, floor);
+	
+	std::string maze1[14] =
+	{
+		"##############",
+		"#---##########",
+		"#-#-##########",
+		"#-#---###----#",
+		"#-###-----##-#",
+		"--#---###-#--#",
+		"--#-###---#-##",
+		"#----##-###--#",
+		"####--#--###-#",
+		"#####-##-#---#",
+		"###----###-###",
+		"###-##-#---###",
+		"########-#####",
+		"###----------#"
+	};
+	Create::createMaze(maze1, 14, { 26,26 }, walls);
 
+
+	std::string maze2[20] =
+	{
+		"##################",
+		"--#---#---#-----#",
+		"#-###-#-#-#####-#",
+		"#---#---#-----#-#",
+		"###-###-#-###-#-#",
+		"#-#-#---#-#-#---#",
+		"#-#-#####-#-#####",
+		"#-#-----#-----#-#",
+		"#-###-#-###-#-#-#",
+		"#---#-#-#---#-#-#",
+		"#-#-#-#-#-###-#-#",
+		"#-#-#-#-#-#---#-#",
+		"###-###-#-#-###-#",
+		"#---------#-#---#",
+		"#-#####-###-#-###",
+		"#-----#---#-----#",
+		"###############-#",
+	};
+	Create::createMaze(maze2, 20, { 21,0 }, walls);
+
+	Map map;
+	map.readTiles(walls);
+	path.initializeLogicMap(map.tiles);
+
+	sf::Clock clock;
 
 	while (window.isOpen())
 	{
 		clearWindow(window);
+		sf::Time elapsed = clock.getElapsedTime();
 
 		collisionHandler.characterWithObstacles(player, walls);
 		collisionHandler.enemiesWithObstacles(enemies, walls);
@@ -77,7 +115,8 @@ bool Game::play()
 		Delete::removeEnemies(enemies);
 
 		int *inputKeys = input.read();
-		Mark::markEnemy(inputKeys[Input::ACTION], enemies, window);
+		Mark::markTarget(inputKeys[Input::ACTION], player, enemies, window);
+		ChangeWeapon::changeWeapon(inputKeys[Input::ACTION], player);
 
 		Shoot::shootEnemy(player, enemies, projectiles);
 
@@ -96,8 +135,19 @@ bool Game::play()
 		draw.drawEnemies(enemies);
 		draw.drawPlayer(player);
 		draw.drawText(notifications);
-		//draw.drawRects(enemies);
 
+		if (elapsed.asSeconds() >= 0.5)
+		{
+			clock.restart();
+			map.updateTiles(enemies);
+			path.updateLogicMap(map.tiles);
+		}
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Middle))
+		{
+			player->rect->character->pathfinding.debugDrawMap(window);
+
+		}
 
 		window.setView(view);
 		view.setCenter(player->rect->rect.getPosition());

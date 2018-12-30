@@ -20,6 +20,15 @@ Rect::Rect(Skeleton & s, int dx, int dy, sf::Vector2f pos) :obstacle(nullptr), p
 	setEdges();
 }
 
+Rect::Rect(Dragon & d, int dx, int dy, sf::Vector2f pos) :obstacle(nullptr), projectile(nullptr), dimX(dx), dimY(dy)
+{
+	character = std::unique_ptr<Enemy>(new Dragon(d));
+	rect.setSize(sf::Vector2f((float)dimX, (float)dimY));
+	rect.setFillColor(sf::Color::Red);
+	rect.setPosition(pos);
+	setEdges();
+}
+
 Rect::Rect(Obstacle & o, int dx, int dy, sf::Vector2f pos) : character(nullptr), projectile(nullptr), dimX(dx), dimY(dy)
 {
 	obstacle = std::unique_ptr<Obstacle>(new Obstacle(o));
@@ -61,23 +70,30 @@ void Rect::setBottomEdge(int inp)
 
 //getters
 
-int Rect::getLeftEdge() const
+int Rect::getLeftEdge()
 {
+	setEdges();
+
 	return leftEdge;
 }
 
-int Rect::getRightEdge() const
+int Rect::getRightEdge() 
 {
+	setEdges();
+
 	return rightEdge;
 }
 
-int Rect::getTopEdge() const
+int Rect::getTopEdge()
 {
+	setEdges();
 	return topEdge;
 }
 
-int Rect::getBottomEdge() const
+int Rect::getBottomEdge()
 {
+	setEdges();
+
 	return bottomEdge;
 }
 
@@ -98,8 +114,79 @@ int Rect::getDimY() const
 
 void Rect::setEdges()
 {
+	//sf::Vector2i position;
+	//int x = (int)rect.getPosition().x;
+	//int amountOfTiles = x / 40;
+	//if (x % 40 > 0)
+	//{
+	//	position.x = amountOfTiles * 40 + 40;
+	//}
+	//else
+	//{
+	//	position.x = amountOfTiles * 40;
+	//}
+
+	//int y = (int)rect.getPosition().y;
+	//amountOfTiles = y / 40;
+	//if (y % 40 > 0)
+	//{
+	//	position.y = amountOfTiles * 40 + 40;
+	//}
+	//else
+	//{
+	//	position.y = amountOfTiles * 40;
+	//}
+
+	//leftEdge = position.x;
+	//rightEdge = position.x + dimX;
+	//bottomEdge = position.y + dimY;
+	//topEdge = position.y;
+
+	//setPreviousEdges();
 	leftEdge = (int)rect.getPosition().x;
 	rightEdge = (int)rect.getPosition().x + dimX;
 	bottomEdge = (int)rect.getPosition().y + dimY;
 	topEdge = (int)rect.getPosition().y;
+}
+
+void Rect::setPreviousEdges()
+{
+	//previousBottomEdge = bottomEdge;
+	//previousTopEdge = topEdge;
+	//previousLeftEdge = leftEdge;
+	//previousRightEdge = rightEdge;
+
+	//if (character != nullptr)
+	//{
+	//	switch (character->getDirection())
+	//	{
+	//	case (int)Directions::UP:
+	//		previousBottomEdge = bottomEdge + dimY;
+	//		previousTopEdge = topEdge + dimY;
+	//		break;
+	//	case (int)Directions::DOWN:
+	//		previousBottomEdge = bottomEdge - dimY;
+	//		previousTopEdge = topEdge - dimY;
+	//		break;
+	//	case (int)Directions::LEFT:
+	//		previousLeftEdge = leftEdge + dimX;
+	//		previousRightEdge = rightEdge + dimX;
+	//		break;
+	//	case (int)Directions::RIGHT:
+	//		previousLeftEdge = leftEdge - dimX;
+	//		previousRightEdge = rightEdge - dimX;
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
+}
+
+void Rect::setWanna(bool & w) // wish to turn somewhere
+{
+	wannaLeft = false;
+	wannaRight = false;
+	wannaUp = false;
+	wannaDown = false;
+	w = true;
 }

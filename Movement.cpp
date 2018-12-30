@@ -1,5 +1,6 @@
 #include "Movement.h"
 
+TimeHandler Movement::enemyTimer;
 
 bool Movement::move(Rect & rect, int direction)
 {
@@ -26,12 +27,46 @@ bool Movement::move(Rect & rect, int direction)
 		rect.character->canMoveEverywhere();
 	}
 
-
 	if (!rect.character->getCanMoveRight() || !rect.character->getCanMoveLeft() ||
 		!rect.character->getCanMoveUp() || !rect.character->getCanMoveDown()) return false;
 
 	return true;
 }
+
+bool Movement::movePlayer(Rect & player, int direction)
+{
+	if (direction != (int)Others::RESET || player.character->target == sf::Vector2i{ -1,-1 })
+	{
+		player.character->target = sf::Vector2i{ -1,-1 };
+		return move(player, direction);
+	}
+	else if (player.character->target != sf::Vector2i{ -1,-1 })
+	{
+		if (enemyTimer.getElapsedSeconds() >= 0.5 || player.character->nextMove == sf::Vector2i(player.getPosition()))
+		{
+			enemyTimer.reset();
+			player.character->pathfinding.initializeStartEnd(player.getPosition(), sf::Vector2f(player.character->target));
+			player.character->nextMove = player.character->pathfinding.solveAStar();
+		}
+
+		if (player.character->nextMove == sf::Vector2i(-1, -1))
+		{
+			return move(player, direction);
+		}
+		else
+		{
+			int xdiff = (int)(player.character->nextMove.x - (int)player.getPosition().x);
+			int ydiff = (int)(player.character->nextMove.y - (int)player.getPosition().y);
+
+			if ((int)player.getPosition().x != player.character->nextMove.x && player.character->getCanMoveRight() && xdiff > 0) return move(player, (int)Directions::RIGHT);
+			else if ((int)player.getPosition().x != player.character->nextMove.x && player.character->getCanMoveLeft() && xdiff < 0) return move(player, (int)Directions::LEFT);
+			else if ((int)player.getPosition().y != player.character->nextMove.y && player.character->getCanMoveUp() && ydiff < 0) return move(player, (int)Directions::UP);
+			else if ((int)player.getPosition().y != player.character->nextMove.y && player.character->getCanMoveDown() && ydiff > 0) return move(player, (int)Directions::DOWN);
+		}
+	}
+	return false;
+}
+
 
 bool Movement::moveRandom(Rect & enemy)
 {
@@ -48,31 +83,47 @@ bool Movement::moveRandom(Rect & enemy)
 
 bool Movement::moveEnemy(Rect & enemy, Rect & player)
 {
-	int positiveX = (int)(enemy.getPosition().x - player.getPosition().x);
-	int positiveY = (int)(enemy.getPosition().y - player.getPosition().y);
+	int positiveX = (int)((int)enemy.getPosition().x - (int)player.getPosition().x);
+	int positiveY = (int)((int)enemy.getPosition().y - (int)player.getPosition().y);
 	double absoluteDistance = std::sqrt(positiveX*positiveX + positiveY * positiveY);
-	if (absoluteDistance > 300)
+	if (absoluteDistance > 400)
 	{
 		return moveRandom(enemy);
 	}
 	else if (!enemy.character->isFighting())
 	{
-		if (std::abs(positiveX) >= std::abs(positiveY))
+		if (enemyTimer.getElapsedSeconds() >= 1.5 || enemy.character->nextMove == sf::Vector2i(enemy.getPosition()))
 		{
-			if (positiveX >= 0) return move(enemy, (int)Directions::LEFT);
-			else return move(enemy, (int)Directions::RIGHT);
+			enemyTimer.reset();
+			enemy.character->pathfinding.initializeStartEnd(enemy.getPosition(), player.getPosition());
+			enemy.character->nextMove = enemy.character->pathfinding.solveAStar();
+		}
+
+		if (enemy.character->nextMove == sf::Vector2i(-1, -1))
+		{
+			if (std::abs(positiveX) >= std::abs(positiveY))
+			{
+				if (positiveX >= 0) return move(enemy, (int)Directions::LEFT);
+				else return move(enemy, (int)Directions::RIGHT);
+			}
+			else
+			{
+				if (positiveY >= 0) return move(enemy, (int)Directions::UP);
+				else return move(enemy, (int)Directions::DOWN);
+			}
 		}
 		else
 		{
-			if (positiveY >= 0) return move(enemy, (int)Directions::UP);
-			else return move(enemy, (int)Directions::DOWN);
+			int xdiff = (int)(enemy.character->nextMove.x - enemy.getPosition().x);
+			int ydiff = (int)(enemy.character->nextMove.y - enemy.getPosition().y);
+
+			if ((int)enemy.getPosition().x != enemy.character->nextMove.x && enemy.character->getCanMoveRight() && xdiff > 0) return move(enemy, (int)Directions::RIGHT);
+			else if ((int)enemy.getPosition().x != enemy.character->nextMove.x && enemy.character->getCanMoveLeft() && xdiff < 0) return move(enemy, (int)Directions::LEFT);
+			else if ((int)enemy.getPosition().y != enemy.character->nextMove.y && enemy.character->getCanMoveUp() && ydiff < 0) return move(enemy, (int)Directions::UP);
+			else if ((int)enemy.getPosition().y != enemy.character->nextMove.y && enemy.character->getCanMoveDown() && ydiff > 0) return move(enemy, (int)Directions::DOWN);
 		}
 	}
-	else
-	{
-		return false;
-	}
-	return true;
+	return false;
 }
 
 void Movement::moveText(Text & text)

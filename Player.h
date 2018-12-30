@@ -15,6 +15,7 @@ public:
 	void melCounterUp();
 	void magCounterUp();
 	//getters
+	int x;
 	int getLevel() const;
 	int getDistanceLevel() const;
 	int getMeleeLevel() const;

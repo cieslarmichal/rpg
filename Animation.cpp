@@ -3,7 +3,7 @@
 Animation::Animation(Sprite & spr, int num) : sprite(spr), numOfSprites(num)
 {
 	staticSprite = false;
-	if (sprite.getPathName() == "stuff/skeleton.png")
+	if (sprite.getPathName() == "stuff/skeleton.png" || sprite.getPathName() == "stuff/dragon.png")
 	{
 		spriteChangingOrder[0] = 3;
 		spriteChangingOrder[1] = 0;

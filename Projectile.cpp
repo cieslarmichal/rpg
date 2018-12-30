@@ -4,7 +4,7 @@
 
 Projectile::Projectile(int id) :enemyID(id)
 {
-	movementSpeed = 15.f;
+	movementSpeed = 20.f;
 	damage = 1;
 }
 

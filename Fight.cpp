@@ -3,7 +3,7 @@
 
 void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & notifications)
 {
-	if (isAttackPossible(attacker, victim))
+	if (isMeleeAttackPossible(attacker, victim))
 	{
 		attacker->timing.reset();
 		int damagedHp = victim->rect->character->getCurrentHp() - attacker->rect->character->getAttackDamage();
@@ -26,8 +26,8 @@ void Fight::setFightingMode(std::unique_ptr<Wrapper> & character, bool inp)
 	character->rect->character->setFighting(inp);
 }
 
-bool Fight::isAttackPossible(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim)
+bool Fight::isMeleeAttackPossible(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim)
 {
 	return (attacker->timing.getElapsedSeconds() >= (float)(5 / (attacker->rect->character->getAttackSpeed()))
-		&& victim->rect->character->isMarked());
+		&& victim->rect->character->isMarked() && attacker->rect->character->getWeapon() == (int)Weapons::MELEE);
 }

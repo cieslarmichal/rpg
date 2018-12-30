@@ -7,9 +7,9 @@ CollisionHandler::CollisionHandler()
 }
 
 
-bool CollisionHandler::isIntersecting(Rect & rectangle1, Rect & rectangle2) const
+bool CollisionHandler::isIntersecting(Rect & rect1, Rect & rect2) const
 {
-	return rectangle1.rect.getGlobalBounds().intersects(rectangle2.rect.getGlobalBounds());
+	return rect1.rect.getGlobalBounds().intersects(rect2.rect.getGlobalBounds());
 }
 
 void CollisionHandler::characterWithObstacles(std::unique_ptr<Wrapper> & character, std::vector<std::unique_ptr<Wrapper>> & obstacles)
@@ -61,6 +61,7 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 	for (auto & enemy : enemies)
 	{
 		Fight::setFightingMode(enemies[enemyIndex].first, false);
+
 		if (isIntersecting(*player->rect, *enemies[enemyIndex].first->rect))
 		{
 			setEnemyCollidingWithPlayer(enemiesCollidingWithPlayer, enemyIndex, true);

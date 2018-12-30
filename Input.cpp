@@ -25,9 +25,22 @@ int * Input::read()
 	{
 		pressedKeys[DIRECTION] = (int)InputKeys::RIGHT;
 	}
+
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		pressedKeys[ACTION] = (int)InputKeys::MOUSELEFT;
+	}
+	else if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+		pressedKeys[ACTION] = (int)InputKeys::MOUSERIGHT;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	{
+		pressedKeys[ACTION] = (int)InputKeys::E;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	{
+		pressedKeys[ACTION] = (int)InputKeys::R;
 	}
 	return pressedKeys;
 }
