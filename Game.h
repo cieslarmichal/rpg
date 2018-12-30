@@ -21,6 +21,9 @@
 #include "Create.h"
 #include "Mark.h"
 #include "Shoot.h"
+#include "PathFinding.h"
+#include "Map.h"
+#include "ChangeWeapon.h"
 
 class Game
 {

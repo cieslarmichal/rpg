@@ -122,6 +122,11 @@ void Character::setFighting(bool inp)
 	fighting = inp;
 }
 
+void Character::setWeapon(bool inp) 
+{
+	weapon = inp;
+}
+
 //getters
 std::string Character::getName() const
 {
@@ -217,4 +222,9 @@ bool Character::isFighting() const
 void Character::canMoveEverywhere()
 {
 	canMoveUp = canMoveDown = canMoveLeft = canMoveRight = true;
+}
+
+bool Character::getWeapon() const
+{
+	return weapon;
 }

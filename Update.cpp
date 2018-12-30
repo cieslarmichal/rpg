@@ -2,8 +2,8 @@
 
 void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction)
 {
-	bool isMoving = Movement::move(*player->rect, direction);
-	if (isMoving) player->animation->update(direction);
+	bool isMoving = Movement::movePlayer(*player->rect, direction);
+	if (isMoving) player->animation->update(player->rect->character->getDirection());
 	player->sprite->setPosition(player->rect->getPosition());
 	statBar.updateStatusBar(player);
 	player->rect->setEdges();

@@ -8,5 +8,6 @@ typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 class Mark
 {
 public:
-	static void markEnemy(int key, enemyPair & enemies, sf::RenderWindow & window);
+	Mark() = delete;
+	static void markTarget(int key, std::unique_ptr<Wrapper> & player, enemyPair & enemies, sf::RenderWindow & window);
 };

@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 #include "Directions.h"
+#include "PathFinding.h"
+#include "Directions.h"
 
 class Character
 {
@@ -30,6 +32,7 @@ public:
 	void canMoveEverywhere();
 	void setMarked(bool);
 	void setFighting(bool);
+	void setWeapon(bool);
 	//getters
 	std::string getName() const;
 	int getMaxHp() const;
@@ -49,12 +52,17 @@ public:
 	bool getDead() const;
 	bool isMarked() const;
 	bool isFighting() const;
+	bool getWeapon() const;
+	PathFinding pathfinding;
+	sf::Vector2i nextMove;
+	sf::Vector2i target{ -1,-1 };
 private:
 	std::string name;
 	int hpMax, hp;
 	int attackDamage, attackSpeed;
 	int experience;
 	int coins;
+	bool weapon = (int)Weapons::MELEE;
 	//std::vector<item> inventory;
 	float movementSpeed;
 	int direction;

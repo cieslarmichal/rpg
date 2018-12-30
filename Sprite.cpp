@@ -1,7 +1,5 @@
 #include "Sprite.h"
 
-
-
 Sprite::Sprite(std::string path, int sx, int sy, int dimx, int dimy) : spriteX(sx), spriteY(sy), pathName(path)
 {
 	offByRectX = offByRectY = 0;
@@ -19,6 +17,11 @@ Sprite::Sprite(std::string path, int sx, int sy, int dimx, int dimy) : spriteX(s
 	{
 		offByRectX = 0;
 		offByRectY = -4;
+	}
+	else if (path == "stuff/dragon.png")
+	{
+		offByRectX = -30;
+		offByRectY = -34;
 	}
 }
 
