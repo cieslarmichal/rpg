@@ -1,9 +1,14 @@
 #include "Text.h"
 
 
+Text::Text(sf::Color col, std::string type, int font)
+	: color(col), fontSize(font), HUDtype(type)
+{
 
-Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, bool mid, int fsize)
-	: message(msg), position(pos), color(col), fontSize(fsize), moving(move), positionMid(mid)
+}
+
+Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, int font, bool mid)
+	:message(msg), position(pos), color(col), fontSize(font), moving(move), positionMid(mid)
 {
 	if (moving)
 	{
@@ -15,6 +20,7 @@ Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, bool mid
 		movementSpeed = 0;
 		lifetime = 150;
 	}
+
 	lifeCounter = 0;
 	destroyed = false;
 }
@@ -41,20 +47,44 @@ sf::Text & Text::getText()
 	return text;
 }
 
-//etc
+std::string Text::getHUDtype() const
+{
+	return HUDtype;
+}
+
 void Text::update(sf::View view)
 {
 	if (!set) setup();
 
-	//if positionMid stick to the one position
 	if (positionMid) text.setPosition(view.getCenter().x - 145, view.getCenter().y - 80);
-
-	lifeCounter++;
 
 	if (lifeCounter >= lifetime)
 	{
 		destroyed = true;
 	}
+	lifeCounter++;
+}
+
+void Text::updateHUD(sf::View view, int value, int valueMax)
+{
+	if (!set) setup();
+
+	if (HUDtype == "HP")
+	{
+		text.setPosition(view.getCenter().x - 300, view.getCenter().y - 300);
+
+	}
+	else if (HUDtype == "EXP")
+	{
+		text.setPosition(view.getCenter().x - 300, view.getCenter().y - 280);
+	}
+	else if (HUDtype == "COINS")
+	{
+		text.setPosition(view.getCenter().x -300, view.getCenter().y -260);
+	}
+
+	message = (valueMax != -1) ? (HUDtype + " : " + std::to_string(value) + "/" + std::to_string(valueMax)) : (HUDtype + " : " + std::to_string(value));
+	text.setString(message);
 }
 
 void Text::setup()

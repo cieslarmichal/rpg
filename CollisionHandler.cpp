@@ -9,7 +9,7 @@ CollisionHandler::CollisionHandler()
 
 bool CollisionHandler::isIntersecting(Rect & rect1, Rect & rect2) const
 {
-	return rect1.rect.getGlobalBounds().intersects(rect2.rect.getGlobalBounds());
+	return rect1.getRect().getGlobalBounds().intersects(rect2.getRect().getGlobalBounds());
 }
 
 void CollisionHandler::characterWithObstacles(std::unique_ptr<Wrapper> & character, std::vector<std::unique_ptr<Wrapper>> & obstacles)
@@ -218,14 +218,14 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 	Delete::removeBlocked(blockedEnemies);
 }
 
-void CollisionHandler::projectilesWithEnemies(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies, std::vector<std::unique_ptr<Text>> & notifications)
+void CollisionHandler::projectilesWithEnemies(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies, std::vector<std::unique_ptr<Text>> & notifications)
 {
 	for (auto & projectile : projectiles)
 	{
 		int enemyIndex = projectile->rect->projectile->getEnemyID();
 		if (isIntersecting(*projectile->rect, *enemies[enemyIndex].first->rect))
 		{
-			Fight::attackDistance(projectile, enemies[enemyIndex].first, notifications);
+			Fight::attackDistance(player->rect->player, projectile, enemies[enemyIndex].first, notifications);
 			Delete::setProjectileToDestroy(projectile);
 		}
 	}

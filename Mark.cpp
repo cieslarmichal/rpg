@@ -31,7 +31,7 @@ void Mark::markTarget(int key, std::unique_ptr<Wrapper> & player, enemyPair & en
 	{
 		sf::Vector2i windowCoordinates = sf::Mouse::getPosition(window);
 		sf::Vector2f worldCoordinates = window.mapPixelToCoords(windowCoordinates);
-		player->rect->character->target = sf::Vector2i{ ((int)worldCoordinates.x - 20) ,((int)worldCoordinates.y - 20) };
+		player->rect->character->setTargetPosition(sf::Vector2i{ ((int)worldCoordinates.x - 20) ,((int)worldCoordinates.y - 20) });
 	}
 }
 

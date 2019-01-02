@@ -3,7 +3,7 @@
 void Delete::removeEnemies(enemyPair & enemies)
 {
 	enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
-		[](std::pair<std::unique_ptr<Wrapper>, StatusBar> & e) {return e.first->rect->character->getDead(); }), enemies.end());
+		[](std::pair<std::unique_ptr<Wrapper>, StatusBar> & e) {return e.first->rect->character->isDead(); }), enemies.end());
 }
 
 void Delete::removeText(std::vector < std::unique_ptr<Text>> & texts)
@@ -21,6 +21,10 @@ void Delete::removeBlocked(std::vector<Blocked> & blockedCharacters)
 	blockedCharacters.erase(std::remove_if(blockedCharacters.begin(), blockedCharacters.end(), [](const Blocked & blocked) {return blocked.isDestroyed(); }), blockedCharacters.end());
 }
 
+void Delete::setCharacterDead(std::unique_ptr<Wrapper> & character)
+{
+	character->rect->character->setDead(true);
+}
 
 void Delete::setProjectileToDestroy(std::unique_ptr<Wrapper> & object)
 {

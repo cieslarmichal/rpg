@@ -1,12 +1,16 @@
 #include "Update.h"
 
-void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction)
+void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction, int action, std::vector<std::unique_ptr<Text>> & notifications, sf::View view)
 {
 	bool isMoving = Movement::movePlayer(*player->rect, direction);
 	if (isMoving) player->animation->update(player->rect->character->getDirection());
 	player->sprite->setPosition(player->rect->getPosition());
 	statBar.updateStatusBar(player);
 	player->rect->setEdges();
+
+	ChangeWeapon::changeWeapon(action, player);
+	std::string levelMessage = LevelManager::update(player->rect->player);
+	Create::createLevelMessage(levelMessage, notifications, view);
 }
 
 void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player)
@@ -18,10 +22,6 @@ void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & playe
 		enemy.first->sprite->setPosition(enemy.first->rect->getPosition());
 		enemy.second.updateStatusBar(enemy.first);
 		enemy.first->rect->setEdges();
-		if (enemy.first->rect->character->getCurrentHp() <= 0)
-		{
-			enemy.first->rect->character->setDead(true);
-		}
 	}
 }
 
@@ -39,6 +39,26 @@ void Update::updateText(std::vector<std::unique_ptr<Text>> & texts, sf::View vie
 	{
 		Movement::moveText(*text);
 		text->update(view);
+	}
+}
+
+void Update::updateHUDInfo(std::unique_ptr<Player> & player, std::vector <std::unique_ptr<Text>> & texts, sf::View view)
+{
+	for (auto & text : texts)
+	{
+		if (text->getHUDtype() == "HP")
+		{
+			text->updateHUD(view, player->getCurrentHp(), player->getMaxHp());
+		}
+		else if (text->getHUDtype() == "EXP")
+		{
+			text->updateHUD(view, player->getExperience(), LevelManager::getRequireExperience());
+		}
+		else if (text->getHUDtype() == "COINS")
+		{
+			text->updateHUD(view, player->getCoins());
+		}
+
 	}
 }
 

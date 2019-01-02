@@ -1,14 +1,12 @@
 #include "Character.h"
 
-
-
 Character::Character(std::string n, int hpp, int ad, int as, int exp, int c, float movSpeed)
 	: name(n), hpMax(hpp), hp(hpp), attackDamage(ad), attackSpeed(as), experience(exp), coins(c), movementSpeed(movSpeed)
 {
 	direction = 1;
 	walkCounter = 0;
-	randomMovementLength = 65;
 	canMoveUp = canMoveDown = canMoveLeft = canMoveRight = true;
+	fighting = marked = dead = false;
 }
 
 //setters
@@ -42,7 +40,7 @@ void Character::setMovementSpeed(float inp)
 	movementSpeed = inp;
 }
 
-void Character::setExp(int inp)
+void Character::setExperience(int inp)
 {
 	experience = inp;
 }
@@ -82,16 +80,6 @@ void Character::setWalkCounter(int inp)
 	walkCounter = inp;
 }
 
-void Character::setRandomMovementLength(int inp)
-{
-	randomMovementLength = inp;
-}
-
-void Character::setDead(bool inp)
-{
-	dead = inp;
-}
-
 void Character::setCanMoveNum(int inp)
 {
 	switch (inp)
@@ -111,6 +99,25 @@ void Character::setCanMoveNum(int inp)
 	}
 }
 
+void Character::canMoveEverywhere()
+{
+	canMoveUp = canMoveDown = canMoveLeft = canMoveRight = true;
+}
+
+void Character::setNextMove(sf::Vector2i inp)
+{
+	nextMove = inp;
+}
+
+void Character::setTargetPosition(sf::Vector2i inp)
+{
+	targetPosition = inp;
+}
+
+void Character::setDead(bool inp)
+{
+	dead = inp;
+}
 
 void Character::setMarked(bool inp)
 {
@@ -120,11 +127,6 @@ void Character::setMarked(bool inp)
 void Character::setFighting(bool inp)
 {
 	fighting = inp;
-}
-
-void Character::setWeapon(bool inp) 
-{
-	weapon = inp;
 }
 
 //getters
@@ -158,7 +160,7 @@ float Character::getMovementSpeed() const
 	return movementSpeed;
 }
 
-int Character::getExp() const
+int Character::getExperience() const
 {
 	return experience;
 }
@@ -198,12 +200,22 @@ int Character::getWalkCounter() const
 	return walkCounter;
 }
 
-int Character::getRandomMovementLength() const
+PathFinding & Character::getPathFinding()
 {
-	return randomMovementLength;
+	return pathfinding;
 }
 
-bool Character::getDead() const
+sf::Vector2i Character::getNextMove() const
+{
+	return nextMove;
+}
+
+sf::Vector2i Character::getTargetPosition() const
+{
+	return targetPosition;
+}
+
+bool Character::isDead() const
 {
 	return dead;
 }
@@ -218,13 +230,3 @@ bool Character::isFighting() const
 	return fighting;
 }
 
-//methods
-void Character::canMoveEverywhere()
-{
-	canMoveUp = canMoveDown = canMoveLeft = canMoveRight = true;
-}
-
-bool Character::getWeapon() const
-{
-	return weapon;
-}
