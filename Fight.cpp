@@ -9,16 +9,39 @@ void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wra
 		int damagedHp = victim->rect->character->getCurrentHp() - attacker->rect->character->getAttackDamage();
 		victim->rect->character->setCurrentHp(damagedHp);
 
-		Create::createBattleNotification(attacker->rect->character->getAttackDamage(), victim->rect->getPosition(), notifications);
+		if (victim->rect->character->getCurrentHp() <= 0)
+		{
+			victim->rect->character->setDead(true);
+			if (victim->rect->enemy != nullptr)
+			{
+				LevelManager::getExperience(attacker->rect->player, victim->rect->enemy);
+			}
+		}
+
+		if (attacker->rect->player != nullptr)
+		{
+			attacker->rect->player->meleeHitsUp();
+		}
+
+		Create::createDamageMessage(attacker->rect->character->getAttackDamage(), victim->rect->getPosition(), notifications);
 	}
 }
 
-void Fight::attackDistance(std::unique_ptr<Wrapper> & projectile, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & notifications)
+void Fight::attackDistance(std::unique_ptr<Player> & player, std::unique_ptr<Wrapper> & projectile, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & notifications)
 {
 	int damagedHp = victim->rect->character->getCurrentHp() - projectile->rect->projectile->getDamage();
 	victim->rect->character->setCurrentHp(damagedHp);
 
-	Create::createBattleNotification(projectile->rect->projectile->getDamage(), victim->rect->getPosition(), notifications);
+	if (victim->rect->character->getCurrentHp() <= 0)
+	{
+		victim->rect->character->setDead(true);
+		if (victim->rect->enemy != nullptr)
+		{
+			LevelManager::getExperience(player, victim->rect->enemy);
+		}
+	}
+
+	Create::createDamageMessage(projectile->rect->projectile->getDamage(), victim->rect->getPosition(), notifications);
 }
 
 void Fight::setFightingMode(std::unique_ptr<Wrapper> & character, bool inp)
@@ -28,6 +51,7 @@ void Fight::setFightingMode(std::unique_ptr<Wrapper> & character, bool inp)
 
 bool Fight::isMeleeAttackPossible(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim)
 {
+	bool weaponCondition = (attacker->rect->player != nullptr) ? (attacker->rect->player->getWeapon() == (int)Weapons::MELEE) : true;
 	return (attacker->timing.getElapsedSeconds() >= (float)(5 / (attacker->rect->character->getAttackSpeed()))
-		&& victim->rect->character->isMarked() && attacker->rect->character->getWeapon() == (int)Weapons::MELEE);
+		&& victim->rect->character->isMarked() && weaponCondition);
 }

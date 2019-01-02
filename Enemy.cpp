@@ -7,9 +7,16 @@ Enemy::Enemy(std::string name, int hp, int attackDamage, int attackSpeed, int ex
 {
 	std::srand((unsigned)std::time(NULL));
 	setDirection(std::rand() % 4 + 1);
+	randomMovementLength = 65;
 }
 
+
 //setters
+void Enemy::setRandomMovementLength(int inp)
+{
+	randomMovementLength = inp;
+}
+
 void Enemy::setLootChance(float inp)
 {
 	lootChance = inp;
@@ -22,7 +29,8 @@ float Enemy::getLootChance() const
 
 }
 
-void Enemy::dropItem()
+int Enemy::getRandomMovementLength() const
 {
-
+	return randomMovementLength;
 }
+

@@ -9,9 +9,10 @@ public:
 	Enemy(std::string name, int hp, int attackDamage, int attackSpeed, int exp, int coins, float movementSpeed, float lootChance);
 	virtual ~Enemy() = 0 {}
 	void setLootChance(float);
+	void setRandomMovementLength(int);
 	float getLootChance() const;
-	void dropItem();
+	int getRandomMovementLength() const;
 private:
-	//add coins logic
+	int randomMovementLength;
 	float lootChance, item; //item to do
 };

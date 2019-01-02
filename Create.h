@@ -23,5 +23,7 @@ public:
 	static void createRoom(int roomSize, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
 		std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor);
 	static void createMaze(std::string * mazeArray, int rows, sf::Vector2f startPosition, std::vector<std::unique_ptr<Wrapper>> & walls);
-	static void createBattleNotification(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
+	static void createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
+	static void createLevelMessage(std::string message, std::vector<std::unique_ptr<Text>> & notifications, sf::View view);
+	static void createHUDMessage(std::vector<std::unique_ptr<Text>> & HUDinfo);
 };

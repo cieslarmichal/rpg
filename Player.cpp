@@ -2,11 +2,11 @@
 
 
 
-Player::Player(std::string name, int hp, int stamina, int attackDamage, int attackSpeed, int experience, int coins, float movementSpeed)
+Player::Player(std::string name, int hp, int attackDamage, int attackSpeed, int experience, int coins, float movementSpeed)
 	: Character(name, hp, attackDamage, attackSpeed, experience, coins, movementSpeed)
 {
-	level = distanceLevel = meleeLevel = magicLevel = 1;
-	distCounter = melCounter, magCounter = 0;
+	level = distanceLevel = meleeLevel = 1;
+	distanceHits = meleeHits = 0;
 	setMarked(true);
 }
 
@@ -27,24 +27,20 @@ void Player::meleeLevelUp()
 	meleeLevel++;
 }
 
-void Player::magicLevelUp()
+
+void Player::distanceHitsUp()
 {
-	magicLevel++;
+	distanceHits++;
 }
 
-void Player::distCounterUp()
+void Player::meleeHitsUp()
 {
-	distCounter++;
+	meleeHits++;
 }
 
-void Player::melCounterUp()
+void Player::setWeapon(bool inp)
 {
-	melCounter++;
-}
-
-void Player::magCounterUp()
-{
-	magCounter++;
+	weapon = inp;
 }
 
 //getters
@@ -64,29 +60,18 @@ int Player::getMeleeLevel() const
 	return meleeLevel;
 }
 
-int Player::getMagicLevel() const
+
+int Player::getDistanceHits() const
 {
-	return magicLevel;
+	return distanceHits;
 }
 
-int Player::getDistCounter() const
+int Player::getMeleeHits() const
 {
-	return distCounter;
+	return meleeHits;
 }
 
-int Player::getMelCounter() const
+bool Player::getWeapon() const
 {
-	return melCounter;
-}
-
-int Player::getMagCounter() const
-{
-	return magCounter;
-}
-
-
-//methods
-void Player::deadHuman()
-{
-
+	return weapon;
 }

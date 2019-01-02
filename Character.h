@@ -4,7 +4,6 @@
 #include <iostream>
 #include "Directions.h"
 #include "PathFinding.h"
-#include "Directions.h"
 
 class Character
 {
@@ -18,7 +17,7 @@ public:
 	void setAttackDamage(int);
 	void setAttackSpeed(int);
 	void setMovementSpeed(float);
-	void setExp(int);
+	void setExperience(int);
 	void setCoins(int);
 	void setDirection(int);
 	void setCanMoveUp(bool);
@@ -26,13 +25,13 @@ public:
 	void setCanMoveLeft(bool);
 	void setCanMoveRight(bool);
 	void setWalkCounter(int);
-	void setRandomMovementLength(int);
-	void setDead(bool);
 	void setCanMoveNum(int);
 	void canMoveEverywhere();
+	void setNextMove(sf::Vector2i);
+	void setTargetPosition(sf::Vector2i);
+	void setDead(bool);
 	void setMarked(bool);
 	void setFighting(bool);
-	void setWeapon(bool);
 	//getters
 	std::string getName() const;
 	int getMaxHp() const;
@@ -40,7 +39,7 @@ public:
 	int getAttackDamage() const;
 	int getAttackSpeed() const;
 	float getMovementSpeed() const;
-	int getExp() const;
+	int getExperience() const;
 	int getCoins() const;
 	int getDirection() const;
 	bool getCanMoveUp() const;
@@ -48,28 +47,24 @@ public:
 	bool getCanMoveLeft() const;
 	bool getCanMoveRight() const;
 	int getWalkCounter() const;
-	int getRandomMovementLength() const;
-	bool getDead() const;
+	PathFinding & getPathFinding();
+	sf::Vector2i getNextMove() const;
+	sf::Vector2i getTargetPosition() const;
+	bool isDead() const;
 	bool isMarked() const;
 	bool isFighting() const;
-	bool getWeapon() const;
-	PathFinding pathfinding;
-	sf::Vector2i nextMove;
-	sf::Vector2i target{ -1,-1 };
 private:
 	std::string name;
 	int hpMax, hp;
 	int attackDamage, attackSpeed;
 	int experience;
 	int coins;
-	bool weapon = (int)Weapons::MELEE;
-	//std::vector<item> inventory;
 	float movementSpeed;
 	int direction;
 	bool canMoveUp, canMoveDown, canMoveLeft, canMoveRight;
 	int walkCounter;
-	int randomMovementLength;
-	bool dead = false;
-	bool marked = false;
-	bool fighting = false;
+	PathFinding pathfinding;
+	sf::Vector2i nextMove;
+	sf::Vector2i targetPosition{ -1,-1 };
+	bool fighting, marked, dead;
 };

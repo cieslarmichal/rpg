@@ -4,30 +4,27 @@
 class Player : public Character
 {
 public:
-	Player(std::string name, int hp, int stamina, int attackDamage, int attackSpeed, int experience, int coins, float movSpeed);
-	~Player() {} //virtual in future
+	Player(std::string name, int hp, int attackDamage, int attackSpeed, int experience, int coins, float movSpeed);
+	~Player() {}
 	//setters
 	void levelUp();
 	void distanceLevelUp();
 	void meleeLevelUp();
-	void magicLevelUp();
-	void distCounterUp();
-	void melCounterUp();
-	void magCounterUp();
+	void distanceHitsUp();
+	void meleeHitsUp();
+	void setWeapon(bool);
+
 	//getters
-	int x;
 	int getLevel() const;
 	int getDistanceLevel() const;
 	int getMeleeLevel() const;
-	int getMagicLevel() const;
-	int getDistCounter() const;
-	int getMelCounter() const;
-	int getMagCounter() const;
-	void deadHuman();
+	bool getWeapon() const;
+	int getDistanceHits() const;
+	int getMeleeHits() const;
 private:
-	int stamina, staminaMax;
+	bool weapon = (int)Weapons::MELEE;
 	int level;
-	int distanceLevel, meleeLevel, magicLevel;
-	int distCounter, melCounter, magCounter;
+	int distanceLevel, meleeLevel;
+	int distanceHits, meleeHits;
 	//std::vector<item> inventory;
 };

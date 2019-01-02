@@ -3,7 +3,7 @@
 
 void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & projectiles)
 {
-	if (player->rect->character->getWeapon() != (int)Weapons::DISTANCE) return;
+	if (player->rect->player->getWeapon() != (int)Weapons::DISTANCE) return;
 
 	int enemyIndex = findTargetEnemy(enemies);
 	if (enemyIndex == (int)Others::RESET) return;
@@ -27,6 +27,8 @@ void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, st
 			Projectile projectile(enemyIndex);
 			projectile.setDamage(player->rect->character->getAttackDamage());
 			Create::createProjectile(player, projectile, projectiles, dimSprite);
+
+			player->rect->player->distanceHitsUp();
 		}
 	}
 }

@@ -111,10 +111,21 @@ void Create::createMaze(std::string * mazeArray, int rows, sf::Vector2f startPos
 	}
 }
 
-
-void Create::createBattleNotification(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications)
+void Create::createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications)
 {
 	std::string msg = std::to_string(message);
 	notifications.push_back(std::unique_ptr<Text>(new Text(msg, { position.x + 12,position.y - 2 }, sf::Color::Red)));
 }
 
+void Create::createLevelMessage(std::string message, std::vector<std::unique_ptr<Text>> & notifications, sf::View view)
+{
+	if (message == "") return;
+	notifications.push_back(std::unique_ptr<Text>(new Text(message, sf::Vector2f(view.getCenter().x - 90, view.getCenter().y + 40), sf::Color::White,false,16,true)));
+}
+
+void Create::createHUDMessage(std::vector<std::unique_ptr<Text>> & HUDinfo)
+{
+	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Red, "HP", 20)));
+	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Yellow, "COINS", 20)));
+	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Magenta, "EXP", 20)));
+}

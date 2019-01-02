@@ -31,25 +31,26 @@ bool Game::play()
 	PathFinding path;
 
 	StatusBar playerHealthBar;
-	Player characterPlayer("Michal", 100, 5, 20, 3, 20, 20, 4);
-	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer, { 24*40,30*40 });
+	Player characterPlayer("Michal", 100, 20, 10, 20, 0, 4);
+	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer, { 24 * 40,30 * 40 });
 
 	std::vector <std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemies;
 	Skeleton characterSkeleton("Skeleton", 100, 5, 3, 70, 0, 2, 0);
 	Dragon characterDragon("Dragon", 1000, 30, 2, 40, 4, 2, 0);
 
-	Create::createSkeleton(characterSkeleton, enemies, { 18*40,20*40 });
+	Create::createSkeleton(characterSkeleton, enemies, { 18 * 40,20 * 40 });
 	Create::createDragon(characterDragon, enemies, { 20 * 40,18 * 40 });
 
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
 
 	std::vector<std::unique_ptr<Text>> notifications;
+	std::vector<std::unique_ptr<Text>> HUDinfo;
+	Create::createHUDMessage(HUDinfo);
 
 	std::vector<std::unique_ptr<Wrapper>> walls;
 	std::vector<std::unique_ptr<Wrapper>> floor;
 	Create::createRoom(40, { 0, 0 }, 3, -10, 2, -10, walls, floor);
-	//Create::createRoom(10, { 29, 28 }, -10, -10, 1, 9, walls, floor);
-	
+
 	std::string maze1[14] =
 	{
 		"##############",
@@ -68,7 +69,6 @@ bool Game::play()
 		"###----------#"
 	};
 	Create::createMaze(maze1, 14, { 26,26 }, walls);
-
 
 	std::string maze2[20] =
 	{
@@ -108,7 +108,7 @@ bool Game::play()
 		collisionHandler.enemiesWithEnemies(enemies);
 		collisionHandler.playerWithEnemies(player, enemies, notifications);
 		collisionHandler.projectilesWithWalls(projectiles, walls);
-		collisionHandler.projectilesWithEnemies(projectiles, enemies, notifications);
+		collisionHandler.projectilesWithEnemies(player, projectiles, enemies, notifications);
 
 		Delete::removeText(notifications);
 		Delete::removeProjectiles(projectiles);
@@ -116,13 +116,13 @@ bool Game::play()
 
 		int *inputKeys = input.read();
 		Mark::markTarget(inputKeys[Input::ACTION], player, enemies, window);
-		ChangeWeapon::changeWeapon(inputKeys[Input::ACTION], player);
 
 		Shoot::shootEnemy(player, enemies, projectiles);
 
-		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION]);
+		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications, view);
 		Update::updateEnemies(enemies, player);
 		Update::updateText(notifications, view);
+		Update::updateHUDInfo(player->rect->player, HUDinfo, view);
 		Update::updateObstacles(walls);
 		Update::updateObstacles(floor);
 		Update::updateProjectiles(projectiles, enemies);
@@ -130,11 +130,12 @@ bool Game::play()
 
 		draw.drawObstacles(floor);
 		draw.drawObstacles(walls);
+		draw.drawText(notifications);
+		draw.drawText(HUDinfo);
 		draw.drawProjectiles(projectiles);
 		draw.drawStatusBar(playerHealthBar);
 		draw.drawEnemies(enemies);
 		draw.drawPlayer(player);
-		draw.drawText(notifications);
 
 		if (elapsed.asSeconds() >= 0.5)
 		{
@@ -145,12 +146,12 @@ bool Game::play()
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Middle))
 		{
-			player->rect->character->pathfinding.debugDrawMap(window);
+			player->rect->character->getPathFinding().debugDrawMap(window);
 
 		}
 
 		window.setView(view);
-		view.setCenter(player->rect->rect.getPosition());
+		view.setCenter(player->rect->getRect().getPosition());
 		window.display();
 	}
 	return true;
