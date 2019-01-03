@@ -52,7 +52,8 @@ void CollisionHandler::enemiesWithObstacles(enemyPair & enemies, std::vector<std
 	}
 }
 
-void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enemyPair & enemies, std::vector<std::unique_ptr<Text>> & notifications)
+void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enemyPair & enemies,
+	std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items)
 {
 	std::vector<bool> enemiesCollidingWithPlayer;
 
@@ -68,8 +69,8 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 
 			Fight::setFightingMode(enemies[enemyIndex].first, true);
 
-			Fight::attackMelee(enemies[enemyIndex].first, player, notifications);
-			Fight::attackMelee(player, enemies[enemyIndex].first, notifications);
+			Fight::attackMelee(enemies[enemyIndex].first, player, notifications, items);
+			Fight::attackMelee(player, enemies[enemyIndex].first, notifications, items);
 
 			int distances[4];
 			distances[TOP] = abs(enemies[enemyIndex].first->rect->getBottomEdge() - player->rect->getTopEdge());
@@ -218,14 +219,15 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 	Delete::removeBlocked(blockedEnemies);
 }
 
-void CollisionHandler::projectilesWithEnemies(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies, std::vector<std::unique_ptr<Text>> & notifications)
+void CollisionHandler::projectilesWithEnemies(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & projectiles,
+	enemyPair & enemies, std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items)
 {
 	for (auto & projectile : projectiles)
 	{
 		int enemyIndex = projectile->rect->projectile->getEnemyID();
 		if (isIntersecting(*projectile->rect, *enemies[enemyIndex].first->rect))
 		{
-			Fight::attackDistance(player->rect->player, projectile, enemies[enemyIndex].first, notifications);
+			Fight::attackDistance(player->rect->player, projectile, enemies[enemyIndex].first, notifications, items);
 			Delete::setProjectileToDestroy(projectile);
 		}
 	}
@@ -244,6 +246,71 @@ void CollisionHandler::projectilesWithWalls(std::vector<std::unique_ptr<Wrapper>
 		}
 	}
 }
+
+void CollisionHandler::playerWithItems(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Wrapper>> & items, int actionKey)
+{
+	for (auto & item : items)
+	{
+		if (isIntersecting(*item->rect, *player->rect))
+		{
+			int topDistance = abs(item->rect->getBottomEdge() - player->rect->getTopEdge()); 
+			int bottomDistance = abs(item->rect->getTopEdge() - player->rect->getBottomEdge()); 
+			int leftDistance = abs(item->rect->getRightEdge() - player->rect->getLeftEdge()); 
+			int rightDistance = abs(item->rect->getLeftEdge() - player->rect->getRightEdge());
+
+			int sumOfDistances = topDistance + bottomDistance + leftDistance + rightDistance;
+			item->rect->item->setDistanceFromPlayer(sumOfDistances);
+		}
+		else
+		{
+			item->rect->item->setDistanceFromPlayer(10000);
+		}
+	}
+
+	//detecting which item is closer to player
+	int lowestValue = 1000;
+	int indexWithLowestVal = (int)Others::RESET;
+	int itemIndex = 0;
+	for (auto & item : items)
+	{
+		if (item->rect->item->getDistanceFromPlayer() < 1000 && item->rect->item->getDistanceFromPlayer() < lowestValue)
+		{
+			lowestValue = item->rect->item->getDistanceFromPlayer();
+			indexWithLowestVal = itemIndex;
+		}
+		itemIndex++;
+	}
+
+	//cleaning all items from picking 
+	itemIndex = 0;
+	for (auto & item : items)
+	{
+		item->rect->item->setReadyToPick(false);
+		itemIndex++;
+	}
+
+	//set possibility to take the closest one from player
+	if (indexWithLowestVal != (int)Others::RESET)
+	{
+		items[indexWithLowestVal]->rect->item->setReadyToPick(true);
+	}
+
+	if (indexWithLowestVal != (int)Others::RESET)
+	{
+		//if press E pick item 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+		{
+			std::cout << "PRESSED E \n";
+			if (items[indexWithLowestVal]->rect->item->getType() == Item::Type::COIN)
+			{
+				player->rect->player->setCoins(player->rect->player->getCoins() + items[indexWithLowestVal]->rect->item->getAmount());
+				Delete::setItemToDestroy(items[indexWithLowestVal]);
+			}
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void CollisionHandler::setEnemyCollidingWithPlayer(std::vector<bool> & enemiesCollidingWithPlayer, int enemyIndex, bool isColliding)
 {

@@ -13,10 +13,11 @@ class Update
 {
 public:
 	Update() = delete;
-	static void updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction, int action, std::vector<std::unique_ptr<Text>> & notifications, sf::View view);
+	static void updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction, int action, std::vector<std::unique_ptr<Text>> & notifications);
 	static void updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player);
 	static void updateObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	static void updateText(std::vector<std::unique_ptr<Text>> & text, sf::View view);
+	static void updateItems(std::vector<std::unique_ptr<Wrapper>> & items);
+	static void updateText(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Text>> & text);
 	static void updateHUDInfo(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Text>> & texts, sf::Vector2u windowSize);
 	static void updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies);
 };

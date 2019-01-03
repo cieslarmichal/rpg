@@ -13,8 +13,10 @@ public:
 	static void removeEnemies(enemyPair & characters);
 	static void removeText(std::vector < std::unique_ptr<Text>> & texts);
 	static void removeProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles);
-	static void setCharacterDead(std::unique_ptr<Wrapper> & character);
-	static void setProjectileToDestroy(std::unique_ptr<Wrapper> & object);
-	static void setBlockedToDestroy(Blocked & blocked);
+	static void removeItems(std::vector<std::unique_ptr<Wrapper>> & items);
 	static void removeBlocked(std::vector<Blocked> & blockedCharacters);
+	static void setCharacterDead(std::unique_ptr<Wrapper> & character);
+	static void setProjectileToDestroy(std::unique_ptr<Wrapper> & projectile);
+	static void setItemToDestroy(std::unique_ptr<Wrapper> & item);
+	static void setBlockedToDestroy(Blocked & blocked);
 };

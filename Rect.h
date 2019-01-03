@@ -5,6 +5,7 @@
 #include "Dragon.h"
 #include "Obstacle.h"
 #include "Projectile.h"
+#include "Item.h"
 #include <memory>
 
 class Rect
@@ -15,11 +16,13 @@ public:
 	Rect(Dragon &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Obstacle &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Projectile &, int dimX, int dimY, sf::Vector2f position);
+	Rect(Item &, int dimX, int dimY, sf::Vector2f position);
 	Character * character;
 	std::unique_ptr<Player> player = nullptr;
 	std::unique_ptr<Enemy> enemy = nullptr;
 	std::unique_ptr<Obstacle> obstacle = nullptr;
 	std::unique_ptr<Projectile> projectile = nullptr;
+	std::unique_ptr<Item> item = nullptr;
 	void setEdges();
 	void setLeftEdge(int);
 	void setRightEdge(int);

@@ -1,6 +1,6 @@
 #include "Update.h"
 
-void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction, int action, std::vector<std::unique_ptr<Text>> & notifications, sf::View view)
+void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction, int action, std::vector<std::unique_ptr<Text>> & notifications)
 {
 	bool isMoving = Movement::movePlayer(*player->rect, direction);
 	if (isMoving) player->animation->update(player->rect->character->getDirection());
@@ -10,7 +10,7 @@ void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar
 
 	ChangeWeapon::changeWeapon(action, player);
 	std::string levelMessage = LevelManager::update(player->rect->player);
-	Create::createLevelMessage(levelMessage, notifications, view);
+	Create::createLevelMessage(levelMessage, notifications);
 }
 
 void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player)
@@ -33,12 +33,21 @@ void Update::updateObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles)
 	}
 }
 
-void Update::updateText(std::vector<std::unique_ptr<Text>> & texts, sf::View view)
+void Update::updateItems(std::vector<std::unique_ptr<Wrapper>> & items)
+{
+	for (auto & item : items)
+	{
+		item->sprite->setPosition(item->rect->getPosition());
+	}
+}
+
+void Update::updateText(std::unique_ptr<Wrapper> & player,std::vector<std::unique_ptr<Text>> & texts)
 {
 	for (auto & text : texts)
 	{
 		Movement::moveText(*text);
-		text->update(view);
+		sf::Vector2f position = sf::Vector2f(player->rect->getPosition().x - 150, player->rect->getPosition().y - 120);
+		text->update(position);
 	}
 }
 
