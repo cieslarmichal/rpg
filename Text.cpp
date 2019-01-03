@@ -8,7 +8,7 @@ Text::Text(sf::Color col, std::string type, int font)
 }
 
 Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, int font, bool mid)
-	:message(msg), position(pos), color(col), fontSize(font), moving(move), positionMid(mid)
+	: message(msg), position(pos), color(col), fontSize(font), moving(move), positionMid(mid)
 {
 	if (moving)
 	{
@@ -65,22 +65,22 @@ void Text::update(sf::View view)
 	lifeCounter++;
 }
 
-void Text::updateHUD(sf::View view, int value, int valueMax)
+void Text::updateHUD(sf::Vector2f position, int value, int valueMax)
 {
 	if (!set) setup();
 
 	if (HUDtype == "HP")
 	{
-		text.setPosition(view.getCenter().x - 300, view.getCenter().y - 300);
+		text.setPosition(position.x, position.y);
 
 	}
 	else if (HUDtype == "EXP")
 	{
-		text.setPosition(view.getCenter().x - 300, view.getCenter().y - 280);
+		text.setPosition(position.x, position.y + 20);
 	}
 	else if (HUDtype == "COINS")
 	{
-		text.setPosition(view.getCenter().x -300, view.getCenter().y -260);
+		text.setPosition(position.x, position.y + 40);
 	}
 
 	message = (valueMax != -1) ? (HUDtype + " : " + std::to_string(value) + "/" + std::to_string(valueMax)) : (HUDtype + " : " + std::to_string(value));

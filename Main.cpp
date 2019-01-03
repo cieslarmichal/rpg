@@ -5,6 +5,6 @@
 int main()
 {
 	Game game;
-	game.play();
+	game.run();
 	return 0;
 }
