@@ -16,6 +16,11 @@ void Delete::removeProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectil
 	projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(), [](std::unique_ptr<Wrapper> & p) {return p->rect->projectile->isDestroyed(); }), projectiles.end());
 }
 
+void Delete::removeItems(std::vector<std::unique_ptr<Wrapper>> & items)
+{
+	items.erase(std::remove_if(items.begin(), items.end(), [](std::unique_ptr<Wrapper> & it) {return it->rect->item->isCollected(); }), items.end());
+}
+
 void Delete::removeBlocked(std::vector<Blocked> & blockedCharacters)
 {
 	blockedCharacters.erase(std::remove_if(blockedCharacters.begin(), blockedCharacters.end(), [](const Blocked & blocked) {return blocked.isDestroyed(); }), blockedCharacters.end());
@@ -26,9 +31,14 @@ void Delete::setCharacterDead(std::unique_ptr<Wrapper> & character)
 	character->rect->character->setDead(true);
 }
 
-void Delete::setProjectileToDestroy(std::unique_ptr<Wrapper> & object)
+void Delete::setProjectileToDestroy(std::unique_ptr<Wrapper> & projectile)
 {
-	object->rect->projectile->setDestroyed(true);
+	projectile->rect->projectile->setDestroyed(true);
+}
+
+void Delete::setItemToDestroy(std::unique_ptr<Wrapper> & item)
+{
+	item->rect->item->setCollected(true);
 }
 
 void Delete::setBlockedToDestroy(Blocked & blocked)

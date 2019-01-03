@@ -1,7 +1,8 @@
 #include "Fight.h"
 
 
-void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & notifications)
+void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim, 
+	std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items)
 {
 	if (isMeleeAttackPossible(attacker, victim))
 	{
@@ -11,10 +12,12 @@ void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wra
 
 		if (victim->rect->character->getCurrentHp() <= 0)
 		{
-			victim->rect->character->setDead(true);
+			Delete::setCharacterDead(victim);
 			if (victim->rect->enemy != nullptr)
 			{
 				LevelManager::getExperience(attacker->rect->player, victim->rect->enemy);
+				Item item(Item::Type::COIN, 1);
+				Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
 			}
 		}
 
@@ -27,17 +30,23 @@ void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wra
 	}
 }
 
-void Fight::attackDistance(std::unique_ptr<Player> & player, std::unique_ptr<Wrapper> & projectile, std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & notifications)
+void Fight::attackDistance(std::unique_ptr<Player> & player, std::unique_ptr<Wrapper> & projectile,
+	std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items)
 {
 	int damagedHp = victim->rect->character->getCurrentHp() - projectile->rect->projectile->getDamage();
 	victim->rect->character->setCurrentHp(damagedHp);
 
 	if (victim->rect->character->getCurrentHp() <= 0)
 	{
-		victim->rect->character->setDead(true);
+		Delete::setCharacterDead(victim);
 		if (victim->rect->enemy != nullptr)
 		{
 			LevelManager::getExperience(player, victim->rect->enemy);
+			// random process selecting which item
+			////////////////////////////////////////
+			///////////////////////////////////////////
+			Item item(Item::Type::COIN, 1);
+			Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
 		}
 	}
 

@@ -45,6 +45,9 @@ bool Game::run()
 
 	std::vector<std::unique_ptr<Wrapper>> walls;
 	std::vector<std::unique_ptr<Wrapper>> floor;
+
+	std::vector<std::unique_ptr<Wrapper>> items;
+
 	Create::createRoom(40, { 0, 0 }, 3, -10, 2, -10, walls, floor);
 
 	std::string maze1[14] =
@@ -99,35 +102,39 @@ bool Game::run()
 		clearWindow(window);
 		sf::Time elapsed = clock.getElapsedTime();
 
+		int *inputKeys = input.read();
+
+		Mark::markTarget(inputKeys[Input::ACTION], player, enemies, window);
+		Shoot::shootEnemy(player, enemies, projectiles);
+
 		collisionHandler.characterWithObstacles(player, walls);
 		collisionHandler.enemiesWithObstacles(enemies, walls);
 		collisionHandler.enemiesWithEnemies(enemies);
-		collisionHandler.playerWithEnemies(player, enemies, notifications);
+		collisionHandler.playerWithEnemies(player, enemies, notifications, items);
+		collisionHandler.playerWithItems(player, items, inputKeys[Input::ACTION]);
 		collisionHandler.projectilesWithWalls(projectiles, walls);
-		collisionHandler.projectilesWithEnemies(player, projectiles, enemies, notifications);
+		collisionHandler.projectilesWithEnemies(player, projectiles, enemies, notifications, items);
+
+		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications);
+		Update::updateEnemies(enemies, player);
+		Update::updateText(player, notifications);
+		Update::updateHUDInfo(player, HUDinfo, window.getSize());
+		Update::updateObstacles(walls);
+		Update::updateObstacles(floor);
+		Update::updateItems(items);
+		Update::updateProjectiles(projectiles, enemies);
 
 		Delete::removeText(notifications);
 		Delete::removeProjectiles(projectiles);
 		Delete::removeEnemies(enemies);
-
-		int *inputKeys = input.read();
-		Mark::markTarget(inputKeys[Input::ACTION], player, enemies, window);
-
-		Shoot::shootEnemy(player, enemies, projectiles);
-
-		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications, playerView);
-		Update::updateEnemies(enemies, player);
-		Update::updateText(notifications, playerView);
-		Update::updateHUDInfo(player, HUDinfo, window.getSize());
-		Update::updateObstacles(walls);
-		Update::updateObstacles(floor);
-		Update::updateProjectiles(projectiles, enemies);
+		Delete::removeItems(items);
 
 		playerView.setCenter(player->rect->getRect().getPosition());
 		window.setView(playerView);
 
 		draw.drawObstacles(floor);
 		draw.drawObstacles(walls);
+		draw.drawItems(items);
 		draw.drawProjectiles(projectiles);
 		draw.drawEnemies(enemies);
 		draw.drawPlayer(player);

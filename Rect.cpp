@@ -49,6 +49,15 @@ Rect::Rect(Projectile & p, int dx, int dy, sf::Vector2f pos) : dimX(dx), dimY(dy
 	setEdges();
 }
 
+Rect::Rect(Item & it, int dx, int dy, sf::Vector2f pos) : dimX(dx), dimY(dy)
+{
+	item = std::unique_ptr<Item>(new Item(it));
+	rect.setSize(sf::Vector2f((float)dimX, (float)dimY));
+	rect.setFillColor(sf::Color::White);
+	rect.setPosition(pos);
+	setEdges();
+}
+
 //setters
 void Rect::setLeftEdge(int inp)
 {

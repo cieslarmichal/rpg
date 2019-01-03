@@ -7,8 +7,8 @@ Text::Text(sf::Color col, std::string type, int font)
 
 }
 
-Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, int font, bool mid)
-	: message(msg), position(pos), color(col), fontSize(font), moving(move), positionMid(mid)
+Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, int font)
+	: message(msg), position(pos), color(col), fontSize(font), moving(move)
 {
 	if (moving)
 	{
@@ -52,11 +52,14 @@ std::string Text::getHUDtype() const
 	return HUDtype;
 }
 
-void Text::update(sf::View view)
+void Text::update(sf::Vector2f position)
 {
 	if (!set) setup();
 
-	if (positionMid) text.setPosition(view.getCenter().x - 145, view.getCenter().y - 80);
+	if (!moving)
+	{
+		text.setPosition(position);
+	}
 
 	if (lifeCounter >= lifetime)
 	{
@@ -116,7 +119,6 @@ Text & Text::operator=(Text other)
 	lifetime = other.lifetime;
 	lifeCounter = other.lifeCounter;
 	moving = other.moving;
-	positionMid = other.positionMid;
 	return *this;
 }
 

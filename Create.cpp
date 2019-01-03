@@ -27,6 +27,25 @@ void Create::createProjectile(std::unique_ptr<Wrapper>& player, Projectile & pro
 		std::unique_ptr<Sprite>(new Sprite("stuff/projectile.png", 64, 64, dimSprite.x, dimSprite.y)))));
 }
 
+void Create::createItem(Item & item, std::vector<std::unique_ptr<Wrapper>> & items, sf::Vector2f position)
+{
+	switch (item.getType())
+	{
+	case Item::Type::COIN:
+		items.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(item, 16, 16, position)),
+			std::unique_ptr<Sprite>(new Sprite("stuff/coin.png", 16, 16)))));
+		break;
+	case Item::Type::DISTANCE_WEAPON:
+		break;
+	case Item::Type::MELEE_WEAPON:
+		break;
+	case Item::Type::HEALTHPOTION:
+		break;
+	case Item::Type::KEY:
+		break;
+	}
+}
+
 void Create::createSingleWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles)
 {
 	Obstacle obstacle;
@@ -114,13 +133,13 @@ void Create::createMaze(std::string * mazeArray, int rows, sf::Vector2f startPos
 void Create::createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications)
 {
 	std::string msg = std::to_string(message);
-	notifications.push_back(std::unique_ptr<Text>(new Text(msg, { position.x + 12,position.y - 2 }, sf::Color::Red)));
+	notifications.push_back(std::unique_ptr<Text>(new Text(msg, { position.x + 15,position.y - 2 }, sf::Color::Red, true, 18)));
 }
 
-void Create::createLevelMessage(std::string message, std::vector<std::unique_ptr<Text>> & notifications, sf::View view)
+void Create::createLevelMessage(std::string message, std::vector<std::unique_ptr<Text>> & notifications)
 {
 	if (message == "") return;
-	notifications.push_back(std::unique_ptr<Text>(new Text(message, sf::Vector2f(view.getCenter().x - 90, view.getCenter().y + 40), sf::Color::White,false,16,true)));
+	notifications.push_back(std::unique_ptr<Text>(new Text(message, sf::Vector2f(400, 400), sf::Color::White, false, 22)));
 }
 
 void Create::createHUDMessage(std::vector<std::unique_ptr<Text>> & HUDinfo)
