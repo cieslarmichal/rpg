@@ -17,6 +17,6 @@ public:
 	static void updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player);
 	static void updateObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	static void updateText(std::vector<std::unique_ptr<Text>> & text, sf::View view);
-	static void updateHUDInfo(std::unique_ptr<Player> & player, std::vector<std::unique_ptr<Text>> & texts, sf::View view);
+	static void updateHUDInfo(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Text>> & texts, sf::Vector2u windowSize);
 	static void updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies);
 };

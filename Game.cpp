@@ -4,26 +4,22 @@
 
 Game::Game()
 {
+	//przesunac w prawo notifications battle
 	//dodac inventory
 	//loot z potworow
 	//konczyc to bo trzeba tmp robic tez
 }
 
-
-Game::~Game()
+bool Game::run()
 {
-}
-
-bool Game::play()
-{
-	sf::RenderWindow window(sf::VideoMode(1000, 800), "RPG game");
+	sf::RenderWindow window(sf::VideoMode(1280, 800), "RPG game");
 	window.setPosition(sf::Vector2i(10, 50));
 	window.setFramerateLimit(60);
 
-	sf::View view(sf::FloatRect(200, 200, 300, 200));
-	view.setSize(sf::Vector2f(sf::Vector2u(window.getSize())));
-	view.setCenter(sf::Vector2f(view.getSize().x / 2, view.getSize().y / 2));
-	window.setView(view);
+	sf::View playerView(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
+	playerView.setSize(sf::Vector2f(sf::Vector2u(window.getSize())));
+	playerView.setCenter(sf::Vector2f(playerView.getSize().x / 2, playerView.getSize().y / 2));
+	window.setView(playerView);
 
 	Input input;
 	Draw draw(window);
@@ -31,7 +27,7 @@ bool Game::play()
 	PathFinding path;
 
 	StatusBar playerHealthBar;
-	Player characterPlayer("Michal", 100, 20, 10, 20, 0, 4);
+	Player characterPlayer("Michal", 100, 20, 10, 4);
 	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer, { 24 * 40,30 * 40 });
 
 	std::vector <std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemies;
@@ -119,23 +115,25 @@ bool Game::play()
 
 		Shoot::shootEnemy(player, enemies, projectiles);
 
-		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications, view);
+		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications, playerView);
 		Update::updateEnemies(enemies, player);
-		Update::updateText(notifications, view);
-		Update::updateHUDInfo(player->rect->player, HUDinfo, view);
+		Update::updateText(notifications, playerView);
+		Update::updateHUDInfo(player, HUDinfo, window.getSize());
 		Update::updateObstacles(walls);
 		Update::updateObstacles(floor);
 		Update::updateProjectiles(projectiles, enemies);
 
+		playerView.setCenter(player->rect->getRect().getPosition());
+		window.setView(playerView);
 
 		draw.drawObstacles(floor);
 		draw.drawObstacles(walls);
-		draw.drawText(notifications);
-		draw.drawText(HUDinfo);
 		draw.drawProjectiles(projectiles);
-		draw.drawStatusBar(playerHealthBar);
 		draw.drawEnemies(enemies);
 		draw.drawPlayer(player);
+		draw.drawStatusBar(playerHealthBar);
+		draw.drawText(notifications);
+		draw.drawText(HUDinfo);
 
 		if (elapsed.asSeconds() >= 0.5)
 		{
@@ -149,9 +147,6 @@ bool Game::play()
 			player->rect->character->getPathFinding().debugDrawMap(window);
 
 		}
-
-		window.setView(view);
-		view.setCenter(player->rect->getRect().getPosition());
 		window.display();
 	}
 	return true;

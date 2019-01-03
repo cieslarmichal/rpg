@@ -18,7 +18,7 @@ public:
 	bool isDestroyed() const;
 	//etc
 	void update(sf::View view);
-	void updateHUD(sf::View view, int value, int valueMax = -1);
+	void updateHUD(sf::Vector2f position, int value, int valueMax = -1);
 	Text & operator=(Text other); //necassary
 private:
 	std::string message;

@@ -29,8 +29,7 @@ class Game
 {
 public:
 	Game();
-	~Game();
-	bool play();
+	bool run();
 private:
 	void clearWindow(sf::RenderWindow & window);
 };

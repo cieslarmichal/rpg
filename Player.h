@@ -4,7 +4,7 @@
 class Player : public Character
 {
 public:
-	Player(std::string name, int hp, int attackDamage, int attackSpeed, int experience, int coins, float movSpeed);
+	Player(std::string name, int hp, int attackDamage, int attackSpeed, float movSpeed);
 	~Player() {}
 	//setters
 	void levelUp();
@@ -13,7 +13,6 @@ public:
 	void distanceHitsUp();
 	void meleeHitsUp();
 	void setWeapon(bool);
-
 	//getters
 	int getLevel() const;
 	int getDistanceLevel() const;

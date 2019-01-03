@@ -2,8 +2,8 @@
 
 
 
-Player::Player(std::string name, int hp, int attackDamage, int attackSpeed, int experience, int coins, float movementSpeed)
-	: Character(name, hp, attackDamage, attackSpeed, experience, coins, movementSpeed)
+Player::Player(std::string name, int hp, int attackDamage, int attackSpeed, float movementSpeed)
+	: Character(name, hp, attackDamage, attackSpeed, 0, 0, movementSpeed)
 {
 	level = distanceLevel = meleeLevel = 1;
 	distanceHits = meleeHits = 0;

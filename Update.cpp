@@ -42,23 +42,25 @@ void Update::updateText(std::vector<std::unique_ptr<Text>> & texts, sf::View vie
 	}
 }
 
-void Update::updateHUDInfo(std::unique_ptr<Player> & player, std::vector <std::unique_ptr<Text>> & texts, sf::View view)
+void Update::updateHUDInfo(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Text>> & texts, sf::Vector2u windowSize)
 {
 	for (auto & text : texts)
 	{
 		if (text->getHUDtype() == "HP")
 		{
-			text->updateHUD(view, player->getCurrentHp(), player->getMaxHp());
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2, player->rect->getPosition().y - (float)windowSize.y / 2);
+			text->updateHUD(HUDposition, player->rect->player->getCurrentHp(), player->rect->player->getMaxHp());
 		}
 		else if (text->getHUDtype() == "EXP")
 		{
-			text->updateHUD(view, player->getExperience(), LevelManager::getRequireExperience());
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2, player->rect->getPosition().y - (float)windowSize.y / 2 + 20);
+			text->updateHUD(HUDposition, player->rect->player->getExperience(), LevelManager::getRequireExperience());
 		}
 		else if (text->getHUDtype() == "COINS")
 		{
-			text->updateHUD(view, player->getCoins());
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2, player->rect->getPosition().y - (float)windowSize.y / 2 + 40);
+			text->updateHUD(HUDposition, player->rect->player->getCoins());
 		}
-
 	}
 }
 
