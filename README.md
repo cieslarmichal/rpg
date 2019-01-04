@@ -1,1 +1,1 @@
-# RPG
+# RPG using SFML library.
