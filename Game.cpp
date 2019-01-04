@@ -4,9 +4,7 @@
 
 Game::Game()
 {
-	//przesunac w prawo notifications battle
-	//dodac inventory
-	//loot z potworow
+	//pokazywanie itemow z inventory w pod HUDem
 	//konczyc to bo trzeba tmp robic tez
 }
 
@@ -27,7 +25,7 @@ bool Game::run()
 	PathFinding path;
 
 	StatusBar playerHealthBar;
-	Player characterPlayer("Michal", 100, 20, 10, 4);
+	Player characterPlayer("Michal", 100, 200, 3, 4);
 	std::unique_ptr<Wrapper> player = Create::createPlayer(characterPlayer, { 24 * 40,30 * 40 });
 
 	std::vector <std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemies;
@@ -35,6 +33,10 @@ bool Game::run()
 	Dragon characterDragon("Dragon", 1000, 30, 2, 40, 4, 2, 0);
 
 	Create::createSkeleton(characterSkeleton, enemies, { 18 * 40,20 * 40 });
+	Create::createSkeleton(characterSkeleton, enemies, { 19 * 40,14 * 40 });
+	Create::createSkeleton(characterSkeleton, enemies, { 5 * 40,6 * 40 });
+	Create::createSkeleton(characterSkeleton, enemies, { 8 * 40,11 * 40 });
+	Create::createSkeleton(characterSkeleton, enemies, { 2 * 40,2 * 40 });
 	Create::createDragon(characterDragon, enemies, { 20 * 40,18 * 40 });
 
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
@@ -151,7 +153,8 @@ bool Game::run()
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Middle))
 		{
-			player->rect->character->getPathFinding().debugDrawMap(window);
+			std::cout << enemies[1].first->rect->character->getNextMove().x << ", " << enemies[1].first->rect->character->getNextMove().y << std::endl;
+			enemies[1].first->rect->character->getPathFinding().debugDrawMap(window);
 
 		}
 		window.display();

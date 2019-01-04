@@ -1,12 +1,6 @@
 #include "CollisionHandler.h"
 
 
-
-CollisionHandler::CollisionHandler()
-{
-}
-
-
 bool CollisionHandler::isIntersecting(Rect & rect1, Rect & rect2) const
 {
 	return rect1.getRect().getGlobalBounds().intersects(rect2.getRect().getGlobalBounds());
@@ -295,15 +289,19 @@ void CollisionHandler::playerWithItems(std::unique_ptr<Wrapper> & player, std::v
 		items[indexWithLowestVal]->rect->item->setReadyToPick(true);
 	}
 
+	//collecting items
 	if (indexWithLowestVal != (int)Others::RESET)
 	{
-		//if press E pick item 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
-			std::cout << "PRESSED E \n";
 			if (items[indexWithLowestVal]->rect->item->getType() == Item::Type::COIN)
 			{
-				player->rect->player->setCoins(player->rect->player->getCoins() + items[indexWithLowestVal]->rect->item->getAmount());
+				player->rect->player->setCoins(player->rect->player->getCoins() + items[indexWithLowestVal]->rect->item->getSellValue());
+				Delete::setItemToDestroy(items[indexWithLowestVal]);
+			}
+			else
+			{
+				player->rect->player->getInventory().addItem(*items[indexWithLowestVal]->rect->item);
 				Delete::setItemToDestroy(items[indexWithLowestVal]);
 			}
 		}

@@ -29,21 +29,8 @@ void Create::createProjectile(std::unique_ptr<Wrapper>& player, Projectile & pro
 
 void Create::createItem(Item & item, std::vector<std::unique_ptr<Wrapper>> & items, sf::Vector2f position)
 {
-	switch (item.getType())
-	{
-	case Item::Type::COIN:
-		items.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(item, 16, 16, position)),
-			std::unique_ptr<Sprite>(new Sprite("stuff/coin.png", 16, 16)))));
-		break;
-	case Item::Type::DISTANCE_WEAPON:
-		break;
-	case Item::Type::MELEE_WEAPON:
-		break;
-	case Item::Type::HEALTHPOTION:
-		break;
-	case Item::Type::KEY:
-		break;
-	}
+	items.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(item, 16, 16, position)),
+		std::unique_ptr<Sprite>(new Sprite(item.getPathName(), 16, 16)))));
 }
 
 void Create::createSingleWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles)

@@ -65,6 +65,6 @@ private:
 	int walkCounter;
 	PathFinding pathfinding;
 	sf::Vector2i nextMove;
-	sf::Vector2i targetPosition{ -1,-1 };
+	sf::Vector2i targetPosition;
 	bool fighting, marked, dead;
 };

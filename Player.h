@@ -1,5 +1,6 @@
 #pragma once
 #include "Character.h"
+#include "Inventory.h"
 
 class Player : public Character
 {
@@ -8,8 +9,8 @@ public:
 	~Player() {}
 	//setters
 	void levelUp();
-	void distanceLevelUp();
-	void meleeLevelUp();
+	void distanceSkillUp();
+	void meleeSkillUp();
 	void distanceHitsUp();
 	void meleeHitsUp();
 	void setWeapon(bool);
@@ -20,10 +21,11 @@ public:
 	bool getWeapon() const;
 	int getDistanceHits() const;
 	int getMeleeHits() const;
+	Inventory & getInventory();
 private:
-	bool weapon = (int)Weapons::MELEE;
 	int level;
-	int distanceLevel, meleeLevel;
+	Inventory inventory;
+	bool weapon = (int)Weapons::MELEE;
+	int distanceSkill, meleeSkill;
 	int distanceHits, meleeHits;
-	//std::vector<item> inventory;
 };
