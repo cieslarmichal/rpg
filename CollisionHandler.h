@@ -14,7 +14,6 @@ typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 class CollisionHandler
 {
 public:
-	CollisionHandler();
 	bool isIntersecting(Rect & rectangle1, Rect & rectangle2) const;
 	void characterWithObstacles(std::unique_ptr<Wrapper> & character, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	void enemiesWithObstacles(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & obstacles);
@@ -25,6 +24,10 @@ public:
 		enemyPair & enemies, std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items);
 	void projectilesWithWalls(std::vector<std::unique_ptr<Wrapper>> & projectiles, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	void playerWithItems(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Wrapper>> & items, int actionKey);
+private:
+	enum { TOP = 0, BOT = 1, LEFT = 2, RIGHT = 3 };
+	std::vector<Blocked> blockedCharacters;
+	std::vector<Blocked> blockedEnemies;
 private:
 	void setEnemyCollidingWithPlayer(std::vector<bool> & enemiesCollidingWithPlayer, int enemyIndex, bool isColliding);
 	bool possibleToAddBlockedCharacter(int characterIndex, int direction);
@@ -39,7 +42,4 @@ private:
 	bool botDistanceShortest(int * distances);
 	bool leftDistanceShortest(int * distances);
 	bool rightDistanceShortest(int * distances);
-	enum { TOP = 0, BOT = 1, LEFT = 2, RIGHT = 3 };
-	std::vector<Blocked> blockedCharacters;
-	std::vector<Blocked> blockedEnemies;
 };

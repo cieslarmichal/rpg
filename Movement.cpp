@@ -92,7 +92,7 @@ bool Movement::moveEnemy(Rect & enemy, Rect & player)
 	}
 	else if (!enemy.character->isFighting())
 	{
-		if (enemyTimer.getElapsedSeconds() >= 1.5 || enemy.character->getNextMove() == sf::Vector2i(enemy.getPosition()))
+		if (enemyTimer.getElapsedSeconds() >= 1 || enemy.character->getNextMove() == sf::Vector2i(enemy.getPosition()))
 		{
 			enemyTimer.reset();
 			enemy.character->getPathFinding().initializeStartEnd(enemy.getPosition(), player.getPosition());

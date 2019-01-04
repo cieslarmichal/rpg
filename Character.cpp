@@ -7,6 +7,8 @@ Character::Character(std::string n, int hpp, int ad, int as, int exp, int c, flo
 	walkCounter = 0;
 	canMoveUp = canMoveDown = canMoveLeft = canMoveRight = true;
 	fighting = marked = dead = false;
+	nextMove = { (int)Others::RESET, (int)Others::RESET };
+	targetPosition = { (int)Others::RESET, (int)Others::RESET };
 }
 
 //setters

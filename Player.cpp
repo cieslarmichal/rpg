@@ -5,7 +5,7 @@
 Player::Player(std::string name, int hp, int attackDamage, int attackSpeed, float movementSpeed)
 	: Character(name, hp, attackDamage, attackSpeed, 0, 0, movementSpeed)
 {
-	level = distanceLevel = meleeLevel = 1;
+	level = distanceSkill = meleeSkill = 1;
 	distanceHits = meleeHits = 0;
 	setMarked(true);
 }
@@ -17,14 +17,14 @@ void Player::levelUp()
 	level++;
 }
 
-void Player::distanceLevelUp()
+void Player::distanceSkillUp()
 {
-	distanceLevel++;
+	distanceSkill++;
 }
 
-void Player::meleeLevelUp()
+void Player::meleeSkillUp()
 {
-	meleeLevel++;
+	meleeSkill++;
 }
 
 
@@ -52,12 +52,12 @@ int Player::getLevel() const
 
 int Player::getDistanceLevel() const
 {
-	return distanceLevel;
+	return distanceSkill;
 }
 
 int Player::getMeleeLevel() const
 {
-	return meleeLevel;
+	return meleeSkill;
 }
 
 
@@ -74,4 +74,9 @@ int Player::getMeleeHits() const
 bool Player::getWeapon() const
 {
 	return weapon;
+}
+
+Inventory & Player::getInventory()
+{
+	return inventory;
 }
