@@ -1,6 +1,7 @@
 #include "Movement.h"
 
 TimeHandler Movement::enemyTimer;
+TimeHandler Movement::playerTimer;
 
 bool Movement::move(Rect & rect, int direction)
 {
