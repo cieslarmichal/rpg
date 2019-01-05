@@ -33,7 +33,7 @@ void Create::createItem(Item & item, std::vector<std::unique_ptr<Wrapper>> & ite
 		std::unique_ptr<Sprite>(new Sprite(item.getPathName(), 16, 16)))));
 }
 
-void Create::createSingleWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles)
+void Create::createWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles)
 {
 	Obstacle obstacle;
 	obstacles.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
@@ -47,74 +47,77 @@ void Create::createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrap
 		std::unique_ptr<Sprite>(new Sprite("stuff/floor.png", 40, 40)))));
 }
 
-void Create::createWall(sf::Vector2f startPosition, sf::Vector2f endPosition, std::vector<std::unique_ptr<Wrapper>> & walls)
-{
-	if (startPosition.x != endPosition.x && startPosition.y != endPosition.y) return;
 
-	if (startPosition.x > endPosition.x && startPosition.y)
-	{
-		for (int wallIndex = (int)endPosition.x; wallIndex <= (int)startPosition.x; wallIndex++)
-		{
-			createSingleWall({ (float)(wallIndex * 40),(float)(endPosition.y * 40) }, walls);
-		}
-	}
-	else if (startPosition.x < endPosition.x)
-	{
-		for (int wallIndex = (int)startPosition.x; wallIndex <= (int)endPosition.x; wallIndex++)
-		{
-			createSingleWall({ (float)(wallIndex * 40),(float)(endPosition.y * 40) }, walls);
-		}
-	}
-	else if (startPosition.y > endPosition.y)
-	{
-		for (int wallIndex = (int)endPosition.y; wallIndex <= (int)startPosition.y; wallIndex++)
-		{
-			createSingleWall({ (float)(startPosition.x * 40),(float)(wallIndex * 40) }, walls);
-		}
-	}
-	else if (startPosition.y < endPosition.y)
-	{
-		for (int wallIndex = (int)startPosition.y; wallIndex <= (int)endPosition.y; wallIndex++)
-		{
-			createSingleWall({ (float)(startPosition.x * 40),(float)(wallIndex * 40) }, walls);
-		}
-	}
-}
-
-void Create::createRoom(int roomSize, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
+void Create::createRoomWithFloor(int roomSizeX,int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
 	std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor)
 {
-	for (int vertical = 0; vertical <= roomSize; vertical++)
+	for (int vertical = 0; vertical <= roomSizeY; vertical++)
 	{
-		for (int horizontal = 0; horizontal <= roomSize; horizontal++)
+		for (int horizontal = 0; horizontal <= roomSizeX; horizontal++)
 		{
-			if ((!((horizontal == doorLocDown) && vertical == roomSize)) && (!((horizontal == doorLocTop) && vertical == 0)) &&
-				(!((vertical == doorLocRight) && horizontal == roomSize)) && (!((vertical == doorLocLeft) && horizontal == 0)) &&
-				(horizontal == 0 || horizontal == roomSize || vertical == 0 || vertical == roomSize))
+			if ((!((horizontal == doorLocDown) && vertical == roomSizeY)) && (!((horizontal == doorLocTop) && vertical == 0)) &&
+				(!((vertical == doorLocRight) && horizontal == roomSizeX)) && (!((vertical == doorLocLeft) && horizontal == 0)) &&
+				(horizontal == 0 || horizontal == roomSizeX || vertical == 0 || vertical == roomSizeY))
 			{
-				createSingleWall({ (float)(40 * horizontal + position.x * 40),(float)(40 * vertical + position.y * 40) }, walls);
+				createWall({ (float)(40 * horizontal + position.x * 40),(float)(40 * vertical + position.y * 40) }, walls);
 			}
 			else
 			{
 				createFloor({ (float)(40 * horizontal + position.x * 40),(float)(40 * vertical + position.y * 40) }, floor);
 			}
 		}
-
 	}
 }
 
-void Create::createMaze(std::string * mazeArray, int rows, sf::Vector2f startPosition, std::vector<std::unique_ptr<Wrapper>> & walls)
+void Create::createRoomWithoutFloor(int roomSizeX, int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown, std::vector<std::unique_ptr<Wrapper>>& walls)
 {
-	for (int y = 0; y < rows; y++)
+	for (int vertical = 0; vertical <= roomSizeY; vertical++)
 	{
-		for (int x = 0; (size_t)x < mazeArray[y].size(); x++)
+		for (int horizontal = 0; horizontal <= roomSizeX; horizontal++)
 		{
-			if (mazeArray[y][x] == '#')
+			if ((!((horizontal == doorLocDown) && vertical == roomSizeY)) && (!((horizontal == doorLocTop) && vertical == 0)) &&
+				(!((vertical == doorLocRight) && horizontal == roomSizeX)) && (!((vertical == doorLocLeft) && horizontal == 0)) &&
+				(horizontal == 0 || horizontal == roomSizeX || vertical == 0 || vertical == roomSizeY))
 			{
-				createSingleWall({ (float)(startPosition.x * 40 + x * 40),(float)(startPosition.y * 40 + y * 40) }, walls);
+				createWall({ (float)(40 * horizontal + position.x * 40),(float)(40 * vertical + position.y * 40) }, walls);
 			}
 		}
 	}
+}
+
+void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor)
+{
+	std::fstream file(pathFile.c_str(), std::ios::in);
+
+	if (!file.is_open()) throw "cant open txt file";
+
+	std::string line = "";
+	int y = -1;
+	while (file.good() && std::getline(file, line))
+	{
+		//ignoring first line
+		if (y == -1)
+		{
+			y++;
+			continue;
+		}
+
+		for (int x = 0; (size_t)x < line.size(); x++)
+		{
+			std::cout << line[x] << " \n";
+			if (line[x] == '#')
+			{
+				createWall({ (float)(x * 40),(float)( y * 40) }, walls);
+			}
+			else if (line[x] == '-')
+			{
+				createFloor({ (float)(x * 40),(float)(y *40) }, floor);
+			}
+		}
+		y++;
+		std::cout <<" y\n";
+	}
+	file.close();
 }
 
 void Create::createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications)
