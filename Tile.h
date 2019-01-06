@@ -11,4 +11,3 @@ public:
 	bool enemy = false;
 	bool isEnemy();
 };
-
