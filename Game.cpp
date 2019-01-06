@@ -4,7 +4,7 @@
 
 Game::Game()
 {
-	//movement dt i kolizje moze z innymi predkosciami
+	//przy wchodzeniu w tunel wiesza gre
 	//pokazywanie itemow z inventory w pod HUDem
 	//konczyc to bo trzeba tmp robic tez
 }
