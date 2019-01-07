@@ -299,10 +299,12 @@ void CollisionHandler::playerWithItems(std::unique_ptr<Wrapper> & player, std::v
 				player->rect->player->setCoins(player->rect->player->getCoins() + items[indexWithLowestVal]->rect->item->getSellValue());
 				Delete::setItemToDestroy(items[indexWithLowestVal]);
 			}
-			else
+			else 
 			{
-				player->rect->player->getInventory().addItem(*items[indexWithLowestVal]->rect->item);
-				Delete::setItemToDestroy(items[indexWithLowestVal]);
+				if (player->rect->player->getInventory().addItem(*items[indexWithLowestVal]->rect->item))
+				{
+					Delete::setItemToDestroy(items[indexWithLowestVal]);
+				}
 			}
 		}
 	}

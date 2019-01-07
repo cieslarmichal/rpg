@@ -33,4 +33,5 @@ public:
 	static void createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
 	static void createLevelMessage(std::string message, std::vector<std::unique_ptr<Text>> & notifications);
 	static void createHUDMessage(std::vector<std::unique_ptr<Text>> & HUDinfo);
+	static void createHUDSlots(std::vector<std::unique_ptr<Rect>> & HUDInventorySlots);
 };

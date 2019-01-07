@@ -80,3 +80,20 @@ Inventory & Player::getInventory()
 {
 	return inventory;
 }
+
+void Player::useItem(int actionKey)
+{
+	if (actionKey == (int)InputKeys::Q && useItemTimer.getElapsedSeconds() > (float)1)
+	{
+		if (inventory.isItemAvailable(inventory.getMarkedItemIndex()))
+		{
+			useItemTimer.reset();
+			Item tempItem = inventory.getMarkedItem();
+			//item effects handling
+			if (tempItem.getType() == Item::Type::HEALTH_POTION)
+			{
+				setCurrentHp(getCurrentHp() + tempItem.getAmountRestoringHp());
+			}
+		}
+	}
+}

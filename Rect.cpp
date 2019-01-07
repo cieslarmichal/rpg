@@ -53,9 +53,20 @@ Rect::Rect(Item & it, int dx, int dy, sf::Vector2f pos) : dimX(dx), dimY(dy)
 {
 	item = std::unique_ptr<Item>(new Item(it));
 	rect.setSize(sf::Vector2f((float)dimX, (float)dimY));
-	rect.setFillColor(sf::Color::White);
+	rect.setFillColor(sf::Color(181, 155, 124, 255));
 	rect.setPosition(pos);
+	rect.setOutlineColor(sf::Color::Black);
+	rect.setOutlineThickness(1);
 	setEdges();
+}
+
+Rect::Rect(int dx, int dy, sf::Vector2f pos) : dimX(dx), dimY(dy)
+{
+	rect.setSize(sf::Vector2f((float)dimX, (float)dimY));
+	rect.setFillColor(sf::Color(181, 155, 124, 255));
+	rect.setPosition(pos);
+	rect.setOutlineColor(sf::Color::Black);
+	rect.setOutlineThickness(1);
 }
 
 //setters

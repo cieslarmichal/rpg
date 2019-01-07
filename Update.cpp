@@ -8,6 +8,8 @@ void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar
 	statBar.updateStatusBar(player);
 	player->rect->setEdges();
 
+	player->rect->player->getInventory().update(action);
+	player->rect->player->useItem(action);
 	ChangeWeapon::changeWeapon(action, player);
 	std::string levelMessage = LevelManager::update(player->rect->player);
 	Create::createLevelMessage(levelMessage, notifications);
@@ -41,13 +43,30 @@ void Update::updateItems(std::vector<std::unique_ptr<Wrapper>> & items)
 	}
 }
 
-void Update::updateText(std::unique_ptr<Wrapper> & player,std::vector<std::unique_ptr<Text>> & texts)
+void Update::updateText(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Text>> & texts)
 {
 	for (auto & text : texts)
 	{
 		Movement::moveText(*text);
 		sf::Vector2f position = sf::Vector2f(player->rect->getPosition().x - 150, player->rect->getPosition().y - 120);
 		text->update(position);
+	}
+}
+
+void Update::updateHUD(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Text>> & texts,
+	std::vector<std::unique_ptr<Wrapper>> & HUDInventory, std::vector<std::unique_ptr<Rect>> & HUDInventorySlots, sf::Vector2u windowSize)
+{
+	updateHUDInfo(player, texts, windowSize);
+	updateHUDSlots(player, HUDInventorySlots, windowSize);
+	updateHUDItems(player, HUDInventory, windowSize);
+}
+
+void Update::updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies)
+{
+	for (auto & projectile : projectiles)
+	{
+		Movement::moveProjectile(*projectile->rect, enemies);
+		projectile->sprite->setPosition((int)projectile->rect->getPosition().x - 10, (int)projectile->rect->getPosition().y - 15);
 	}
 }
 
@@ -73,11 +92,108 @@ void Update::updateHUDInfo(std::unique_ptr<Wrapper> & player, std::vector <std::
 	}
 }
 
-void Update::updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies)
+void Update::updateHUDSlots(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Rect>> & HUDInventorySlots, sf::Vector2u windowSize)
 {
-	for (auto & projectile : projectiles)
+	int slotCounter = 0;
+	int offX = 0, offY = 0;
+	for (auto & slot : HUDInventorySlots)
 	{
-		Movement::moveProjectile(*projectile->rect, enemies);
-		projectile->sprite->setPosition((int)projectile->rect->getPosition().x - 10, (int)projectile->rect->getPosition().y - 15);
+		sf::Vector2f HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + offX * 16 + 5,
+			player->rect->getPosition().y - (float)windowSize.y / 2 + 200 + offY * 16);
+		slot->getRect().setPosition(HUDInventoryPosition);
+		offX++;
+		if (offX == 4)
+		{
+			offX = 0;
+			offY++;
+		}
+
+		slotCounter++;
+		if (slotCounter == 8) break;
+	}
+
+	//helmet
+	sf::Vector2f HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 30,
+		player->rect->getPosition().y - (float)windowSize.y / 2 + 120);
+	HUDInventorySlots[8]->getRect().setPosition(HUDInventoryPosition);
+
+	//necklace
+	HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 10,
+		player->rect->getPosition().y - (float)windowSize.y / 2 + 120);
+	HUDInventorySlots[9]->getRect().setPosition(HUDInventoryPosition);
+
+	//armor
+	HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 30,
+		player->rect->getPosition().y - (float)windowSize.y / 2 + 140);
+	HUDInventorySlots[10]->getRect().setPosition(HUDInventoryPosition);
+
+	//shield
+	HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 50,
+		player->rect->getPosition().y - (float)windowSize.y / 2 + 140);
+	HUDInventorySlots[11]->getRect().setPosition(HUDInventoryPosition);
+
+	//weapon
+	HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 10,
+		player->rect->getPosition().y - (float)windowSize.y / 2 + 140);
+	HUDInventorySlots[12]->getRect().setPosition(HUDInventoryPosition);
+
+	//boots
+	HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 30,
+		player->rect->getPosition().y - (float)windowSize.y / 2 + 160);
+	HUDInventorySlots[13]->getRect().setPosition(HUDInventoryPosition);
+
+	//ring
+	HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 10,
+		player->rect->getPosition().y - (float)windowSize.y / 2 + 160);
+	HUDInventorySlots[14]->getRect().setPosition(HUDInventoryPosition);
+
+
+}
+
+void Update::updateHUDItems(std::unique_ptr<Wrapper>& player, std::vector<std::unique_ptr<Wrapper>>& HUDInventory, sf::Vector2u windowSize)
+{
+	if (player->rect->player->getInventory().getAmountOfItems() != (int)HUDInventory.size())
+	{
+		HUDInventory.clear();
+		int offX = 0, offY = 0;
+		for (auto & item : player->rect->player->getInventory().getItems())
+		{
+			sf::Vector2f HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + offX * 16 + 5,
+				player->rect->getPosition().y - (float)windowSize.y / 2 + 200 + offY * 16);
+			Create::createItem(item, HUDInventory, HUDInventoryPosition);
+			offX++;
+			if (offX == 4)
+			{
+				offX = 0;
+				offY++;
+			}
+		}
+	}
+	else
+	{
+		int offX = 0, offY = 0, itemIndex = 0;
+		for (auto & item : HUDInventory)
+		{
+			if (itemIndex == player->rect->player->getInventory().getMarkedItemIndex())
+			{
+				item->rect->getRect().setFillColor(sf::Color::Red);
+			}
+			else
+			{
+				item->rect->getRect().setFillColor(sf::Color(181, 155, 124, 255));
+			}
+			sf::Vector2f HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + offX * 16 + 5,
+				player->rect->getPosition().y - (float)windowSize.y / 2 + 200 + offY * 16);
+			item->rect->getRect().setPosition(HUDInventoryPosition);
+			item->sprite->setPosition(HUDInventoryPosition);
+			offX++;
+			if (offX == 4)
+			{
+				offX = 0;
+				offY++;
+			}
+			itemIndex++;
+		}
 	}
 }
+

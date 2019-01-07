@@ -1,10 +1,7 @@
 #include "Map.h"
 
+std::vector<std::unique_ptr<Tile>> Map::tiles;
 
-
-Map::Map()
-{
-}
 
 void Map::readTiles(std::vector<std::unique_ptr<Wrapper>> & walls)
 {

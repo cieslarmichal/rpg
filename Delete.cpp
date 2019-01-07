@@ -21,6 +21,20 @@ void Delete::removeItems(std::vector<std::unique_ptr<Wrapper>> & items)
 	items.erase(std::remove_if(items.begin(), items.end(), [](std::unique_ptr<Wrapper> & it) {return it->rect->item->isCollected(); }), items.end());
 }
 
+void Delete::removeAndAddItems(std::vector<Item> & inventoryItems, std::vector<std::unique_ptr<Wrapper>>& globalItems, sf::Vector2f playerPosition)
+{
+	for (auto & inventoryItem : inventoryItems)
+	{
+		if (inventoryItem.isCollected())
+		{
+			inventoryItem.setCollected(false);
+			Create::createItem(inventoryItem, globalItems, playerPosition);
+			inventoryItem.setCollected(true);
+		}
+	}
+	inventoryItems.erase(std::remove_if(inventoryItems.begin(), inventoryItems.end(), [](auto & item) {return item.isCollected(); }), inventoryItems.end());
+}
+
 void Delete::removeBlocked(std::vector<Blocked> & blockedCharacters)
 {
 	blockedCharacters.erase(std::remove_if(blockedCharacters.begin(), blockedCharacters.end(), [](const Blocked & blocked) {return blocked.isDestroyed(); }), blockedCharacters.end());
