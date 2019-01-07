@@ -42,6 +42,20 @@ void Draw::drawItems(std::vector<std::unique_ptr<Wrapper>> & items)
 	drawObstacles(items);
 }
 
+void Draw::drawHUDItems(std::vector<std::unique_ptr<Wrapper>>& HUDItems)
+{
+	drawRects(HUDItems);
+	drawObstacles(HUDItems);
+}
+
+void Draw::drawHUDSlots(std::vector<std::unique_ptr<Rect>>& HUDInventorySlots)
+{
+	for (auto & slot : HUDInventorySlots)
+	{
+		window.draw(slot->getRect());
+	}
+}
+
 void Draw::drawText(std::vector<std::unique_ptr<Text>> & texts)
 {
 	for (std::unique_ptr<Text> & text : texts)

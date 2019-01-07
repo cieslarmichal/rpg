@@ -35,7 +35,7 @@ private:
 	int id, type, whichInOrder;
 	int damage, armor, amountRestoringHp, sellValue;
 	bool opensDoor;
-	bool collected, readyToPick;
+	bool collected, readyToPick, equipped;
 	int distanceFromPlayer;
 	std::string pathName;
 private:

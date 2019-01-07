@@ -6,9 +6,9 @@
 class Map
 {
 public:
-	Map();
-	void readTiles(std::vector<std::unique_ptr<Wrapper>> & walls);
-	void updateTiles(std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> & enemies);
-	std::vector<std::unique_ptr<Tile>> tiles;
+	Map() = delete;
+	static void readTiles(std::vector<std::unique_ptr<Wrapper>> & walls);
+	static void updateTiles(std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> & enemies);
+	static std::vector<std::unique_ptr<Tile>> tiles;
 };
 

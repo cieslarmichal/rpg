@@ -4,6 +4,7 @@
 
 Game::Game()
 {
+	//equipped w Item i dalej trzeba oznaczac w Player.cpp jesli Q to oznacza equipped i cos dalej
 	//przy wchodzeniu w tunel wiesza gre
 	//pokazywanie itemow z inventory w pod HUDem
 	//konczyc to bo trzeba tmp robic tez
@@ -51,7 +52,7 @@ void Game::gameLoop()
 		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications);
 		Update::updateEnemies(enemies, player);
 		Update::updateText(player, notifications);
-		Update::updateHUDInfo(player, HUDinfo, window->getSize());
+		Update::updateHUD(player, HUDInfo, HUDInventory,HUDInventorySlots, window->getSize());
 		Update::updateObstacles(walls);
 		Update::updateObstacles(floor);
 		Update::updateItems(items);
@@ -69,6 +70,7 @@ void Game::gameLoop()
 		Delete::removeProjectiles(projectiles);
 		Delete::removeEnemies(enemies);
 		Delete::removeItems(items);
+		Delete::removeAndAddItems(player->rect->player->getInventory().getItems(), items, player->rect->getPosition());
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Middle))
 		{
@@ -111,7 +113,8 @@ void Game::createCharacters()
 	Create::createSkeleton(*characterSkeleton, enemies, { 2 * 40,2 * 40 });
 	Create::createDragon(*characterDragon, enemies, { 20 * 40,18 * 40 });
 
-	Create::createHUDMessage(HUDinfo);
+	Create::createHUDMessage(HUDInfo);
+	Create::createHUDSlots(HUDInventorySlots);
 }
 
 void Game::createWorld()
@@ -132,14 +135,14 @@ void Game::createWorld()
 
 void Game::initializePathFindingMap()
 {
-	map.readTiles(walls);
-	pathfinding.initializeLogicMap(map.tiles);
+	Map::readTiles(walls);
+	pathfinding.initializeLogicMap(Map::tiles);
 }
 
 void Game::updatePathFindingMap()
 {
-	map.updateTiles(enemies);
-	pathfinding.updateLogicMap(map.tiles);
+	Map::updateTiles(enemies);
+	pathfinding.updateLogicMap(Map::tiles);
 }
 
 void Game::updatePlayerView()
@@ -158,7 +161,9 @@ void Game::drawWindow()
 	draw->drawPlayer(player);
 	draw->drawStatusBar(playerHealthBar);
 	draw->drawText(notifications);
-	draw->drawText(HUDinfo);
+	draw->drawText(HUDInfo);
+	draw->drawHUDSlots(HUDInventorySlots);
+	draw->drawHUDItems(HUDInventory);
 	window->display();
 }
 

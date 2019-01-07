@@ -17,6 +17,7 @@ public:
 	Rect(Obstacle &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Projectile &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Item &, int dimX, int dimY, sf::Vector2f position);
+	Rect(int dimX, int dimY, sf::Vector2f position);
 	Character * character;
 	std::unique_ptr<Player> player = nullptr;
 	std::unique_ptr<Enemy> enemy = nullptr;

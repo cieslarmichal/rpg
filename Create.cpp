@@ -104,7 +104,6 @@ void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_pt
 
 		for (int x = 0; (size_t)x < line.size(); x++)
 		{
-			std::cout << line[x] << " \n";
 			if (line[x] == '#')
 			{
 				createWall({ (float)(x * 40),(float)( y * 40) }, walls);
@@ -115,7 +114,6 @@ void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_pt
 			}
 		}
 		y++;
-		std::cout <<" y\n";
 	}
 	file.close();
 }
@@ -137,4 +135,14 @@ void Create::createHUDMessage(std::vector<std::unique_ptr<Text>> & HUDinfo)
 	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Red, "HP", 20)));
 	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Yellow, "COINS", 20)));
 	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Magenta, "EXP", 20)));
+}
+
+void Create::createHUDSlots(std::vector<std::unique_ptr<Rect>>& HUDInventorySlots)
+{
+	//helmet armor etc ...
+
+	for (int i = 0; i < 15; i++)
+	{
+		HUDInventorySlots.push_back(std::unique_ptr<Rect>(new Rect(16, 16, { -1,-1 })));
+	}
 }

@@ -6,6 +6,7 @@
 #include "ChangeWeapon.h"
 #include "LevelManager.h"
 #include "Create.h"
+#include "Inventory.h"
 
 typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 
@@ -18,6 +19,11 @@ public:
 	static void updateObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	static void updateItems(std::vector<std::unique_ptr<Wrapper>> & items);
 	static void updateText(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Text>> & text);
-	static void updateHUDInfo(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Text>> & texts, sf::Vector2u windowSize);
+	static void updateHUD(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Text>> & HUDInfo, std::vector<std::unique_ptr<Wrapper>> & HUDInventory,
+		std::vector<std::unique_ptr<Rect>> & HUDInventorySlots, sf::Vector2u windowSize);
 	static void updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies);
+private:
+	static void updateHUDInfo(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Text>> & texts, sf::Vector2u windowSize);
+	static void updateHUDSlots(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Rect>> & HUDInventorySlots, sf::Vector2u windowSize);
+	static void updateHUDItems(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & HUDInventory, sf::Vector2u windowSize);
 };

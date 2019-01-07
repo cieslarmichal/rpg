@@ -22,10 +22,12 @@ public:
 	int getDistanceHits() const;
 	int getMeleeHits() const;
 	Inventory & getInventory();
+	void useItem(int actionKey);
 private:
 	int level;
 	Inventory inventory;
 	bool weapon = (int)Weapons::MELEE;
 	int distanceSkill, meleeSkill;
 	int distanceHits, meleeHits;
+	TimeHandler useItemTimer;
 };
