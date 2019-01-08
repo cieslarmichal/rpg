@@ -8,12 +8,13 @@ void ItemFactory::makeItem(Item & item)
 
 	for (auto line : lines)
 	{
+		std::string keyWords[5] = { "ID","DMG","ARM","HP","SELL" };
 		std::size_t keyWordsPositions[5];
-		keyWordsPositions[KeyWords::ID] = line.find("ID");
-		keyWordsPositions[KeyWords::DMG] = line.find("DMG");
-		keyWordsPositions[KeyWords::ARM] = line.find("ARM");
-		keyWordsPositions[KeyWords::HP] = line.find("HP");
-		keyWordsPositions[KeyWords::SELL] = line.find("SELL");
+		keyWordsPositions[KeyWord::ID] = line.find(keyWords[KeyWord::ID]);
+		keyWordsPositions[KeyWord::DMG] = line.find(keyWords[KeyWord::DMG]);
+		keyWordsPositions[KeyWord::ARM] = line.find(keyWords[KeyWord::ARM]);
+		keyWordsPositions[KeyWord::HP] = line.find(keyWords[KeyWord::HP]);
+		keyWordsPositions[KeyWord::SELL] = line.find(keyWords[KeyWord::SELL]);
 
 		try
 		{
@@ -25,7 +26,7 @@ void ItemFactory::makeItem(Item & item)
 			break;
 		}
 
-		int correctItemID = stringToInt(line, keyWordsPositions[KeyWords::ID] + 2, keyWordsPositions[KeyWords::DMG]);
+		int correctItemID = stringToInt(line, keyWordsPositions[KeyWord::ID] + keyWords[KeyWord::ID].size(), keyWordsPositions[KeyWord::DMG]);
 		if (correctItemID != item.getId()) continue;
 
 		foundItem = true;
@@ -43,10 +44,10 @@ void ItemFactory::makeItem(Item & item)
 			break;
 		}
 
-		item.setDamage(stringToInt(line, keyWordsPositions[KeyWords::DMG] + 3, keyWordsPositions[KeyWords::ARM]));
-		item.setArmor(stringToInt(line, keyWordsPositions[KeyWords::ARM] + 3, keyWordsPositions[KeyWords::HP]));
-		item.setRestoringHp(stringToInt(line, keyWordsPositions[KeyWords::HP] + 2, keyWordsPositions[KeyWords::SELL]));
-		item.setSellValue(stringToInt(line.begin() + keyWordsPositions[KeyWords::SELL] + 4, line.end()));
+		item.setDamage(stringToInt(line, keyWordsPositions[KeyWord::DMG] + keyWords[KeyWord::DMG].size(), keyWordsPositions[KeyWord::ARM]));
+		item.setArmor(stringToInt(line, keyWordsPositions[KeyWord::ARM] + keyWords[KeyWord::ARM].size(), keyWordsPositions[KeyWord::HP]));
+		item.setRestoringHp(stringToInt(line, keyWordsPositions[KeyWord::HP] + keyWords[KeyWord::HP].size(), keyWordsPositions[KeyWord::SELL]));
+		item.setSellValue(stringToInt(line.begin() + keyWordsPositions[KeyWord::SELL] + keyWords[KeyWord::SELL].size(), line.end()));
 		break;
 	}
 
@@ -127,9 +128,9 @@ int ItemFactory::specifyItemType(std::string itemName)
 
 void ItemFactory::checkKeyWords(size_t * keyWordPositions)
 {
-	if (keyWordPositions[KeyWords::ID] == std::string::npos || keyWordPositions[KeyWords::DMG] == std::string::npos ||
-		keyWordPositions[KeyWords::ARM] == std::string::npos || keyWordPositions[KeyWords::HP] == std::string::npos ||
-		keyWordPositions[KeyWords::SELL] == std::string::npos)
+	if (keyWordPositions[KeyWord::ID] == std::string::npos || keyWordPositions[KeyWord::DMG] == std::string::npos ||
+		keyWordPositions[KeyWord::ARM] == std::string::npos || keyWordPositions[KeyWord::HP] == std::string::npos ||
+		keyWordPositions[KeyWord::SELL] == std::string::npos)
 	{
 		throw ("ID, DMG, ARM, HP or SELL words not found in file: \"stuff/items/itemStats.txt\"");
 	}
