@@ -6,7 +6,6 @@ Game::Game()
 {
 	//equipped w Item i dalej trzeba oznaczac w Player.cpp jesli Q to oznacza equipped i cos dalej
 	//przy wchodzeniu w tunel wiesza gre
-	//pokazywanie itemow z inventory w pod HUDem
 	//konczyc to bo trzeba tmp robic tez
 }
 
