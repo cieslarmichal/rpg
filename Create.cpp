@@ -48,7 +48,7 @@ void Create::createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrap
 }
 
 
-void Create::createRoomWithFloor(int roomSizeX,int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
+void Create::createRoomWithFloor(int roomSizeX, int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
 	std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor)
 {
 	for (int vertical = 0; vertical <= roomSizeY; vertical++)
@@ -87,35 +87,30 @@ void Create::createRoomWithoutFloor(int roomSizeX, int roomSizeY, sf::Vector2f p
 
 void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor)
 {
-	std::fstream file(pathFile.c_str(), std::ios::in);
+	std::vector<std::string > lines(File::getLines("stuff/map.txt"));
 
-	if (!file.is_open()) throw "cant open txt file";
-
-	std::string line = "";
 	int y = -1;
-	while (file.good() && std::getline(file, line))
+	for (auto line : lines)
 	{
-		//ignoring first line
 		if (y == -1)
 		{
 			y++;
 			continue;
 		}
 
-		for (int x = 0; (size_t)x < line.size(); x++)
+		for (int x = 0; x < (int)line.size(); x++)
 		{
 			if (line[x] == '#')
 			{
-				createWall({ (float)(x * 40),(float)( y * 40) }, walls);
+				createWall({ (float)(x * 40),(float)(y * 40) }, walls);
 			}
 			else if (line[x] == '-')
 			{
-				createFloor({ (float)(x * 40),(float)(y *40) }, floor);
+				createFloor({ (float)(x * 40),(float)(y * 40) }, floor);
 			}
 		}
 		y++;
 	}
-	file.close();
 }
 
 void Create::createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications)

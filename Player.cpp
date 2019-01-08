@@ -92,7 +92,7 @@ void Player::useItem(int actionKey)
 			//item effects handling
 			if (tempItem.getType() == Item::Type::HEALTH_POTION)
 			{
-				setCurrentHp(getCurrentHp() + tempItem.getAmountRestoringHp());
+				setCurrentHp(getCurrentHp() + tempItem.getRestoringHp());
 			}
 		}
 	}
