@@ -20,10 +20,11 @@ public:
 	static void updateItems(std::vector<std::unique_ptr<Wrapper>> & items);
 	static void updateText(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Text>> & text);
 	static void updateHUD(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Text>> & HUDInfo, std::vector<std::unique_ptr<Wrapper>> & HUDInventory,
-		std::vector<std::unique_ptr<Rect>> & HUDInventorySlots, sf::Vector2u windowSize);
+		std::vector<std::unique_ptr<Rect>> & HUDInventorySlots, std::vector<std::unique_ptr<Wrapper>> & HUDEquipment, sf::Vector2u windowSize);
 	static void updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies);
 private:
 	static void updateHUDInfo(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Text>> & texts, sf::Vector2u windowSize);
 	static void updateHUDSlots(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Rect>> & HUDInventorySlots, sf::Vector2u windowSize);
-	static void updateHUDItems(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & HUDInventory, sf::Vector2u windowSize);
+	static void updateHUDInventory(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & HUDInventory, sf::Vector2u windowSize);
+	static void updateHUDEquipment(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & HUDEquipment, sf::Vector2u windowSize);
 };

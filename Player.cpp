@@ -83,16 +83,20 @@ Inventory & Player::getInventory()
 
 void Player::useItem(int actionKey)
 {
-	if (actionKey == (int)InputKeys::Q && useItemTimer.getElapsedSeconds() > (float)1)
+	if (actionKey == (int)InputKeys::Q && useItemTimer.getElapsedSeconds() > (float)0.5)
 	{
 		if (inventory.isItemAvailable(inventory.getMarkedItemIndex()))
 		{
 			useItemTimer.reset();
-			Item tempItem = inventory.getMarkedItem();
-			//item effects handling
-			if (tempItem.getType() == Item::Type::HEALTH_POTION)
+			Item & chosenItem = inventory.getMarkedItem();
+
+			if (chosenItem.getType() == Item::Type::HEALTH_POTION || chosenItem.getType() == Item::Type::FOOD)
 			{
-				setCurrentHp(getCurrentHp() + tempItem.getRestoringHp());
+				setCurrentHp(getCurrentHp() + chosenItem.getRestoringHp());
+			}
+			else
+			{
+				inventory.equipItem(chosenItem);
 			}
 		}
 	}

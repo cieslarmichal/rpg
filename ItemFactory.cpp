@@ -105,10 +105,6 @@ int ItemFactory::specifyItemType(std::string itemName)
 	{
 		return Item::Type::ARMOR;
 	}
-	else if (type == "gloves")
-	{
-		return Item::Type::GLOVES;
-	}
 	else if (type == "food")
 	{
 		return Item::Type::FOOD;

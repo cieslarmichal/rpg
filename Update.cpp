@@ -53,12 +53,13 @@ void Update::updateText(std::unique_ptr<Wrapper> & player, std::vector<std::uniq
 	}
 }
 
-void Update::updateHUD(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Text>> & texts,
-	std::vector<std::unique_ptr<Wrapper>> & HUDInventory, std::vector<std::unique_ptr<Rect>> & HUDInventorySlots, sf::Vector2u windowSize)
+void Update::updateHUD(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Text>> & texts,std::vector<std::unique_ptr<Wrapper>> & HUDInventory,
+	std::vector<std::unique_ptr<Rect>> & HUDInventorySlots, std::vector<std::unique_ptr<Wrapper>> & HUDEquipment, sf::Vector2u windowSize)
 {
 	updateHUDInfo(player, texts, windowSize);
 	updateHUDSlots(player, HUDInventorySlots, windowSize);
-	updateHUDItems(player, HUDInventory, windowSize);
+	updateHUDInventory(player, HUDInventory, windowSize);
+	updateHUDEquipment(player, HUDEquipment, windowSize);
 }
 
 void Update::updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies)
@@ -150,10 +151,12 @@ void Update::updateHUDSlots(std::unique_ptr<Wrapper> & player, std::vector<std::
 
 }
 
-void Update::updateHUDItems(std::unique_ptr<Wrapper>& player, std::vector<std::unique_ptr<Wrapper>>& HUDInventory, sf::Vector2u windowSize)
+void Update::updateHUDInventory(std::unique_ptr<Wrapper>& player, std::vector<std::unique_ptr<Wrapper>>& HUDInventory, sf::Vector2u windowSize)
 {
-	if (player->rect->player->getInventory().getAmountOfItems() != (int)HUDInventory.size())
+
+	if (player->rect->player->getInventory().getAmountOfItems() != (int)HUDInventory.size() || player->rect->player->getInventory().getSwappedItems())
 	{
+		player->rect->player->getInventory().setSwappedItems(false);
 		HUDInventory.clear();
 		int offX = 0, offY = 0;
 		for (auto & item : player->rect->player->getInventory().getItems())
@@ -195,5 +198,25 @@ void Update::updateHUDItems(std::unique_ptr<Wrapper>& player, std::vector<std::u
 			itemIndex++;
 		}
 	}
+}
+
+void Update::updateHUDEquipment(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & HUDEquipment, sf::Vector2u windowSize)
+{
+	//if (player->rect->player->getInventory().getAmountEquipped() != (int)HUDEquipment.size() || player->rect->player->getInventory().getSwappedItems())
+	//{
+		//player->rect->player->getInventory().setSwappedItems(false);
+	HUDEquipment.clear();
+		
+		if (player->rect->player->getInventory().getEquipment()[Inventory::EquippedType::WEAPON].getName() != "")
+		{
+			sf::Vector2f HUDInventoryPosition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 10,
+				player->rect->getPosition().y - (float)windowSize.y / 2 + 140);
+			Create::createItem(player->rect->player->getInventory().getEquipment()[Inventory::EquippedType::WEAPON], HUDEquipment, HUDInventoryPosition);
+			HUDEquipment[0]->rect->getRect().setPosition(HUDInventoryPosition);
+			HUDEquipment[0]->sprite->setPosition(HUDInventoryPosition);
+
+		}
+
+	//}
 }
 

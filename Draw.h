@@ -14,7 +14,8 @@ public:
 	void drawObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	void drawProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles);
 	void drawItems(std::vector<std::unique_ptr<Wrapper>> & items);
-	void drawHUDItems(std::vector<std::unique_ptr<Wrapper>> & HUDItems);
+	void drawHUDInventory(std::vector<std::unique_ptr<Wrapper>> & HUDItems);
+	void drawHUDEquipment(std::vector<std::unique_ptr<Wrapper>> & HUDEquipment);
 	void drawHUDSlots(std::vector<std::unique_ptr<Rect>> & HUDInventorySlots);
 	void drawText(std::vector<std::unique_ptr<Text>> & texts);
 	void drawRect(Rect & rect);
