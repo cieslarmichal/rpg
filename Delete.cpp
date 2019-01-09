@@ -18,21 +18,22 @@ void Delete::removeProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectil
 
 void Delete::removeItems(std::vector<std::unique_ptr<Wrapper>> & items)
 {
-	items.erase(std::remove_if(items.begin(), items.end(), [](std::unique_ptr<Wrapper> & it) {return it->rect->item->isCollected(); }), items.end());
+	items.erase(std::remove_if(items.begin(), items.end(), [](std::unique_ptr<Wrapper> & it) {return it->rect->item->isDestroyed(); }), items.end());
 }
 
 void Delete::removeAndAddItems(std::vector<Item> & inventoryItems, std::vector<std::unique_ptr<Wrapper>>& globalItems, sf::Vector2f playerPosition)
 {
 	for (auto & inventoryItem : inventoryItems)
 	{
-		if (inventoryItem.isCollected())
+		if (inventoryItem.isReadyToDrop())
 		{
-			inventoryItem.setCollected(false);
+			inventoryItem.setReadyToDrop(false);
 			Create::createItem(inventoryItem, globalItems, playerPosition);
-			inventoryItem.setCollected(true);
+			inventoryItem.setReadyToDrop(true);
 		}
 	}
-	inventoryItems.erase(std::remove_if(inventoryItems.begin(), inventoryItems.end(), [](auto & item) {return item.isCollected(); }), inventoryItems.end());
+	inventoryItems.erase(std::remove_if(inventoryItems.begin(), inventoryItems.end(), [](auto & item) {return item.isReadyToDrop(); }), inventoryItems.end());
+	inventoryItems.erase(std::remove_if(inventoryItems.begin(), inventoryItems.end(), [](auto & item) {return item.isDestroyed(); }), inventoryItems.end());
 }
 
 void Delete::removeBlocked(std::vector<Blocked> & blockedCharacters)
@@ -52,7 +53,7 @@ void Delete::setProjectileToDestroy(std::unique_ptr<Wrapper> & projectile)
 
 void Delete::setItemToDestroy(std::unique_ptr<Wrapper> & item)
 {
-	item->rect->item->setCollected(true);
+	item->rect->item->setDestroyed(true);
 }
 
 void Delete::setBlockedToDestroy(Blocked & blocked)

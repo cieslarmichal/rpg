@@ -16,7 +16,8 @@ void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wra
 			if (victim->rect->enemy != nullptr)
 			{
 				LevelManager::getExperience(attacker->rect->player, victim->rect->enemy);
-				Item item(std::rand() % 23);
+				//Item item(std::rand() % 21);
+				Item item(2);
 				Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
 			}
 		}
@@ -45,7 +46,8 @@ void Fight::attackDistance(std::unique_ptr<Player> & player, std::unique_ptr<Wra
 			// random process selecting which item
 			////////////////////////////////////////
 			///////////////////////////////////////////
-			Item item(std::rand()%23);
+			//Item item(std::rand()%21);
+			Item item(3);
 			Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
 		}
 	}

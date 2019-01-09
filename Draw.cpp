@@ -42,10 +42,15 @@ void Draw::drawItems(std::vector<std::unique_ptr<Wrapper>> & items)
 	drawObstacles(items);
 }
 
-void Draw::drawHUDItems(std::vector<std::unique_ptr<Wrapper>>& HUDItems)
+void Draw::drawHUDInventory(std::vector<std::unique_ptr<Wrapper>>& HUDItems)
 {
 	drawRects(HUDItems);
 	drawObstacles(HUDItems);
+}
+
+void Draw::drawHUDEquipment(std::vector<std::unique_ptr<Wrapper>>& HUDEquipment)
+{
+	drawObstacles(HUDEquipment);
 }
 
 void Draw::drawHUDSlots(std::vector<std::unique_ptr<Rect>>& HUDInventorySlots)

@@ -4,6 +4,9 @@
 
 Game::Game()
 {
+	//HUD CLASS
+	//lvl notifications spacje
+	//ogarnac te update wszystkie XD
 	//equipped w Item i dalej trzeba oznaczac w Player.cpp jesli Q to oznacza equipped i cos dalej
 	//przy wchodzeniu w tunel wiesza gre
 	//konczyc to bo trzeba tmp robic tez
@@ -51,7 +54,7 @@ void Game::gameLoop()
 		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications);
 		Update::updateEnemies(enemies, player);
 		Update::updateText(player, notifications);
-		Update::updateHUD(player, HUDInfo, HUDInventory,HUDInventorySlots, window->getSize());
+		Update::updateHUD(player, HUDInfo, HUDInventory, HUDInventorySlots, HUDEquipment, window->getSize());
 		Update::updateObstacles(walls);
 		Update::updateObstacles(floor);
 		Update::updateItems(items);
@@ -162,7 +165,8 @@ void Game::drawWindow()
 	draw->drawText(notifications);
 	draw->drawText(HUDInfo);
 	draw->drawHUDSlots(HUDInventorySlots);
-	draw->drawHUDItems(HUDInventory);
+	draw->drawHUDInventory(HUDInventory);
+	draw->drawHUDEquipment(HUDEquipment);
 	window->display();
 }
 

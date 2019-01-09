@@ -61,6 +61,7 @@ private:
 	std::vector<std::unique_ptr<Text>> notifications;
 	std::vector<std::unique_ptr<Text>> HUDInfo;
 	std::vector<std::unique_ptr<Rect>> HUDInventorySlots;
+	std::vector<std::unique_ptr<Wrapper>> HUDEquipment;
 	std::vector<std::unique_ptr<Wrapper>> HUDInventory;
 	std::vector<std::unique_ptr<Wrapper>> walls;
 	std::vector<std::unique_ptr<Wrapper>> floor;
