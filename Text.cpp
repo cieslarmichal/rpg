@@ -68,23 +68,11 @@ void Text::update(sf::Vector2f position)
 	lifeCounter++;
 }
 
-void Text::updateHUD(sf::Vector2f position, int value, int valueMax)
+void Text::updateHUDInformation(sf::Vector2f position, int value, int valueMax)
 {
 	if (!set) setup();
 
-	if (HUDtype == "HP")
-	{
-		text.setPosition(position.x, position.y);
-
-	}
-	else if (HUDtype == "EXP")
-	{
-		text.setPosition(position.x, position.y + 20);
-	}
-	else if (HUDtype == "COINS")
-	{
-		text.setPosition(position.x, position.y + 40);
-	}
+	text.setPosition(position);
 
 	message = (valueMax != -1) ? (HUDtype + " : " + std::to_string(value) + "/" + std::to_string(valueMax)) : (HUDtype + " : " + std::to_string(value));
 	text.setString(message);

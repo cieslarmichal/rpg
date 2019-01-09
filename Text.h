@@ -14,7 +14,7 @@ public:
 	float getMovementSpeed() const;
 	bool isDestroyed() const;
 	void update(sf::Vector2f position);
-	void updateHUD(sf::Vector2f position, int value, int valueMax = -1);
+	void updateHUDInformation(sf::Vector2f position, int value, int valueMax = -1);
 	Text & operator=(Text other); //necassary
 private:
 	std::string message;
