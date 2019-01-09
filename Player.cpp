@@ -10,6 +10,10 @@ Player::Player(std::string name, int hp, int attackDamage, int attackSpeed, floa
 	setMarked(true);
 }
 
+Player::~Player()
+{
+}
+
 //setters
 
 void Player::levelUp()
@@ -83,21 +87,40 @@ Inventory & Player::getInventory()
 
 void Player::useItem(int actionKey)
 {
-	if (actionKey == (int)InputKeys::Q && useItemTimer.getElapsedSeconds() > (float)0.5)
+	if (actionKey == (int)InputKeys::Q && useItemTimer.getElapsedSeconds() > (float)0.4)
 	{
-		if (inventory.isItemAvailable(inventory.getMarkedItemIndex()))
+		if (inventory.isItemAvailable(inventory.getChosenItemIndex()))
 		{
 			useItemTimer.reset();
-			Item & chosenItem = inventory.getMarkedItem();
+			Item & chosenItem = inventory.getChosenItem();
 
 			if (chosenItem.getType() == Item::Type::HEALTH_POTION || chosenItem.getType() == Item::Type::FOOD)
 			{
 				setCurrentHp(getCurrentHp() + chosenItem.getRestoringHp());
+				inventory.destroyItem();
 			}
 			else
 			{
 				inventory.equipItem(chosenItem);
 			}
 		}
+	}
+}
+
+void Player::changeChosenItem(int actionKey)
+{
+	if (actionKey == (int)InputKeys::TAB && useItemTimer.getElapsedSeconds() > 0.2)
+	{
+		useItemTimer.reset();
+		inventory.changeChosenItem();
+	}
+}
+
+void Player::dropItem(int actionKey)
+{
+	if (actionKey == (int)InputKeys::X && useItemTimer.getElapsedSeconds() > 0.5)
+	{
+		useItemTimer.reset();
+		inventory.dropItem();
 	}
 }

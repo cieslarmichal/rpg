@@ -9,10 +9,6 @@ Inventory::Inventory()
 	}
 }
 
-Inventory::~Inventory()
-{
-}
-
 bool Inventory::addItem(Item & item)
 {
 	if ((int)items.size() != capacity)
@@ -50,51 +46,41 @@ void Inventory::equipItem(Item & item)
 		swapItems(EquippedType::RING, item);
 		break;
 	}
+}
 
-	for (auto& item : equipment)
+void Inventory::changeChosenItem()
+{
+	if (chosenItemIndex < (int)items.size() - 1)
 	{
-		std::cout <<"name = "<<item.getName()<<" id = "<< item.getId()<<std::endl;
+		chosenItemIndex++;
+	}
+	else
+	{
+		chosenItemIndex = 0;
 	}
 }
 
 void Inventory::dropItem()
 {
-	items[markedItemIndex].setReadyToDrop(true);
+	if ((int)items.size() == 0) return;
 
-	if (markedItemIndex - 1 >= 0)
+	items[chosenItemIndex].setReadyToDrop(true);
+
+	if (chosenItemIndex - 1 >= 0)
 	{
-		markedItemIndex--;
+		chosenItemIndex--;
 	}
 	else
 	{
-		markedItemIndex = 0;
+		chosenItemIndex = 0;
 	}
 }
 
 void Inventory::destroyItem()
 {
-	items[markedItemIndex].setDestroyed(true);
-}
+	if ((int)items.size() == 0) return;
 
-void Inventory::update(int actionKey)
-{
-	if (actionKey == (int)InputKeys::TAB && changingItemTime.getElapsedSeconds() > 0.2)
-	{
-		changingItemTime.reset();
-		if (markedItemIndex < (int)items.size() - 1)
-		{
-			markedItemIndex++;
-		}
-		else
-		{
-			markedItemIndex = 0;
-		}
-	}
-	else if (actionKey == (int)InputKeys::X && changingItemTime.getElapsedSeconds() > 1 && (int)items.size() > 0)
-	{
-		changingItemTime.reset();
-		dropItem();
-	}
+	items[chosenItemIndex].setDestroyed(true);
 }
 
 int Inventory::getAmountOfItems() const
@@ -117,10 +103,10 @@ bool Inventory::isItemAvailable(int index) const
 	return (index >= 0 && index <= capacity && (int)items.size() > 0 && index < (int)items.size());
 }
 
-Item & Inventory::getMarkedItem()
+Item & Inventory::getChosenItem()
 {
-	
-	return items[markedItemIndex];
+
+	return items[chosenItemIndex];
 }
 
 int Inventory::getCapacity() const
@@ -133,9 +119,9 @@ int Inventory::getAmountEquipped() const
 	return amountEquipped;
 }
 
-int Inventory::getMarkedItemIndex() const
+int Inventory::getChosenItemIndex() const
 {
-	return markedItemIndex;
+	return chosenItemIndex;
 }
 
 void Inventory::setSwappedItems(bool inp)
@@ -152,17 +138,15 @@ void Inventory::swapItems(int equipIndex, Item & item)
 {
 	if (equipment[equipIndex].getName() != "")
 	{
-		std::cout << "SWAPPED" << std::endl;
-		Item temp = items[markedItemIndex];
-		items[markedItemIndex] = equipment[EquippedType::WEAPON];
-		swappedItems = true;
+		Item temp = items[chosenItemIndex];
+		items[chosenItemIndex] = equipment[equipIndex];
 		equipment[equipIndex] = temp;
+		swappedItems = true;
 	}
 	else
 	{
 		equipment[equipIndex] = item;
 		destroyItem();
-		swappedItems = false;
 		amountEquipped++;
 	}
 }

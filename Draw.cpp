@@ -42,6 +42,14 @@ void Draw::drawItems(std::vector<std::unique_ptr<Wrapper>> & items)
 	drawObstacles(items);
 }
 
+void Draw::drawHUD(HUD & hud)
+{
+	drawText(hud.informations);
+	drawHUDSlots(hud.inventorySlots);
+	drawHUDInventory(hud.inventory);
+	drawHUDEquipment(hud.equipment);
+}
+
 void Draw::drawHUDInventory(std::vector<std::unique_ptr<Wrapper>>& HUDItems)
 {
 	drawRects(HUDItems);

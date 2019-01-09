@@ -4,10 +4,8 @@
 
 Game::Game()
 {
-	//HUD CLASS
+	//Class respawning enemies considering walls and actual enemies and player
 	//lvl notifications spacje
-	//ogarnac te update wszystkie XD
-	//equipped w Item i dalej trzeba oznaczac w Player.cpp jesli Q to oznacza equipped i cos dalej
 	//przy wchodzeniu w tunel wiesza gre
 	//konczyc to bo trzeba tmp robic tez
 }
@@ -54,7 +52,7 @@ void Game::gameLoop()
 		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications);
 		Update::updateEnemies(enemies, player);
 		Update::updateText(player, notifications);
-		Update::updateHUD(player, HUDInfo, HUDInventory, HUDInventorySlots, HUDEquipment, window->getSize());
+		Update::updateHUD(player, hud, window->getSize());
 		Update::updateObstacles(walls);
 		Update::updateObstacles(floor);
 		Update::updateItems(items);
@@ -67,7 +65,7 @@ void Game::gameLoop()
 			timer.reset();
 			updatePathFindingMap();
 		}
-
+		std::cout << "swapped = " << player->rect->player->getInventory().getSwappedItems()<<std::endl;
 		Delete::removeText(notifications);
 		Delete::removeProjectiles(projectiles);
 		Delete::removeEnemies(enemies);
@@ -101,7 +99,7 @@ void Game::createCharacters()
 {
 	// Player:
 	// name, hp, attackDamage, attackSpeed, movementSpeed
-	characterPlayer = new Player("Michal", 100, 100, 3, 4);
+	characterPlayer = new Player("Michal", 2500, 100, 3, 4);
 	// Enemies:
 	// name, hp, attackDamage, attackSpeed, movementSpeed, experience, coins, lootChance
 	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 2, 70, 10, 0.2);
@@ -115,8 +113,8 @@ void Game::createCharacters()
 	Create::createSkeleton(*characterSkeleton, enemies, { 2 * 40,2 * 40 });
 	Create::createDragon(*characterDragon, enemies, { 20 * 40,18 * 40 });
 
-	Create::createHUDMessage(HUDInfo);
-	Create::createHUDSlots(HUDInventorySlots);
+	Create::createHUDMessage(hud.informations);
+	Create::createHUDSlots(hud.inventorySlots);
 }
 
 void Game::createWorld()
@@ -163,10 +161,8 @@ void Game::drawWindow()
 	draw->drawPlayer(player);
 	draw->drawStatusBar(playerHealthBar);
 	draw->drawText(notifications);
-	draw->drawText(HUDInfo);
-	draw->drawHUDSlots(HUDInventorySlots);
-	draw->drawHUDInventory(HUDInventory);
-	draw->drawHUDEquipment(HUDEquipment);
+	draw->drawHUD(hud);
+
 	window->display();
 }
 
