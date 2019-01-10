@@ -1,24 +1,27 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Wrapper.h"
+
 class StatusBar
 {
 public:
 	StatusBar();
+	StatusBar(int sizeX, int sizeY);
 	void setDestroyed();
-	sf::RectangleShape & getRect();
+	sf::RectangleShape & getValueRect();
+	sf::RectangleShape & getFrameRect();
 	sf::Text & getText();
 	bool isDestroyed() const;
-	void updateStatusBar(std::unique_ptr<Wrapper> & character);
+	void updateStatusBar(int value, int maxValue, std::string label, sf::Vector2f position);
+	void updateHUDStatusBar(int value, int maxValue, std::string label, sf::Vector2f position);
 	StatusBar & operator=(StatusBar other); //necessary
 private:
-	sf::RectangleShape rect;
+	sf::RectangleShape valueRect;
+	sf::RectangleShape frameRect;
 	sf::Text text;
 	sf::Font font;
 	std::string label;
-	int max;
 	int sizeX, sizeY;
 	int offTextX, offTextY, offRectX, offRectY;
 	bool set = false, destroyed = false;
-	void setup(std::unique_ptr<Wrapper> & character);
+	void setup();
 };

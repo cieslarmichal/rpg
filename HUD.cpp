@@ -2,8 +2,11 @@
 
 
 
-HUD::HUD()
+HUD::HUD() :hp(64, 14), lvl(64, 14)
 {
+	Create::createHUDMessage(informations);
+	Create::createHUDSlots(inventorySlots);
+
 	equipmentPositions[Inventory::EquippedType::WEAPON] = sf::Vector2i(10, 140);
 	equipmentPositions[Inventory::EquippedType::SHIELD] = sf::Vector2i(50, 140);
 	equipmentPositions[Inventory::EquippedType::HELMET] = sf::Vector2i(30, 120);
@@ -27,17 +30,26 @@ void HUD::updateInformations(std::unique_ptr<Wrapper> & player, sf::Vector2u win
 	{
 		if (info->getHUDtype() == "HP")
 		{
-			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2, player->rect->getPosition().y - (float)windowSize.y / 2);
-			info->updateHUDInformation(HUDposition, player->rect->player->getCurrentHp(), player->rect->player->getMaxHp());
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 2);
+			hp.getValueRect().setFillColor(sf::Color::Red);
+			hp.getText().setFillColor(sf::Color::Red);
+			hp.updateHUDStatusBar(player->rect->character->getCurrentHp(), player->rect->character->getMaxHp(), ("HP "+std::to_string(player->rect->player->getCurrentHp())), HUDposition);
+		}
+		else if (info->getHUDtype() == "LVL")
+		{
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 37);
+			lvl.getValueRect().setFillColor(sf::Color::White);
+			lvl.getText().setFillColor(sf::Color::White);
+			lvl.updateHUDStatusBar(LevelManager::getCurrentExperience(), LevelManager::getRequireExperience(), ("LVL " + std::to_string(player->rect->player->getLevel())), HUDposition);
 		}
 		else if (info->getHUDtype() == "EXP")
 		{
-			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2, player->rect->getPosition().y - (float)windowSize.y / 2 + 20);
-			info->updateHUDInformation(HUDposition, player->rect->player->getExperience(), LevelManager::getRequireExperience());
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 72);
+			info->updateHUDInformation(HUDposition, player->rect->player->getExperience());
 		}
 		else if (info->getHUDtype() == "COINS")
 		{
-			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2, player->rect->getPosition().y - (float)windowSize.y / 2 + 40);
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 +5, player->rect->getPosition().y - (float)windowSize.y / 2 + 92);
 			info->updateHUDInformation(HUDposition, player->rect->player->getCoins());
 		}
 	}
@@ -134,10 +146,8 @@ void HUD::updateInventory(std::unique_ptr<Wrapper>& player, sf::Vector2u windowS
 void HUD::updateEquipment(std::unique_ptr<Wrapper> & player, sf::Vector2u windowSize)
 {
 	//if something changed
-	//std::cout << player->rect->player->getInventory().getSwappedItems() << std::endl;
 	if (player->rect->player->getInventory().getAmountEquipped() != (int)equipment.size() || player->rect->player->getInventory().getSwappedItems())
 	{
-		std::cout << "in" << std::endl;
 		player->rect->player->getInventory().setSwappedItems(false);
 		equipment.clear();
 

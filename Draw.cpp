@@ -10,7 +10,8 @@ void Draw::drawPlayer(std::unique_ptr<Wrapper> & player)
 
 void Draw::drawStatusBar(StatusBar & statusBar)
 {
-	window.draw(statusBar.getRect());
+	window.draw(statusBar.getValueRect());
+	window.draw(statusBar.getFrameRect());
 	window.draw(statusBar.getText());
 }
 
@@ -19,7 +20,7 @@ void Draw::drawEnemies(enemyPair & enemies)
 	for (auto & enemy : enemies)
 	{
 		window.draw(enemy.first->sprite->getSprite());
-		window.draw(enemy.second.getRect());
+		window.draw(enemy.second.getValueRect());
 		window.draw(enemy.second.getText());
 	}
 }
@@ -48,6 +49,8 @@ void Draw::drawHUD(HUD & hud)
 	drawHUDSlots(hud.inventorySlots);
 	drawHUDInventory(hud.inventory);
 	drawHUDEquipment(hud.equipment);
+	drawStatusBar(hud.hp);
+	drawStatusBar(hud.lvl);
 }
 
 void Draw::drawHUDInventory(std::vector<std::unique_ptr<Wrapper>>& HUDItems)

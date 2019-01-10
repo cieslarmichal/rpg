@@ -65,7 +65,7 @@ void Game::gameLoop()
 			timer.reset();
 			updatePathFindingMap();
 		}
-		std::cout << "swapped = " << player->rect->player->getInventory().getSwappedItems()<<std::endl;
+
 		Delete::removeText(notifications);
 		Delete::removeProjectiles(projectiles);
 		Delete::removeEnemies(enemies);
@@ -113,8 +113,7 @@ void Game::createCharacters()
 	Create::createSkeleton(*characterSkeleton, enemies, { 2 * 40,2 * 40 });
 	Create::createDragon(*characterDragon, enemies, { 20 * 40,18 * 40 });
 
-	Create::createHUDMessage(hud.informations);
-	Create::createHUDSlots(hud.inventorySlots);
+
 }
 
 void Game::createWorld()

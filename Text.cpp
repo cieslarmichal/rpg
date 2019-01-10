@@ -74,7 +74,7 @@ void Text::updateHUDInformation(sf::Vector2f position, int value, int valueMax)
 
 	text.setPosition(position);
 
-	message = (valueMax != -1) ? (HUDtype + " : " + std::to_string(value) + "/" + std::to_string(valueMax)) : (HUDtype + " : " + std::to_string(value));
+	message = (valueMax != -1) ? (HUDtype + " : " + std::to_string(value) + "/" + std::to_string(valueMax)) : (HUDtype + " " + std::to_string(value));
 	text.setString(message);
 }
 
