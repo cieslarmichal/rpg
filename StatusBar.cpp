@@ -3,12 +3,20 @@
 
 StatusBar::StatusBar()
 {
-	max = 0;
 	sizeX = 34;
 	sizeY = 5;
 	offTextX = offRectX = 6;
 	offTextY = -32;
 	offRectY = -16;
+	text.setCharacterSize(12);
+}
+
+StatusBar::StatusBar(int sx, int sy) : sizeX(sx), sizeY(sy)
+{
+	frameRect.setFillColor(sf::Color(0, 0, 0, 0));
+	frameRect.setOutlineColor(sf::Color::Black);
+	frameRect.setOutlineThickness(1);
+	text.setCharacterSize(16);
 }
 
 //setters
@@ -23,9 +31,14 @@ bool StatusBar::isDestroyed() const
 	return destroyed;
 }
 
-sf::RectangleShape & StatusBar::getRect()
+sf::RectangleShape & StatusBar::getValueRect()
 {
-	return rect;
+	return valueRect;
+}
+
+sf::RectangleShape & StatusBar::getFrameRect()
+{
+	return frameRect;
 }
 
 sf::Text & StatusBar::getText()
@@ -33,63 +46,72 @@ sf::Text & StatusBar::getText()
 	return text;
 }
 
-//etc
-void StatusBar::updateStatusBar(std::unique_ptr<Wrapper> & character)
+void StatusBar::updateStatusBar(int value, int maxValue, std::string label, sf::Vector2f position)
 {
-	if (!set) setup(character);
+	if (!set) setup();
 
-	text.setPosition(character->rect->getPosition().x + offTextX, character->rect->getPosition().y + offTextY);
-	rect.setPosition(character->rect->getPosition().x + offRectX, character->rect->getPosition().y + offRectY);
-	if (character->rect->character->getCurrentHp() >= 0.7*max)
+	text.setString(label);
+	text.setPosition(position.x + offTextX, position.y + offTextY);
+	valueRect.setPosition(position.x + offRectX, position.y + offRectY);
+	if (value >= 0.7*maxValue)
 	{
-		rect.setFillColor(sf::Color::Green);
+		valueRect.setFillColor(sf::Color::Green);
 		text.setFillColor(sf::Color::Green);
 	}
-	else if (character->rect->character->getCurrentHp() >= 0.40*max)
+	else if (value >= 0.40*maxValue)
 	{
-		rect.setFillColor(sf::Color::Yellow);
+		valueRect.setFillColor(sf::Color::Yellow);
 		text.setFillColor(sf::Color::Yellow);
 	}
-	else if (character->rect->character->getCurrentHp() > 0.18*max)
+	else if (value > 0.18*maxValue)
 	{
-		rect.setFillColor(sf::Color::Red);
+		valueRect.setFillColor(sf::Color::Red);
 		text.setFillColor(sf::Color::Red);
 	}
-	else if (character->rect->character->getCurrentHp() > 0)
+	else if (value > 0)
 	{
-		rect.setFillColor(sf::Color(63, 0, 0, 255));
+		valueRect.setFillColor(sf::Color(63, 0, 0, 255));
 		text.setFillColor(sf::Color(63, 0, 0, 255));
 	}
 
-	if (character->rect->character->getCurrentHp() <= 0)
+	if (value <= 0)
 	{
-		rect.setSize(sf::Vector2f(0, 0));
+		valueRect.setSize(sf::Vector2f(0, 0));
 	}
 	else
 	{
-		rect.setSize(sf::Vector2f((float)(character->rect->character->getCurrentHp() * sizeX / max), (float)sizeY));
+		valueRect.setSize(sf::Vector2f((float)(value * sizeX / maxValue), (float)sizeY));
 	}
 }
 
-void StatusBar::setup(std::unique_ptr<Wrapper> & character)
+void StatusBar::updateHUDStatusBar(int value, int maxValue, std::string label, sf::Vector2f position)
 {
-	max = character->rect->character->getMaxHp();
+	if (!set) setup();
+	//setup do konstr
+	text.setString(label);
+	text.setPosition(position.x, position.y);
+	valueRect.setPosition(position.x,position.y+20);
+	valueRect.setSize(sf::Vector2f((float)(value * sizeX / maxValue), (float)sizeY));
+
+	frameRect.setPosition(position.x, position.y+20);
+	frameRect.setSize(sf::Vector2f((float)(sizeX), (float)sizeY));
+}
+
+void StatusBar::setup()
+{
 	font.loadFromFile("stuff/font.ttf");
 	text.setOutlineColor(sf::Color::Black);
 	text.setOutlineThickness(1);
-	rect.setOutlineColor(sf::Color::Black);
-	rect.setOutlineThickness(1);
 	text.setFont(font);
-	text.setCharacterSize(12);
-	text.setString((character->rect->character->getName()));
 
-	if (character->sprite->getPathName() == "stuff/skeleton.png")
+
+	/*if (character->sprite->getPathName() == "stuff/skeleton.png")
 	{
 		offTextX = 6;
 		offTextY = -21;
 		offRectX = 8;
 		offRectY = -5;
-	}
+	}*/
 	set = true;
 }
 
@@ -98,8 +120,7 @@ StatusBar & StatusBar::operator=(StatusBar other)
 	font = other.font;
 	text = other.text;
 	text.setFont(font);
-	rect = other.rect;
-	max = other.max;
+	valueRect = other.valueRect;
 	sizeX = other.sizeX;
 	sizeY = other.sizeY;
 	offTextX = other.offTextX;

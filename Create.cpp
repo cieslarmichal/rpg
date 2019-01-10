@@ -127,15 +127,14 @@ void Create::createLevelMessage(std::string message, std::vector<std::unique_ptr
 
 void Create::createHUDMessage(std::vector<std::unique_ptr<Text>> & HUDinfo)
 {
-	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Red, "HP", 20)));
-	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Yellow, "COINS", 20)));
-	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Magenta, "EXP", 20)));
+	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Red, "HP", 16)));
+	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Magenta, "LVL", 16)));
+	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::White, "EXP", 16)));
+	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Yellow, "COINS", 16)));
 }
 
 void Create::createHUDSlots(std::vector<std::unique_ptr<Rect>>& HUDInventorySlots)
 {
-	//helmet armor etc ...
-
 	for (int i = 0; i < 15; i++)
 	{
 		HUDInventorySlots.push_back(std::unique_ptr<Rect>(new Rect(16, 16, { -1,-1 })));

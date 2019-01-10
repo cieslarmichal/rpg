@@ -5,7 +5,8 @@ void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar
 	bool isMoving = Movement::movePlayer(*player->rect, direction);
 	if (isMoving) player->animation->update(player->rect->character->getDirection());
 	player->sprite->setPosition(player->rect->getPosition());
-	statBar.updateStatusBar(player);
+	statBar.updateStatusBar(player->rect->character->getCurrentHp(), player->rect->character->getMaxHp(),
+		player->rect->character->getName(), player->rect->getPosition());
 	player->rect->setEdges();
 
 	player->rect->player->useItem(action);
@@ -23,7 +24,8 @@ void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & playe
 		bool isMoving = Movement::moveEnemy(*enemy.first->rect, *player->rect);
 		if (isMoving) enemy.first->animation->update(enemy.first->rect->character->getDirection());
 		enemy.first->sprite->setPosition(enemy.first->rect->getPosition());
-		enemy.second.updateStatusBar(enemy.first);
+		enemy.second.updateStatusBar(enemy.first->rect->character->getCurrentHp(), enemy.first->rect->character->getMaxHp(),
+			enemy.first->rect->character->getName(), enemy.first->rect->getPosition());
 		enemy.first->rect->setEdges();
 	}
 }
@@ -56,7 +58,7 @@ void Update::updateText(std::unique_ptr<Wrapper> & player, std::vector<std::uniq
 
 void Update::updateHUD(std::unique_ptr<Wrapper> & player, HUD & hud, sf::Vector2u windowSize)
 {
-	hud.update(player,windowSize);
+	hud.update(player, windowSize);
 }
 
 void Update::updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies)
