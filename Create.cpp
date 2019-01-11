@@ -13,6 +13,13 @@ void Create::createSkeleton(Skeleton & skeleton, enemyPair & enemies, sf::Vector
 		std::unique_ptr<Sprite>(new Sprite("stuff/skeleton.png", 48, 48)), 2)), enemyStatusBar));
 }
 
+void Create::createSkeletonBerserker(SkeletonBerserker & skeletonBerserker, enemyPair & enemies, sf::Vector2f position)
+{
+	StatusBar enemyStatusBar;
+	enemies.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(skeletonBerserker, 40, 40, position)),
+		std::unique_ptr<Sprite>(new Sprite("stuff/skeletonBerserker.png", 48, 48)), 2)), enemyStatusBar));
+}
+
 void Create::createDragon(Dragon & dragon, enemyPair & enemies, sf::Vector2f position)
 {
 	StatusBar enemyStatusBar;
@@ -123,20 +130,4 @@ void Create::createLevelMessage(std::string message, std::vector<std::unique_ptr
 {
 	if (message == "") return;
 	notifications.push_back(std::unique_ptr<Text>(new Text(message, sf::Vector2f(400, 400), sf::Color::White, false, 22)));
-}
-
-void Create::createHUDMessage(std::vector<std::unique_ptr<Text>> & HUDinfo)
-{
-	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Red, "HP", 16)));
-	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Magenta, "LVL", 16)));
-	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::White, "EXP", 16)));
-	HUDinfo.push_back(std::unique_ptr<Text>(new Text(sf::Color::Yellow, "COINS", 16)));
-}
-
-void Create::createHUDSlots(std::vector<std::unique_ptr<Rect>>& HUDInventorySlots)
-{
-	for (int i = 0; i < 15; i++)
-	{
-		HUDInventorySlots.push_back(std::unique_ptr<Rect>(new Rect(16, 16, { -1,-1 })));
-	}
 }

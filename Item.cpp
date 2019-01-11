@@ -10,25 +10,9 @@ Item::Item(int idd) : id(idd)
 Item::Item()
 {
 	name = "";
+	type = (int)Others::RESET;
 }
 
-Item & Item::operator=(Item other)
-{
-	this->name = other.name;
-	this->pathName = other.pathName;
-	this->id = other.id;
-	this->type = other.type;
-	this->damage = other.damage;
-	this->armor = other.armor;
-	this->restoringHp = other.restoringHp;
-	this->sellValue = other.sellValue;
-	this->destroyed = other.destroyed;
-	this->readyToDrop = other.readyToDrop;
-	this->readyToPick = other.readyToPick;
-	this->distanceFromPlayer = other.distanceFromPlayer;
-
-	return *this;
-}
 
 void Item::setName(std::string inp)
 {

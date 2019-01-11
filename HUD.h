@@ -26,5 +26,9 @@ private:
 	void updateEquipment(std::unique_ptr<Wrapper> & player, sf::Vector2u windowSize);
 	sf::Vector2i calculateEqPosition(int itemType);
 	sf::Vector2i equipmentPositions[7];
+private:
+	void initializeText();
+	void initializeSlots();
+	void initializeEqPositions();
 };
 

@@ -1,13 +1,13 @@
 #pragma once
 #include <string>
 #include "ItemFactory.h"
+#include "Directions.h"
 
 class Item
 {
 public:
 	Item(int itemID);
 	Item();
-	Item & operator=(Item);
 	void setName(std::string);
 	void setPathName(std::string);
 	void setId(int);

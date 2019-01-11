@@ -3,6 +3,8 @@
 Character::Character(std::string n, int hpp, int ad, int as, int exp, int c, float movSpeed)
 	: name(n), hpMax(hpp), hp(hpp), attackDamage(ad), attackSpeed(as), experience(exp), coins(c), movementSpeed(movSpeed)
 {
+	baseAttackDamage = attackDamage;
+	baseDefense = defense = 0;
 	direction = 1;
 	walkCounter = 0;
 	canMoveUp = canMoveDown = canMoveLeft = canMoveRight = true;
@@ -11,7 +13,6 @@ Character::Character(std::string n, int hpp, int ad, int as, int exp, int c, flo
 	targetPosition = { (int)Others::RESET, (int)Others::RESET };
 }
 
-//setters
 void Character::setName(std::string inp)
 {
 	name = inp;
@@ -35,6 +36,11 @@ void Character::setAttackDamage(int inp)
 void Character::setAttackSpeed(int inp)
 {
 	attackSpeed = inp;
+}
+
+void Character::setDefense(int inp)
+{
+	defense = inp;
 }
 
 void Character::setMovementSpeed(float inp)
@@ -131,7 +137,6 @@ void Character::setFighting(bool inp)
 	fighting = inp;
 }
 
-//getters
 std::string Character::getName() const
 {
 	return name;
@@ -152,9 +157,24 @@ int Character::getAttackDamage() const
 	return attackDamage;
 }
 
+int Character::getBaseAttackDamage() const
+{
+	return baseAttackDamage;
+}
+
 int Character::getAttackSpeed() const
 {
 	return attackSpeed;
+}
+
+int Character::getDefense() const
+{
+	return defense;
+}
+
+int Character::getBaseDefense() const
+{
+	return baseDefense;
 }
 
 float Character::getMovementSpeed() const

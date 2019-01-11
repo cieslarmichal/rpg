@@ -117,7 +117,6 @@ bool Movement::moveEnemy(Rect & enemy, Rect & player)
 		{
 			int xdiff = (int)(enemy.character->getNextMove().x - enemy.getPosition().x);
 			int ydiff = (int)(enemy.character->getNextMove().y - enemy.getPosition().y);
-
 			if ((int)enemy.getPosition().x != enemy.character->getNextMove().x && enemy.character->getCanMoveRight() && xdiff > 0) return move(enemy, (int)Directions::RIGHT);
 			else if ((int)enemy.getPosition().x != enemy.character->getNextMove().x && enemy.character->getCanMoveLeft() && xdiff < 0) return move(enemy, (int)Directions::LEFT);
 			else if ((int)enemy.getPosition().y != enemy.character->getNextMove().y && enemy.character->getCanMoveUp() && ydiff < 0) return move(enemy, (int)Directions::UP);

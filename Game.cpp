@@ -5,8 +5,7 @@
 Game::Game()
 {
 	//Class respawning enemies considering walls and actual enemies and player
-	//lvl notifications spacje
-	//przy wchodzeniu w tunel wiesza gre
+	//NPC simple missions, kill 5 skeletons
 	//konczyc to bo trzeba tmp robic tez
 }
 
@@ -72,11 +71,6 @@ void Game::gameLoop()
 		Delete::removeItems(items);
 		Delete::removeAndAddItems(player->rect->player->getInventory().getItems(), items, player->rect->getPosition());
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Middle))
-		{
-			player->rect->character->getPathFinding().debugDrawMap(*window);
-		}
-
 		drawWindow();
 	}
 }
@@ -103,6 +97,7 @@ void Game::createCharacters()
 	// Enemies:
 	// name, hp, attackDamage, attackSpeed, movementSpeed, experience, coins, lootChance
 	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 2, 70, 10, 0.2);
+	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 100, 0.13);
 	characterDragon = new Dragon("Dragon", 1000, 25, 2, 2, 400, 30, 0.05);
 
 	player = Create::createPlayer(*characterPlayer, { 24 * 40,30 * 40 });
@@ -112,7 +107,7 @@ void Game::createCharacters()
 	Create::createSkeleton(*characterSkeleton, enemies, { 8 * 40,11 * 40 });
 	Create::createSkeleton(*characterSkeleton, enemies, { 2 * 40,2 * 40 });
 	Create::createDragon(*characterDragon, enemies, { 20 * 40,18 * 40 });
-
+	Create::createSkeletonBerserker(*characterSkeletonBerserker, enemies, { 40 * 40,5 * 40 });
 
 }
 
@@ -161,6 +156,9 @@ void Game::drawWindow()
 	draw->drawStatusBar(playerHealthBar);
 	draw->drawText(notifications);
 	draw->drawHUD(hud);
+
+	//player->rect->character->getPathFinding().debugDrawMap(*window);
+
 
 	window->display();
 }

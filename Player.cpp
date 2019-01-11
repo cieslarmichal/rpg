@@ -14,8 +14,6 @@ Player::~Player()
 {
 }
 
-//setters
-
 void Player::levelUp()
 {
 	level++;
@@ -46,8 +44,6 @@ void Player::setWeapon(bool inp)
 {
 	weapon = inp;
 }
-
-//getters
 
 int Player::getLevel() const
 {
@@ -102,6 +98,7 @@ void Player::useItem(int actionKey)
 			else
 			{
 				inventory.equipItem(chosenItem);
+				updateEqEffects();
 			}
 		}
 	}
@@ -122,5 +119,33 @@ void Player::dropItem(int actionKey)
 	{
 		useItemTimer.reset();
 		inventory.dropItem();
+	}
+}
+
+void Player::updateEqEffects()
+{
+	setDefense(getBaseDefense());
+
+	for (auto & eqItem : inventory.getEquipment())
+	{
+		switch (eqItem.getType())
+		{
+		case Item::Type::MELEE_WEAPON:
+			weapon = (int)Weapons::MELEE;
+			setAttackDamage(getBaseAttackDamage() + eqItem.getDamage());
+			break;
+		case Item::Type::DISTANCE_WEAPON:
+			weapon = (int)Weapons::DISTANCE;
+			setAttackDamage(getBaseAttackDamage() + eqItem.getDamage());
+			break;
+		case Item::Type::HELMET:
+		case Item::Type::ARMOR:
+		case Item::Type::BOOTS:
+		case Item::Type::SHIELD:
+		case Item::Type::NECKLACE:
+		case Item::Type::RING:
+			setDefense(getDefense() + eqItem.getArmor());
+			break;
+		}
 	}
 }

@@ -3,7 +3,6 @@
 #include "Wrapper.h"
 #include "StatusBar.h"
 #include "Text.h"
-#include "ChangeWeapon.h"
 #include "LevelManager.h"
 #include "Create.h"
 #include "Inventory.h"
