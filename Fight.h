@@ -4,6 +4,7 @@
 #include "Text.h"
 #include "LevelManager.h"
 #include "Delete.h"
+#include "Random.h"
 
 class Fight
 {
@@ -16,4 +17,9 @@ public:
 	static void setFightingMode(std::unique_ptr<Wrapper> & character, bool isFighting);
 private:
 	static bool isMeleeAttackPossible(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wrapper> & victim);
+	static int calculateEffectiveDamage(int attackDamage);
+	static int calculateEffectiveDefense(int defense);
+	static int randomizeAttackType();
+	static bool containsValue(std::vector<int>, int value);
+	enum AttackType { WEAK = 0, NORMAL = 1, CRITICAL = 2 };
 };

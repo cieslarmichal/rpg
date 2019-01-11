@@ -15,7 +15,7 @@ std::string LevelManager::update(std::unique_ptr<Player> & player)
 		{
 			currentExperience = player->getExperience() - requireExperience;
 			player->levelUp();
-			requireExperience = 2 * requireExperience;
+			requireExperience = requireExperience * 2;
 		}
 		std::string msg = "You advanced from Level " + std::to_string(previousLevel) + " to Level " + std::to_string(player->getLevel()) + ".";
 		return msg;
@@ -23,7 +23,7 @@ std::string LevelManager::update(std::unique_ptr<Player> & player)
 	if (player->getDistanceHits() >= requireDistanceHits)
 	{
 		player->distanceSkillUp();
-		requireDistanceHits += requireDistanceHits * 1.9;
+		requireDistanceHits += (int)(requireDistanceHits * 1.9);
 		std::string msg = "You advanced from Distance Skill " + std::to_string(player->getDistanceLevel() - 1) + " to Distance Skill " + std::to_string(player->getDistanceLevel()) + ".";
 		return msg;
 	}
@@ -31,7 +31,7 @@ std::string LevelManager::update(std::unique_ptr<Player> & player)
 	if (player->getMeleeHits() >= requireMeleeHits)
 	{
 		player->meleeSkillUp();
-		requireMeleeHits += requireMeleeHits * 1.5;
+		requireMeleeHits += (int)(requireMeleeHits * 1.5);
 		std::string msg = "You advanced from Melee Skill " + std::to_string(player->getMeleeLevel() - 1) + " to Melee Skill " + std::to_string(player->getMeleeLevel()) + ".";
 		return msg;
 	}

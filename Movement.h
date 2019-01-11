@@ -10,6 +10,7 @@
 #include "Directions.h"
 #include "TimeHandler.h"
 #include "Tile.h"
+#include "Random.h"
 
 typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "Character.h"
-#include <cstdlib>
-#include <ctime>
+#include "Random.h"
 
 class Enemy : public Character
 {
