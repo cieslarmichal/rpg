@@ -12,7 +12,6 @@ void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar
 	player->rect->player->useItem(action);
 	player->rect->player->changeChosenItem(action);
 	player->rect->player->dropItem(action);
-	ChangeWeapon::changeWeapon(action, player); //to delete
 	std::string levelMessage = LevelManager::update(player->rect->player);
 	Create::createLevelMessage(levelMessage, notifications);
 }

@@ -10,13 +10,14 @@ class Character
 public:
 	Character(std::string name, int healthPoints, int attackDamage, int attackSpeed, int experience, int coins, float movementSpeed);
 	virtual ~Character() = 0 {}
-	//setters
+public:
 	void setName(std::string);
 	void setMaxHp(int);
 	void setCurrentHp(int);
 	void setAttackDamage(int);
 	void setAttackSpeed(int);
 	void setMovementSpeed(float);
+	void setDefense(int);
 	void setExperience(int);
 	void setCoins(int);
 	void setDirection(int);
@@ -32,12 +33,15 @@ public:
 	void setDead(bool);
 	void setMarked(bool);
 	void setFighting(bool);
-	//getters
+public:
 	std::string getName() const;
 	int getMaxHp() const;
 	int getCurrentHp() const;
 	int getAttackDamage() const;
+	int getBaseAttackDamage() const;
 	int getAttackSpeed() const;
+	int getDefense() const;
+	int getBaseDefense() const;
 	float getMovementSpeed() const;
 	int getExperience() const;
 	int getCoins() const;
@@ -56,7 +60,9 @@ public:
 private:
 	std::string name;
 	int hpMax, hp;
-	int attackDamage, attackSpeed;
+	int attackDamage, baseAttackDamage;
+	int attackSpeed;
+	int defense, baseDefense;
 	int experience;
 	int coins;
 	float movementSpeed;

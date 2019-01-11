@@ -4,16 +4,9 @@
 
 HUD::HUD() :hp(64, 14), lvl(64, 14)
 {
-	Create::createHUDMessage(informations);
-	Create::createHUDSlots(inventorySlots);
-
-	equipmentPositions[Inventory::EquippedType::WEAPON] = sf::Vector2i(10, 140);
-	equipmentPositions[Inventory::EquippedType::SHIELD] = sf::Vector2i(50, 140);
-	equipmentPositions[Inventory::EquippedType::HELMET] = sf::Vector2i(30, 120);
-	equipmentPositions[Inventory::EquippedType::ARMOR] = sf::Vector2i(30, 140);
-	equipmentPositions[Inventory::EquippedType::BOOTS] = sf::Vector2i(30, 160);
-	equipmentPositions[Inventory::EquippedType::NECKLACE] = sf::Vector2i(10, 120);
-	equipmentPositions[Inventory::EquippedType::RING] = sf::Vector2i(10, 160);
+	initializeText();
+	initializeSlots();
+	initializeEqPositions();
 }
 
 void HUD::update(std::unique_ptr<Wrapper>& player, sf::Vector2u windowSize)
@@ -51,6 +44,16 @@ void HUD::updateInformations(std::unique_ptr<Wrapper> & player, sf::Vector2u win
 		{
 			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 +5, player->rect->getPosition().y - (float)windowSize.y / 2 + 92);
 			info->updateHUDInformation(HUDposition, player->rect->player->getCoins());
+		}
+		else if (info->getHUDtype() == "DMG")
+		{
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 240);
+			info->updateHUDInformation(HUDposition, player->rect->player->getAttackDamage());
+		}
+		else if (info->getHUDtype() == "DEF")
+		{
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 260);
+			info->updateHUDInformation(HUDposition, player->rect->player->getDefense());
 		}
 	}
 }
@@ -212,3 +215,33 @@ sf::Vector2i HUD::calculateEqPosition(int itemType)
 
 	return offset;
 }
+
+void HUD::initializeText()
+{
+	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::Red, "HP", 16)));
+	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::Magenta, "LVL", 16)));
+	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::White, "EXP", 16)));
+	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::Yellow, "COINS", 16)));
+	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::White, "DMG", 16)));
+	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::White, "DEF", 16)));
+}
+
+void HUD::initializeSlots()
+{
+	for (int i = 0; i < 15; i++)
+	{
+		inventorySlots.push_back(std::unique_ptr<Rect>(new Rect(16, 16, { -1,-1 })));
+	}
+}
+
+void HUD::initializeEqPositions()
+{
+	equipmentPositions[Inventory::EquippedType::WEAPON] = sf::Vector2i(10, 140);
+	equipmentPositions[Inventory::EquippedType::SHIELD] = sf::Vector2i(50, 140);
+	equipmentPositions[Inventory::EquippedType::HELMET] = sf::Vector2i(30, 120);
+	equipmentPositions[Inventory::EquippedType::ARMOR] = sf::Vector2i(30, 140);
+	equipmentPositions[Inventory::EquippedType::BOOTS] = sf::Vector2i(30, 160);
+	equipmentPositions[Inventory::EquippedType::NECKLACE] = sf::Vector2i(10, 120);
+	equipmentPositions[Inventory::EquippedType::RING] = sf::Vector2i(10, 160);
+}
+

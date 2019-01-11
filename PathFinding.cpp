@@ -98,17 +98,12 @@ sf::Vector2i PathFinding::solveAStar()
 		Node *previous = nodeEnd;
 		if (previous != nullptr)
 		{
-			while (previous->parent != nodeStart)
+			while (previous->parent != nullptr)
 			{
-				if (previous->parent != nullptr)
-				{
-					previous = previous->parent;
-				}
-
+				nextPosition.x = previous->x * 40;
+				nextPosition.y = previous->y * 40;
+				previous = previous->parent;
 			}
-			nextPosition.x = previous->x * 40;
-			nextPosition.y = previous->y * 40;
-
 		}
 	}
 

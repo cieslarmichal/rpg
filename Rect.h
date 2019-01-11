@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Skeleton.h"
 #include "Dragon.h"
+#include "SkeletonBerserker.h"
 #include "Obstacle.h"
 #include "Projectile.h"
 #include "Item.h"
@@ -13,6 +14,7 @@ class Rect
 public:
 	Rect(Player &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Skeleton &, int dimX, int dimY, sf::Vector2f position);
+	Rect(SkeletonBerserker &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Dragon &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Obstacle &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Projectile &, int dimX, int dimY, sf::Vector2f position);

@@ -23,7 +23,6 @@
 #include "Shoot.h"
 #include "PathFinding.h"
 #include "Map.h"
-#include "ChangeWeapon.h"
 
 class Game
 {
@@ -52,6 +51,7 @@ private:
 private:
 	Player * characterPlayer;
 	Skeleton * characterSkeleton;
+	SkeletonBerserker * characterSkeletonBerserker;
 	Dragon * characterDragon;
 private:
 	HUD hud;

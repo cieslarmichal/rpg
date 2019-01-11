@@ -2,6 +2,7 @@
 #include "Wrapper.h"
 #include "StatusBar.h"
 #include "Skeleton.h"
+#include "SkeletonBerserker.h"
 #include "Projectile.h"
 #include "Dragon.h"
 #include "Text.h"
@@ -16,6 +17,7 @@ public:
 	Create() = delete;
 	static std::unique_ptr<Wrapper> createPlayer(Player & player, sf::Vector2f position);
 	static void createSkeleton(Skeleton & skeleton, enemyPair & enemies, sf::Vector2f position);
+	static void createSkeletonBerserker(SkeletonBerserker & skeletonBerserker, enemyPair & enemies, sf::Vector2f position);
 	static void createDragon(Dragon & dragon, enemyPair & enemies, sf::Vector2f position);
 	static void createProjectile(std::unique_ptr<Wrapper>& player, Projectile & projectile, std::vector<std::unique_ptr<Wrapper>> & projectiles, sf::Vector2i dimSprite);
 	static void createItem(Item & item, std::vector<std::unique_ptr<Wrapper>> & items, sf::Vector2f position);
@@ -32,6 +34,4 @@ public:
 	//texts
 	static void createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
 	static void createLevelMessage(std::string message, std::vector<std::unique_ptr<Text>> & notifications);
-	static void createHUDMessage(std::vector<std::unique_ptr<Text>> & HUDinfo);
-	static void createHUDSlots(std::vector<std::unique_ptr<Rect>> & HUDInventorySlots);
 };

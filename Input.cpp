@@ -38,10 +38,6 @@ int * Input::read()
 	{
 		pressedKeys[ACTION] = (int)InputKeys::E;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-	{
-		pressedKeys[ACTION] = (int)InputKeys::R;
-	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))
 	{
 		pressedKeys[ACTION] = (int)InputKeys::TAB;

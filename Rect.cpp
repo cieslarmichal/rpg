@@ -21,6 +21,16 @@ Rect::Rect(Skeleton & s, int dx, int dy, sf::Vector2f pos) :dimX(dx), dimY(dy)
 	setEdges();
 }
 
+Rect::Rect(SkeletonBerserker & sb, int dx, int dy, sf::Vector2f pos) : dimX(dx), dimY(dy)
+{
+	enemy = std::unique_ptr<Enemy>(new SkeletonBerserker(sb));
+	character = &(*enemy);
+	rect.setSize(sf::Vector2f((float)dimX, (float)dimY));
+	rect.setFillColor(sf::Color::Red);
+	rect.setPosition(pos);
+	setEdges();
+}
+
 Rect::Rect(Dragon & d, int dx, int dy, sf::Vector2f pos) : dimX(dx), dimY(dy)
 {
 	enemy = std::unique_ptr<Enemy>(new Dragon(d));

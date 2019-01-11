@@ -31,5 +31,6 @@ private:
 	int distanceHits, meleeHits;
 private:
 	Inventory inventory;
+	void updateEqEffects();
 	TimeHandler useItemTimer;
 };

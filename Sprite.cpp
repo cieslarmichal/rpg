@@ -16,7 +16,7 @@ Sprite::Sprite(std::string path, int sx, int sy, int dimx, int dimy) : spriteX(s
 		offByRectX = -11;
 		offByRectY = -20;
 	}
-	else if (path == "stuff/skeleton.png")
+	else if (path == "stuff/skeleton.png" || path=="stuff/skeletonBerserker.png")
 	{
 		offByRectX = 0;
 		offByRectY = -4;
