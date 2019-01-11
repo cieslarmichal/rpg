@@ -4,6 +4,8 @@
 
 Game::Game()
 {
+	//randomize attacks 
+	//consider defense in getting damaged
 	//Class respawning enemies considering walls and actual enemies and player
 	//NPC simple missions, kill 5 skeletons
 	//konczyc to bo trzeba tmp robic tez
@@ -81,8 +83,8 @@ void Game::initialize()
 	window->setPosition(sf::Vector2i(10, 50));
 	window->setFramerateLimit(60);
 
-	playerView = new sf::View(sf::FloatRect(0, 0, window->getSize().x, window->getSize().y));
-	playerView->setSize(sf::Vector2f(sf::Vector2u(window->getSize())));
+	playerView = new sf::View(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
+	playerView->setSize(sf::Vector2f((window->getSize())));
 	playerView->setCenter(sf::Vector2f(playerView->getSize().x / 2, playerView->getSize().y / 2));
 	window->setView(*playerView);
 
@@ -96,9 +98,9 @@ void Game::createCharacters()
 	characterPlayer = new Player("Michal", 2500, 100, 3, 4);
 	// Enemies:
 	// name, hp, attackDamage, attackSpeed, movementSpeed, experience, coins, lootChance
-	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 2, 70, 10, 0.2);
-	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 100, 0.13);
-	characterDragon = new Dragon("Dragon", 1000, 25, 2, 2, 400, 30, 0.05);
+	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 2, 70, 10, 0.2f);
+	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 100, 0.13f);
+	characterDragon = new Dragon("Dragon", 1000, 25, 2, 2, 400, 30, 0.05f);
 
 	player = Create::createPlayer(*characterPlayer, { 24 * 40,30 * 40 });
 	Create::createSkeleton(*characterSkeleton, enemies, { 18 * 40,20 * 40 });
