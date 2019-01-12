@@ -36,8 +36,50 @@ void Create::createProjectile(std::unique_ptr<Wrapper>& player, Projectile & pro
 
 void Create::createItem(Item & item, std::vector<std::unique_ptr<Wrapper>> & items, sf::Vector2f position)
 {
-	items.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(item, 16, 16, position)),
-		std::unique_ptr<Sprite>(new Sprite(item.getPathName(), 16, 16)))));
+	if (item.getId() == (int)Item::Id::COIN)
+	{
+		sf::Vector2f offset{ 0,0 };
+
+		int amountOFCoins = Random::getRandomNumber(1, 5);
+
+		if (amountOFCoins == 3 || amountOFCoins == 4 || amountOFCoins == 5)
+		{
+			amountOFCoins = Random::getRandomNumber(1, 5);
+		}
+
+		int coinCounter = 1;
+		while (coinCounter <= amountOFCoins)
+		{
+			switch (coinCounter)
+			{
+			case 1:
+				offset = { 4,18 };
+				break;
+			case 2:
+				offset = { -8,18 };
+				break;
+			case 3:
+				offset = { -2,10 };
+				break;
+			case 4:
+				offset = { -6,14 };
+				break;
+			case 5:
+				offset = { 2,14 };
+				break;
+			}
+
+			items.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(item, 16, 16, position + offset)),
+				std::unique_ptr<Sprite>(new Sprite(item.getPathName(), 16, 16)))));
+
+			coinCounter++;
+		}
+	}
+	else
+	{
+		items.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(item, 16, 16, position)),
+			std::unique_ptr<Sprite>(new Sprite(item.getPathName(), 16, 16)))));
+	}
 }
 
 void Create::createWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles)

@@ -4,8 +4,6 @@
 #include "Projectile.h"
 #include "Wrapper.h"
 #include "StatusBar.h"
-#include <cstdlib>
-#include <ctime>
 #include <cmath>
 #include "Directions.h"
 #include "TimeHandler.h"

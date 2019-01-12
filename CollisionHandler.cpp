@@ -62,7 +62,6 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 			setEnemyCollidingWithPlayer(enemiesCollidingWithPlayer, enemyIndex, true);
 
 			Fight::setFightingMode(enemies[enemyIndex].first, true);
-
 			Fight::attackMelee(enemies[enemyIndex].first, player, notifications, items);
 			Fight::attackMelee(player, enemies[enemyIndex].first, notifications, items);
 
@@ -111,7 +110,6 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 		}
 		enemyIndex++;
 	}
-
 
 	enemyIndex = 0;
 	for (auto & enemy : enemies)
@@ -209,7 +207,6 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 		enemyIndex++;
 	}
 
-
 	Delete::removeBlocked(blockedEnemies);
 }
 
@@ -247,9 +244,9 @@ void CollisionHandler::playerWithItems(std::unique_ptr<Wrapper> & player, std::v
 	{
 		if (isIntersecting(*item->rect, *player->rect))
 		{
-			int topDistance = abs(item->rect->getBottomEdge() - player->rect->getTopEdge()); 
-			int bottomDistance = abs(item->rect->getTopEdge() - player->rect->getBottomEdge()); 
-			int leftDistance = abs(item->rect->getRightEdge() - player->rect->getLeftEdge()); 
+			int topDistance = abs(item->rect->getBottomEdge() - player->rect->getTopEdge());
+			int bottomDistance = abs(item->rect->getTopEdge() - player->rect->getBottomEdge());
+			int leftDistance = abs(item->rect->getRightEdge() - player->rect->getLeftEdge());
 			int rightDistance = abs(item->rect->getLeftEdge() - player->rect->getRightEdge());
 
 			int sumOfDistances = topDistance + bottomDistance + leftDistance + rightDistance;
@@ -276,11 +273,9 @@ void CollisionHandler::playerWithItems(std::unique_ptr<Wrapper> & player, std::v
 	}
 
 	//cleaning all items from picking 
-	itemIndex = 0;
 	for (auto & item : items)
 	{
 		item->rect->item->setReadyToPick(false);
-		itemIndex++;
 	}
 
 	//set possibility to take the closest one from player
@@ -292,21 +287,7 @@ void CollisionHandler::playerWithItems(std::unique_ptr<Wrapper> & player, std::v
 	//collecting items
 	if (indexWithLowestVal != (int)Others::RESET)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		{
-			if (items[indexWithLowestVal]->rect->item->getType() == Item::Type::COIN)
-			{
-				player->rect->player->setCoins(player->rect->player->getCoins() + items[indexWithLowestVal]->rect->item->getSellValue());
-				Delete::setItemToDestroy(items[indexWithLowestVal]);
-			}
-			else 
-			{
-				if (player->rect->player->getInventory().addItem(*items[indexWithLowestVal]->rect->item))
-				{
-					Delete::setItemToDestroy(items[indexWithLowestVal]);
-				}
-			}
-		}
+		player->rect->player->pickUpItem(*items[indexWithLowestVal]->rect->item, actionKey);
 	}
 }
 

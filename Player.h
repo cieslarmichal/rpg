@@ -21,6 +21,7 @@ public:
 	int getMeleeHits() const;
 public:
 	Inventory & getInventory();
+	void pickUpItem(Item & item, int actionKey);
 	void useItem(int actionKey);
 	void changeChosenItem(int actionKey);
 	void dropItem(int actionKey);
@@ -32,5 +33,5 @@ private:
 private:
 	Inventory inventory;
 	void updateEqEffects();
-	TimeHandler useItemTimer;
+	TimeHandler pickItemTimer,useItemTimer;
 };

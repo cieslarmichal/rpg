@@ -180,7 +180,7 @@ void PathFinding::initializeLogicMap(std::vector<std::unique_ptr<Tile>> & mapTil
 			bool foundTileIndex = false;
 			for (auto & tile : mapTiles)
 			{
-				if (tile->x / tile->width == x && tile->y / tile->width == y)
+				if (tile->getPosition().x / tile->getWidth() == x && tile->getPosition().y / tile->getWidth() == y)
 				{
 					foundTileIndex = true;
 					break;
@@ -192,7 +192,7 @@ void PathFinding::initializeLogicMap(std::vector<std::unique_ptr<Tile>> & mapTil
 			nodes[y*MAP_WIDTH + x].y = y;
 			if (foundTileIndex)
 			{
-				nodes[y*MAP_WIDTH + x].obstacle = mapTiles.at(tileIndex)->isObstacle;
+				nodes[y*MAP_WIDTH + x].obstacle = mapTiles.at(tileIndex)->isObstacle();
 				nodes[y*MAP_WIDTH + x].notChanging = true;
 			}
 			else nodes[y*MAP_WIDTH + x].obstacle = false;
@@ -217,7 +217,7 @@ void PathFinding::updateLogicMap(std::vector<std::unique_ptr<Tile>> & mapTiles)
 					bool foundTileIndex = false;
 					for (auto & tile : mapTiles)
 					{
-						if (tile->x / tile->width == x && tile->y / tile->width == y)
+						if (tile->getPosition().x / tile->getWidth() == x && tile->getPosition().y / tile->getWidth() == y)
 						{
 							foundTileIndex = true;
 							break;
@@ -229,7 +229,7 @@ void PathFinding::updateLogicMap(std::vector<std::unique_ptr<Tile>> & mapTiles)
 					nodes[y*MAP_WIDTH + x].y = y;
 					if (foundTileIndex)
 					{
-						nodes[y*MAP_WIDTH + x].obstacle = mapTiles.at(tileIndex)->isObstacle;
+						nodes[y*MAP_WIDTH + x].obstacle = mapTiles.at(tileIndex)->isObstacle();
 					}
 					else nodes[y*MAP_WIDTH + x].obstacle = false;
 					nodes[y*MAP_WIDTH + x].parent = nullptr;
