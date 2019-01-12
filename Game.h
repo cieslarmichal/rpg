@@ -23,6 +23,7 @@
 #include "Shoot.h"
 #include "PathFinding.h"
 #include "Map.h"
+#include "EnemySpawner.h"
 
 class Game
 {
@@ -34,8 +35,8 @@ private:
 	void initialize();
 	void createCharacters();
 	void createWorld();
-	void initializePathFindingMap();
-	void updatePathFindingMap();
+	void initializeLogicMap();
+	void updateLogicMap();
 	void gameLoop();
 	void updatePlayerView();
 	void drawWindow();
@@ -46,13 +47,12 @@ private:
 	TimeHandler timer;
 	Input input;
 	Draw * draw;
+	EnemySpawner enemySpawner;
 	CollisionHandler collisionHandler;
 	PathFinding pathfinding;
 private:
 	Player * characterPlayer;
-	Skeleton * characterSkeleton;
-	SkeletonBerserker * characterSkeletonBerserker;
-	Dragon * characterDragon;
+
 private:
 	HUD hud;
 	std::unique_ptr<Wrapper> player;

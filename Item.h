@@ -2,12 +2,14 @@
 #include <string>
 #include "ItemFactory.h"
 #include "Directions.h"
+#include "Random.h"
 
 class Item
 {
 public:
 	Item(int itemID);
 	Item();
+	static int randomizeItemID(float chance);
 	void setName(std::string);
 	void setPathName(std::string);
 	void setId(int);
@@ -39,6 +41,7 @@ public:
 		COIN = 0, HEALTH_POTION = 1, FOOD = 2, MELEE_WEAPON = 3, DISTANCE_WEAPON = 4, SHIELD = 5,
 		NECKLACE = 6, RING = 7, HELMET = 8, BOOTS = 9, ARMOR = 10
 	};
+	enum class Id { NOTHING = -1, COIN = 47 };
 private:
 	std::string name;
 	std::string pathName;
@@ -46,5 +49,6 @@ private:
 	int damage, armor, restoringHp, sellValue;
 	bool destroyed, readyToDrop, readyToPick;
 	int distanceFromPlayer;
+
 };
 

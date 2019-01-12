@@ -2,7 +2,7 @@
 
 Item::Item(int idd) : id(idd)
 {
-	destroyed = readyToPick = false;
+	destroyed = readyToPick = readyToDrop = false;
 	distanceFromPlayer = 1000;
 	ItemFactory::makeItem(*this);
 }
@@ -10,7 +10,22 @@ Item::Item(int idd) : id(idd)
 Item::Item()
 {
 	name = "";
+	id = (int)Id::NOTHING;
 	type = (int)Others::RESET;
+}
+
+int Item::randomizeItemID(float chance)
+{
+	if (Random::isSuccessful(chance))
+	{
+		return Random::getRandomNumber(0, ITEMS_AMOUNT);
+	}
+	else if(Random::isSuccessful(0.5))
+	{
+		return (int)Id::COIN;
+	}
+	
+	return (int)Id::NOTHING;
 }
 
 

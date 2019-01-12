@@ -4,10 +4,9 @@
 
 Game::Game()
 {
-	//randomize attacks 
-	//consider defense in getting damaged
 	//Class respawning enemies considering walls and actual enemies and player
 	//NPC simple missions, kill 5 skeletons
+	//NPC simple shop sell items
 	//konczyc to bo trzeba tmp robic tez
 }
 
@@ -17,8 +16,6 @@ Game::~Game()
 	delete playerView;
 	delete draw;
 	delete characterPlayer;
-	delete characterSkeleton;
-	delete characterDragon;
 }
 
 bool Game::run()
@@ -64,7 +61,7 @@ void Game::gameLoop()
 		if (timer.getElapsedSeconds() >= 0.5)
 		{
 			timer.reset();
-			updatePathFindingMap();
+			updateLogicMap();
 		}
 
 		Delete::removeText(notifications);
@@ -96,21 +93,15 @@ void Game::createCharacters()
 	// Player:
 	// name, hp, attackDamage, attackSpeed, movementSpeed
 	characterPlayer = new Player("Michal", 2500, 100, 3, 4);
-	// Enemies:
-	// name, hp, attackDamage, attackSpeed, movementSpeed, experience, coins, lootChance
-	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 2, 70, 10, 0.2f);
-	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 100, 0.13f);
-	characterDragon = new Dragon("Dragon", 1000, 25, 2, 2, 400, 30, 0.05f);
 
 	player = Create::createPlayer(*characterPlayer, { 24 * 40,30 * 40 });
-	Create::createSkeleton(*characterSkeleton, enemies, { 18 * 40,20 * 40 });
-	Create::createSkeleton(*characterSkeleton, enemies, { 19 * 40,14 * 40 });
-	Create::createSkeleton(*characterSkeleton, enemies, { 5 * 40,6 * 40 });
-	Create::createSkeleton(*characterSkeleton, enemies, { 8 * 40,11 * 40 });
-	Create::createSkeleton(*characterSkeleton, enemies, { 2 * 40,2 * 40 });
-	Create::createDragon(*characterDragon, enemies, { 20 * 40,18 * 40 });
-	Create::createSkeletonBerserker(*characterSkeletonBerserker, enemies, { 40 * 40,5 * 40 });
-
+	enemySpawner.spawnSkeleton(enemies, { 18 * 40,20 * 40 });
+	enemySpawner.spawnSkeleton(enemies, { 19 * 40,14 * 40 });
+	enemySpawner.spawnSkeleton(enemies, { 5 * 40,6 * 40 });
+	enemySpawner.spawnSkeleton(enemies, { 8 * 40,11 * 40 });
+	enemySpawner.spawnSkeleton(enemies, { 2 * 40,2 * 40 });
+	enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
+	enemySpawner.spawnDragon(enemies, { 20 * 40,18 * 40 });
 }
 
 void Game::createWorld()
@@ -126,18 +117,19 @@ void Game::createWorld()
 		std::cerr << err << std::endl;
 	}
 
-	initializePathFindingMap();
+	initializeLogicMap();
 }
 
-void Game::initializePathFindingMap()
+void Game::initializeLogicMap()
 {
 	Map::readTiles(walls);
 	pathfinding.initializeLogicMap(Map::tiles);
 }
 
-void Game::updatePathFindingMap()
+void Game::updateLogicMap()
 {
-	Map::updateTiles(enemies);
+	Map::updateTiles(player, enemies);
+
 	pathfinding.updateLogicMap(Map::tiles);
 }
 

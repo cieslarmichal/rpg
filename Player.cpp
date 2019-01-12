@@ -81,6 +81,27 @@ Inventory & Player::getInventory()
 	return inventory;
 }
 
+void Player::pickUpItem(Item & item, int actionKey)
+{
+	if (actionKey == (int)InputKeys::E && pickItemTimer.getElapsedSeconds() > (float)0.2)
+	{
+		pickItemTimer.reset();
+
+		if (item.getType() == Item::Type::COIN)
+		{
+			setCoins(getCoins() + item.getSellValue());
+			item.setDestroyed(true);
+		}
+		else
+		{
+			if (inventory.addItem(item))
+			{
+				item.setDestroyed(true);
+			}
+		}
+	}
+}
+
 void Player::useItem(int actionKey)
 {
 	if (actionKey == (int)InputKeys::Q && useItemTimer.getElapsedSeconds() > (float)0.4)
@@ -88,6 +109,7 @@ void Player::useItem(int actionKey)
 		if (inventory.isItemAvailable(inventory.getChosenItemIndex()))
 		{
 			useItemTimer.reset();
+
 			Item & chosenItem = inventory.getChosenItem();
 
 			if (chosenItem.getType() == Item::Type::HEALTH_POTION || chosenItem.getType() == Item::Type::FOOD)

@@ -7,7 +7,7 @@ void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wra
 	if (isMeleeAttackPossible(attacker, victim))
 	{
 		attacker->timing.reset();
-		int effectiveDamage = calculateEffectiveDamage(attacker->rect->character->getAttackDamage()) - victim->rect->character->getDefense();
+		int effectiveDamage = calculateEffectiveDamage(attacker->rect->character->getAttackDamage()) - calculateEffectiveDefense(victim->rect->character->getDefense());
 		effectiveDamage = (effectiveDamage > 0) ? effectiveDamage : 0;
 		int damagedHp = victim->rect->character->getCurrentHp() - effectiveDamage;
 		victim->rect->character->setCurrentHp(damagedHp);
@@ -19,8 +19,13 @@ void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wra
 			if (victim->rect->enemy != nullptr)
 			{
 				LevelManager::getExperience(attacker->rect->player, victim->rect->enemy);
-				Item item(std::rand() % 20 + 10);
-				Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
+
+				int randomItemID = Item::randomizeItemID(victim->rect->enemy->getLootChance());
+				if (randomItemID != (int)Item::Id::NOTHING)
+				{
+					Item item(randomItemID);
+					Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
+				}
 			}
 		}
 
@@ -36,7 +41,7 @@ void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wra
 void Fight::attackDistance(std::unique_ptr<Player> & player, std::unique_ptr<Wrapper> & projectile,
 	std::unique_ptr<Wrapper> & victim, std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items)
 {
-	int effectiveDamage = calculateEffectiveDamage(projectile->rect->projectile->getDamage()) - victim->rect->character->getDefense();
+	int effectiveDamage = calculateEffectiveDamage(projectile->rect->projectile->getDamage()) - calculateEffectiveDefense(victim->rect->character->getDefense());
 	effectiveDamage = (effectiveDamage > 0) ? effectiveDamage : 0;
 	int damagedHp = victim->rect->character->getCurrentHp() - effectiveDamage;
 	victim->rect->character->setCurrentHp(damagedHp);
@@ -47,11 +52,14 @@ void Fight::attackDistance(std::unique_ptr<Player> & player, std::unique_ptr<Wra
 		if (victim->rect->enemy != nullptr)
 		{
 			LevelManager::getExperience(player, victim->rect->enemy);
-			// random process selecting which item
-			////////////////////////////////////////
-			///////////////////////////////////////////
-			Item item(std::rand() % 20 + 10);
-			Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
+
+			int randomItemID = Item::randomizeItemID(victim->rect->enemy->getLootChance());
+
+			if (randomItemID != (int)Item::Id::NOTHING)
+			{
+				Item item(randomItemID);
+				Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
+			}
 		}
 	}
 
@@ -79,13 +87,13 @@ int Fight::calculateEffectiveDamage(int attackDamage)
 	switch (attackType)
 	{
 	case AttackType::WEAK:
-		return attackDamage * Random::getRandomNumber(15, 40) / 100;
+		return attackDamage * Random::getRandomNumber(30, 50) / 100;
 		break;
 	case AttackType::NORMAL:
-		return attackDamage * Random::getRandomNumber(40, 75) / 100;
+		return attackDamage * Random::getRandomNumber(50, 85) / 100;
 		break;
 	case AttackType::CRITICAL:
-		return attackDamage * Random::getRandomNumber(75, 100) / 100;
+		return attackDamage * Random::getRandomNumber(85, 100) / 100;
 		break;
 	}
 
@@ -100,7 +108,7 @@ int Fight::calculateEffectiveDefense(int defense)
 
 int Fight::randomizeAttackType()
 {
-	std::vector<std::vector<int>> attackTypes{ {1,2,3},{4,5,6,7,8,9},{10} };
+	std::vector<std::vector<int>> attackTypes{ {1,2},{3,4,5,6,7,8,9},{10} };
 
 	int randomType = Random::getRandomNumber(1, 10);
 
