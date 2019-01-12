@@ -5,10 +5,10 @@ class Tile
 {
 public:
 	Tile(int x, int y, bool obstacle = false, bool enemy = false);
-	Tile(sf::Vector2i position, bool obstacle = false, bool enemy = false);
+	Tile(sf::Vector2f position, bool obstacle = false, bool enemy = false);
 	bool isEnemy();
 	bool isObstacle();
-	sf::Vector2i getPosition() const;
+	sf::Vector2f getPosition() const;
 	int getWidth() const;
 	int getHeight() const;
 private:

@@ -4,7 +4,7 @@ Tile::Tile(int xx, int yy, bool obstacle, bool enemy) :x(xx),y(yy), obstacle(obs
 {
 }
 
-Tile::Tile(sf::Vector2i position, bool obstacle, bool enemy) : x(position.x), y(position.y), obstacle(obstacle), enemy(enemy)
+Tile::Tile(sf::Vector2f position, bool obstacle, bool enemy) : x(position.x), y(position.y), obstacle(obstacle), enemy(enemy)
 {
 }
 
@@ -18,9 +18,9 @@ bool Tile::isObstacle()
 	return obstacle;
 }
 
-sf::Vector2i Tile::getPosition() const
+sf::Vector2f Tile::getPosition() const
 {
-	return sf::Vector2i(x, y);
+	return sf::Vector2f((float)x, (float)y);
 }
 
 int Tile::getWidth() const
