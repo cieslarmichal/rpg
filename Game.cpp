@@ -4,6 +4,8 @@
 
 Game::Game()
 {
+	//fix random
+	//in Create do amounts of items created
 	//Class respawning enemies considering walls and actual enemies and player
 	//NPC simple missions, kill 5 skeletons
 	//NPC simple shop sell items
@@ -21,8 +23,8 @@ Game::~Game()
 bool Game::run()
 {
 	initialize();
-	createCharacters();
 	createWorld();
+	createCharacters();
 	gameLoop();
 
 	return true;
@@ -102,6 +104,10 @@ void Game::createCharacters()
 	enemySpawner.spawnSkeleton(enemies, { 2 * 40,2 * 40 });
 	enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
 	enemySpawner.spawnDragon(enemies, { 20 * 40,18 * 40 });
+	enemySpawner.spawnDragon(enemies);
+	//enemySpawner.spawnDragon(enemies);
+	//enemySpawner.spawnDragon(enemies);
+
 }
 
 void Game::createWorld()
@@ -124,13 +130,14 @@ void Game::initializeLogicMap()
 {
 	Map::readTiles(walls);
 	pathfinding.initializeLogicMap(Map::tiles);
+	enemySpawner.initializeObjectsPositions(Map::precisePositions);
 }
 
 void Game::updateLogicMap()
 {
 	Map::updateTiles(player, enemies);
-
 	pathfinding.updateLogicMap(Map::tiles);
+	enemySpawner.updateObjectsPositions(Map::precisePositions);
 }
 
 void Game::updatePlayerView()

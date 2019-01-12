@@ -34,4 +34,9 @@ public:
 	//texts
 	static void createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
 	static void createLevelMessage(std::string message, std::vector<std::unique_ptr<Text>> & notifications);
+	//counters
+public:
+	static int getAmountOfWalls();
+private:
+	static int amountOfWalls;
 };

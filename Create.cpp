@@ -1,5 +1,7 @@
 #include "Create.h"
 
+int Create::amountOfWalls;
+
 std::unique_ptr<Wrapper> Create::createPlayer(Player & player, sf::Vector2f position)
 {
 	return std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(player, 40, 40, position)),
@@ -87,6 +89,8 @@ void Create::createWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapp
 	Obstacle obstacle;
 	obstacles.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/wall.png", 40, 40)))));
+
+	amountOfWalls++;
 }
 
 void Create::createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & floor)
@@ -172,4 +176,9 @@ void Create::createLevelMessage(std::string message, std::vector<std::unique_ptr
 {
 	if (message == "") return;
 	notifications.push_back(std::unique_ptr<Text>(new Text(message, sf::Vector2f(400, 400), sf::Color::White, false, 22)));
+}
+
+int Create::getAmountOfWalls()
+{
+	return amountOfWalls;
 }
