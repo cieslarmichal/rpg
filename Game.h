@@ -20,6 +20,7 @@
 #include "Map.h"
 #include "EnemySpawner.h"
 #include "Npc.h"
+#include "Missions.h"
 
 
 class Game

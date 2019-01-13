@@ -1,10 +1,23 @@
 #pragma once
 #include "Character.h"
+#include "TimeHandler.h"
+#include "Dialogues.h"
 
 class Npc :public Character
 {
 public:
-	Npc(std::string name);
+	Npc(std::string name, std::string dialoguePathFile);
 	~Npc();
+	std::string talk();
+	void startTalking(int actionKey);
+	void setTalking(bool);
+	bool isThereNextDialogue() const;
+	bool isTalking() const;
+	Dialogues & getDialogues();
+private:
+	std::string currentDialogue;
+	Dialogues dialogues;
+	TimeHandler dialogueTimer;
+	bool talking = false;
 };
 

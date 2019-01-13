@@ -3,10 +3,9 @@
 
 Game::Game()
 {
+	//last dialogue line increases memory usage :O failed to load font
+	//enemies blocking each other
 	//make unique zobaczyc
-	//mission status in HUD
-	//NPC simple missions, kill 5 skeletons
-	//NPC simple shop sell items
 	//konczyc to bo trzeba tmp robic tez
 }
 
@@ -41,7 +40,7 @@ void Game::gameLoop()
 		Shoot::shootEnemy(player, enemies, projectiles);
 
 		collisionHandler.characterWithObstacles(player, walls);
-		collisionHandler.playerWithNpcs(player, npcs, notifications);
+		collisionHandler.playerWithNpcs(player, npcs, notifications, inputKeys[Input::ACTION]);
 		collisionHandler.playerWithEnemies(player, enemies, notifications, items);
 		collisionHandler.playerWithItems(player, items, inputKeys[Input::ACTION]);
 		collisionHandler.enemiesWithObstacles(enemies, walls);
@@ -99,28 +98,29 @@ void Game::createCharacters()
 	characterPlayer = new Player("Michal", 2500, 100, 3, 2);
 	player = Create::createPlayer(*characterPlayer, { 24 * 40,30 * 40 });
 
-	characterNpc = new Npc("Carl");
+	characterNpc = new Npc("Carl", "stuff/dialogues.txt");
 	Create::createNpc(*characterNpc, npcs, { 20 * 40,30 * 40 });
 
-	enemySpawner.spawnSkeleton(enemies, { 18 * 40,20 * 40 });
-	enemySpawner.spawnSkeleton(enemies, { 19 * 40,14 * 40 });
-	enemySpawner.spawnSkeleton(enemies, { 5 * 40,6 * 40 });
-	//enemySpawner.spawnSkeleton(enemies, { 8 * 40,11 * 40 });
-	//enemySpawner.spawnSkeleton(enemies, { 2 * 40,2 * 40 });
-	//enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
-	//enemySpawner.spawnDragon(enemies, { 20 * 40,18 * 40 });
-	//enemySpawner.spawnDragon(enemies);
-	//enemySpawner.spawnDragon(enemies);
-	//enemySpawner.spawnDragon(enemies);
-	//enemySpawner.spawnDragon(enemies);
-	//enemySpawner.spawnDragon(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
 
+	enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
+	enemySpawner.spawnDragon(enemies);
 
 }
 
 void Game::createWorld()
 {
-	Create::createRoomWithoutFloor(50, 40, { 0, 0 }, 3, -10, 2, -10, walls);
+	Create::createRoomWithoutFloor(MAP_WIDTH, MAP_HEIGHT, { 0, 0 }, -10, -10, -10, -10, walls);
 
 	try
 	{
@@ -132,6 +132,8 @@ void Game::createWorld()
 	}
 
 	initializeLogicMap();
+	////////////////////////////////////////
+	Missions::readMissions();
 }
 
 void Game::initializeLogicMap()

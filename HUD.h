@@ -5,15 +5,18 @@
 #include "LevelManager.h"
 #include "StatusBar.h"
 #include "Create.h"
+#include "Missions.h"
 
 class HUD
 {
 public:
 	HUD();
 	void update(std::unique_ptr<Wrapper> & player,sf::Vector2u windowSize);
+	static void addMissionInfo();
+	static void removeMissionInfo();
 public:
 	StatusBar hp, lvl;
-	std::vector<std::unique_ptr<Text>> informations;
+	static std::vector<std::unique_ptr<Text>> informations;
 	std::vector<std::unique_ptr<Rect>> inventorySlots;
 	std::vector<std::unique_ptr<Wrapper>> inventory;
 	std::vector<std::unique_ptr<Wrapper>> equipment;

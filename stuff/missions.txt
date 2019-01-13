@@ -1,0 +1,2 @@
+Kill 5 Skeletons	award: 1
+Kill 2 Dragons		award: 17

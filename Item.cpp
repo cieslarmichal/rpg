@@ -18,7 +18,7 @@ int Item::randomizeItemID(float chance)
 {
 	if (Random::isSuccessful(chance))
 	{
-		return Random::getRandomNumber(0, ITEMS_AMOUNT);
+		return Random::getRandomNumber(0, ITEMS_AMOUNT-1);
 	}
 	else if(Random::isSuccessful(0.5))
 	{

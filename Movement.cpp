@@ -48,7 +48,7 @@ bool Movement::movePlayer(Rect & player, int direction)
 			enemyTimer.reset();
 			player.character->getPathFinding().initializeStartEnd(player.getPosition(), sf::Vector2f(player.character->getTargetPosition()));
 			player.character->setNextMove(player.character->getPathFinding().solveAStar());
-			std::cout << player.character->getNextMove().x << ", " << player.character->getNextMove().y << std::endl;
+			//std::cout << player.character->getNextMove().x << ", " << player.character->getNextMove().y << std::endl;
 		}
 
 		if (player.character->getNextMove() == sf::Vector2i(-1, -1))

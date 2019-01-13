@@ -1,8 +1,8 @@
 #include "Text.h"
 
 
-Text::Text(sf::Color col, std::string type, int font)
-	: color(col), fontSize(font), HUDtype(type)
+Text::Text(sf::Color col, std::string type, int font, std::string msg)
+	: color(col), fontSize(font), HUDtype(type), message(msg)
 {
 
 }
@@ -23,7 +23,7 @@ Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, int font
 
 	if (shortLifeTime)
 	{
-		lifetime = 5;
+		lifetime = 1;
 	}
 
 	lifeCounter = 0;
@@ -82,8 +82,27 @@ void Text::updateHUDInformation(sf::Vector2f position, int value, int valueMax)
 
 	text.setPosition(position);
 
-	message = (valueMax != -1) ? (HUDtype + " : " + std::to_string(value) + "/" + std::to_string(valueMax)) : (HUDtype + " " + std::to_string(value));
-	text.setString(message);
+	std::string msg = "";
+
+	if (value == (int)Others::RESET)
+	{
+		msg = HUDtype;
+	}
+	else
+	{
+		msg = (valueMax != (int)Others::RESET) ? (HUDtype + " : " + std::to_string(value) + "/" + std::to_string(valueMax)) : (HUDtype + " " + std::to_string(value));
+	}
+
+	if (HUDtype == "MISSION")
+	{
+		msg = message;
+	}
+	else if (HUDtype == "PROGRESS")
+	{
+		msg = std::to_string(value) + "/" + std::to_string(valueMax);
+	}
+
+	text.setString(msg);
 }
 
 void Text::setup()
