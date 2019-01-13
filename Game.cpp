@@ -1,12 +1,10 @@
 #include "Game.h"
 
 
-
 Game::Game()
 {
-	//fix random
-	//in Create do amounts of items created
-	//Class respawning enemies considering walls and actual enemies and player
+	//make unique zobaczyc
+	//mission status in HUD
 	//NPC simple missions, kill 5 skeletons
 	//NPC simple shop sell items
 	//konczyc to bo trzeba tmp robic tez
@@ -18,6 +16,7 @@ Game::~Game()
 	delete playerView;
 	delete draw;
 	delete characterPlayer;
+	delete characterNpc;
 }
 
 bool Game::run()
@@ -42,15 +41,18 @@ void Game::gameLoop()
 		Shoot::shootEnemy(player, enemies, projectiles);
 
 		collisionHandler.characterWithObstacles(player, walls);
-		collisionHandler.enemiesWithObstacles(enemies, walls);
-		collisionHandler.enemiesWithEnemies(enemies);
+		collisionHandler.playerWithNpcs(player, npcs, notifications);
 		collisionHandler.playerWithEnemies(player, enemies, notifications, items);
 		collisionHandler.playerWithItems(player, items, inputKeys[Input::ACTION]);
+		collisionHandler.enemiesWithObstacles(enemies, walls);
+		collisionHandler.enemiesWithNpcs(enemies, npcs);
+		collisionHandler.enemiesWithEnemies(enemies);
 		collisionHandler.projectilesWithWalls(projectiles, walls);
 		collisionHandler.projectilesWithEnemies(player, projectiles, enemies, notifications, items);
 
 		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications);
 		Update::updateEnemies(enemies, player);
+		Update::updateNpc(npcs);
 		Update::updateText(player, notifications);
 		Update::updateHUD(player, hud, window->getSize());
 		Update::updateObstacles(walls);
@@ -94,19 +96,25 @@ void Game::createCharacters()
 {
 	// Player:
 	// name, hp, attackDamage, attackSpeed, movementSpeed
-	characterPlayer = new Player("Michal", 2500, 100, 3, 4);
-
+	characterPlayer = new Player("Michal", 2500, 100, 3, 2);
 	player = Create::createPlayer(*characterPlayer, { 24 * 40,30 * 40 });
+
+	characterNpc = new Npc("Carl");
+	Create::createNpc(*characterNpc, npcs, { 20 * 40,30 * 40 });
+
 	enemySpawner.spawnSkeleton(enemies, { 18 * 40,20 * 40 });
 	enemySpawner.spawnSkeleton(enemies, { 19 * 40,14 * 40 });
 	enemySpawner.spawnSkeleton(enemies, { 5 * 40,6 * 40 });
-	enemySpawner.spawnSkeleton(enemies, { 8 * 40,11 * 40 });
-	enemySpawner.spawnSkeleton(enemies, { 2 * 40,2 * 40 });
-	enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
-	enemySpawner.spawnDragon(enemies, { 20 * 40,18 * 40 });
-	enemySpawner.spawnDragon(enemies);
+	//enemySpawner.spawnSkeleton(enemies, { 8 * 40,11 * 40 });
+	//enemySpawner.spawnSkeleton(enemies, { 2 * 40,2 * 40 });
+	//enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
+	//enemySpawner.spawnDragon(enemies, { 20 * 40,18 * 40 });
 	//enemySpawner.spawnDragon(enemies);
 	//enemySpawner.spawnDragon(enemies);
+	//enemySpawner.spawnDragon(enemies);
+	//enemySpawner.spawnDragon(enemies);
+	//enemySpawner.spawnDragon(enemies);
+
 
 }
 
@@ -135,7 +143,7 @@ void Game::initializeLogicMap()
 
 void Game::updateLogicMap()
 {
-	Map::updateTiles(player, enemies);
+	Map::updateTiles(player, enemies,npcs);
 	pathfinding.updateLogicMap(Map::tiles);
 	enemySpawner.updateObjectsPositions(Map::precisePositions);
 }
@@ -150,6 +158,7 @@ void Game::drawWindow()
 {
 	draw->drawObstacles(floor);
 	draw->drawObstacles(walls);
+	draw->drawNpcs(npcs);
 	draw->drawItems(items);
 	draw->drawProjectiles(projectiles);
 	draw->drawEnemies(enemies);

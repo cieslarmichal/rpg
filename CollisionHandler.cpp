@@ -38,6 +38,31 @@ void CollisionHandler::characterWithObstacles(std::unique_ptr<Wrapper> & charact
 	}
 }
 
+void CollisionHandler::playerWithNpcs(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & npcs, std::vector<std::unique_ptr<Text>> & messages)
+{
+	characterWithObstacles(player, npcs);
+
+	for (auto & npc : npcs)
+	{
+		int diffX = (int)((int)npc->rect->getPosition().x - (int)player->rect->getPosition().x);
+		int diffY = (int)((int)npc->rect->getPosition().y - (int)player->rect->getPosition().y);
+		double absoluteDistance = std::sqrt(diffX*diffX + diffY * diffY);
+		if (absoluteDistance < 100)
+		{
+			Create::createNpcMessage("Press E to talk", npc->rect->getPosition(), messages);
+		}
+	}
+
+}
+
+void CollisionHandler::enemiesWithNpcs(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>>& npcs)
+{
+	for (auto & enemy : enemies)
+	{
+		characterWithObstacles(enemy.first, npcs);
+	}
+}
+
 void CollisionHandler::enemiesWithObstacles(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & obstacles)
 {
 	for (auto & enemy : enemies)

@@ -1,9 +1,7 @@
 #include "Enemy.h"
 
-
-
-Enemy::Enemy(std::string name, int hp, int attackDamage, int attackSpeed, int exp, int coins, float movementSpeed, float chance)
-	: Character(name, hp, attackDamage, attackSpeed, exp, coins, movementSpeed), lootChance(chance)
+Enemy::Enemy(std::string name, int hp, int attackDamage, int attackSpeed, int exp, float movementSpeed, float chance)
+	: Character(name, hp, attackDamage, attackSpeed, exp, movementSpeed), lootChance(chance)
 {
 
 	setDirection(Random::getRandomNumber(0, 3));

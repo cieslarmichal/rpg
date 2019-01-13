@@ -1,4 +1,5 @@
 Debug/
+Release/
 include/
 lib/
 RPG.vcxproj

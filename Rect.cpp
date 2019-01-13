@@ -11,6 +11,16 @@ Rect::Rect(Player & p, int dx, int dy, sf::Vector2f pos) : dimX(dx), dimY(dy)
 	setEdges();
 }
 
+Rect::Rect(Npc & n, int dx, int dy, sf::Vector2f pos) :dimX(dx), dimY(dy)
+{
+	npc = std::unique_ptr<Npc>(new Npc(n));
+	character = &(*npc);
+	rect.setSize(sf::Vector2f((float)dimX, (float)dimY));
+	rect.setFillColor(sf::Color::Black);
+	rect.setPosition(pos);
+	setEdges();
+}
+
 Rect::Rect(Skeleton & s, int dx, int dy, sf::Vector2f pos) :dimX(dx), dimY(dy)
 {
 	enemy = std::unique_ptr<Enemy>(new Skeleton(s));

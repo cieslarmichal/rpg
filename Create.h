@@ -1,12 +1,7 @@
 #pragma once
 #include "Wrapper.h"
 #include "StatusBar.h"
-#include "Skeleton.h"
-#include "SkeletonBerserker.h"
-#include "Projectile.h"
-#include "Dragon.h"
 #include "Text.h"
-#include <cmath>
 #include "File.h"
 
 typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
@@ -16,6 +11,7 @@ class Create
 public:
 	Create() = delete;
 	static std::unique_ptr<Wrapper> createPlayer(Player & player, sf::Vector2f position);
+	static void createNpc(Npc & npc, std::vector<std::unique_ptr<Wrapper>> & npcs, sf::Vector2f position);
 	static void createSkeleton(Skeleton & skeleton, enemyPair & enemies, sf::Vector2f position);
 	static void createSkeletonBerserker(SkeletonBerserker & skeletonBerserker, enemyPair & enemies, sf::Vector2f position);
 	static void createDragon(Dragon & dragon, enemyPair & enemies, sf::Vector2f position);
@@ -32,11 +28,7 @@ public:
 	static void createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 public:
 	//texts
+	static void createNpcMessage(std::string message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
 	static void createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
 	static void createLevelMessage(std::string message, std::vector<std::unique_ptr<Text>> & notifications);
-	//counters
-public:
-	static int getAmountOfWalls();
-private:
-	static int amountOfWalls;
 };

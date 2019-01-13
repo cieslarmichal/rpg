@@ -27,11 +27,13 @@ private:
 	Dragon * characterDragon;
 	enum EnemyType { SKELETON = 0, SKELETON_BERSERKER = 1, DRAGON = 2 };
 	int getRandomEnemyType() const;
+	static int amountOfEnemies;
 private:
 	std::vector<std::unique_ptr<Tile>> obstacles;
 	enum Position { RANDOM = -1 };
 	sf::Vector2f getRandomPosition() const;
 	bool isPossibleToAddPosition(sf::Vector2i position) const;
 	bool isPositionFree(sf::Vector2i positionToCheck, sf::Vector2i obstaclePosition) const;
+
 };
 

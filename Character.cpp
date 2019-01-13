@@ -1,7 +1,7 @@
 #include "Character.h"
 
-Character::Character(std::string n, int hpp, int ad, int as, int exp, int c, float movSpeed)
-	: name(n), hpMax(hpp), hp(hpp), attackDamage(ad), attackSpeed(as), experience(exp), coins(c), movementSpeed(movSpeed)
+Character::Character(std::string n, int hpp, int ad, int as, int exp, float movSpeed)
+	: name(n), hpMax(hpp), hp(hpp), attackDamage(ad), attackSpeed(as), experience(exp), movementSpeed(movSpeed)
 {
 	baseAttackDamage = attackDamage;
 	baseDefense = defense = 0;
@@ -51,11 +51,6 @@ void Character::setMovementSpeed(float inp)
 void Character::setExperience(int inp)
 {
 	experience = inp;
-}
-
-void Character::setCoins(int inp)
-{
-	coins = inp;
 }
 
 void Character::setDirection(int inp)
@@ -185,11 +180,6 @@ float Character::getMovementSpeed() const
 int Character::getExperience() const
 {
 	return experience;
-}
-
-int Character::getCoins() const
-{
-	return coins;
 }
 
 int Character::getDirection() const

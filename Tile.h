@@ -9,6 +9,8 @@ public:
 	bool isEnemy();
 	bool isObstacle();
 	sf::Vector2f getPosition() const;
+	int getX() const;
+	int getY() const;
 	int getWidth() const;
 	int getHeight() const;
 private:

@@ -8,6 +8,11 @@ void Draw::drawPlayer(std::unique_ptr<Wrapper> & player)
 	window.draw(player->sprite->getSprite());
 }
 
+void Draw::drawNpcs(std::vector<std::unique_ptr<Wrapper>>& npcs)
+{
+	drawObstacles(npcs);
+}
+
 void Draw::drawStatusBar(StatusBar & statusBar)
 {
 	window.draw(statusBar.getValueRect());

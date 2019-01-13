@@ -16,6 +16,14 @@ void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar
 	Create::createLevelMessage(levelMessage, notifications);
 }
 
+void Update::updateNpc(std::vector<std::unique_ptr<Wrapper>>& npcs)
+{
+	for (auto & npc : npcs)
+	{
+		npc->sprite->setPosition(npc->rect->getPosition());
+	}
+}
+
 void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player)
 {
 	for (auto & enemy : enemies)

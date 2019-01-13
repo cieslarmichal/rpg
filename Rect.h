@@ -7,12 +7,14 @@
 #include "Obstacle.h"
 #include "Projectile.h"
 #include "Item.h"
+#include "Npc.h"
 #include <memory>
 
 class Rect
 {
 public:
 	Rect(Player &, int dimX, int dimY, sf::Vector2f position);
+	Rect(Npc &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Skeleton &, int dimX, int dimY, sf::Vector2f position);
 	Rect(SkeletonBerserker &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Dragon &, int dimX, int dimY, sf::Vector2f position);
@@ -22,6 +24,7 @@ public:
 	Rect(int dimX, int dimY, sf::Vector2f position);
 	Character * character;
 	std::unique_ptr<Player> player = nullptr;
+	std::unique_ptr<Npc> npc = nullptr;
 	std::unique_ptr<Enemy> enemy = nullptr;
 	std::unique_ptr<Obstacle> obstacle = nullptr;
 	std::unique_ptr<Projectile> projectile = nullptr;

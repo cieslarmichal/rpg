@@ -7,8 +7,8 @@ Text::Text(sf::Color col, std::string type, int font)
 
 }
 
-Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, int font)
-	: message(msg), position(pos), color(col), fontSize(font), moving(move)
+Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, int font, bool staticp, bool shortLife)
+	: message(msg), position(pos), color(col), fontSize(font), moving(move), staticPosition(staticp), shortLifeTime(shortLife)
 {
 	if (moving)
 	{
@@ -21,17 +21,20 @@ Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, int font
 		lifetime = 150;
 	}
 
+	if (shortLifeTime)
+	{
+		lifetime = 5;
+	}
+
 	lifeCounter = 0;
 	destroyed = false;
 }
 
-//setters
 void Text::setDestroyed()
 {
 	destroyed = true;
 }
 
-//getters
 float Text::getMovementSpeed() const
 {
 	return movementSpeed;
@@ -52,11 +55,16 @@ std::string Text::getHUDtype() const
 	return HUDtype;
 }
 
-void Text::update(sf::Vector2f position)
+void Text::update(sf::Vector2f pos)
 {
 	if (!set) setup();
 
 	if (!moving)
+	{
+		text.setPosition(pos);
+	}
+
+	if (staticPosition)
 	{
 		text.setPosition(position);
 	}

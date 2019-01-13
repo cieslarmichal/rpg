@@ -1,11 +1,13 @@
 #include "EnemySpawner.h"
 
+int EnemySpawner::amountOfEnemies;
+
 EnemySpawner::EnemySpawner()
 {
-	// name, hp, attackDamage, attackSpeed, movementSpeed, experience, coins, lootChance
-	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 2, 70, 10, 0.2f);
-	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 100, 0.13f);
-	characterDragon = new Dragon("Dragon", 1000, 25, 2, 2, 400, 30, 0.05f);
+	// name, hp, attackDamage, attackSpeed, movementSpeed, experience, lootChance
+	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 1, 70, 0.2f);
+	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 0.13f);
+	characterDragon = new Dragon("Dragon", 1000, 25, 2, 1, 400, 0.05f);
 }
 
 EnemySpawner::~EnemySpawner()
@@ -17,31 +19,40 @@ EnemySpawner::~EnemySpawner()
 
 void EnemySpawner::spawnSkeleton(enemyPair & enemies, sf::Vector2f respawnPosition)
 {
+	if (!(amountOfEnemies <= MAX_ENEMIES_NUMBER)) return;
+
 	if (respawnPosition == sf::Vector2f{ RANDOM,RANDOM })
 	{
 		respawnPosition = getRandomPosition();
 	}
 
+	amountOfEnemies++;
 	Create::createSkeleton(*characterSkeleton, enemies, respawnPosition);
 }
 
 void EnemySpawner::spawnSkeletonBerserker(enemyPair & enemies, sf::Vector2f respawnPosition)
 {
+	if (!(amountOfEnemies <= MAX_ENEMIES_NUMBER)) return;
+
 	if (respawnPosition == sf::Vector2f{ RANDOM,RANDOM })
 	{
 		respawnPosition = getRandomPosition();
 	}
 
+	amountOfEnemies++;
 	Create::createSkeletonBerserker(*characterSkeletonBerserker, enemies, respawnPosition);
 }
 
 void EnemySpawner::spawnDragon(enemyPair & enemies, sf::Vector2f respawnPosition)
 {
+	if (!(amountOfEnemies <= MAX_ENEMIES_NUMBER)) return;
+
 	if (respawnPosition == sf::Vector2f{ RANDOM,RANDOM })
 	{
 		respawnPosition = getRandomPosition();
 	}
 
+	amountOfEnemies++;
 	Create::createDragon(*characterDragon, enemies, respawnPosition);
 }
 
@@ -67,8 +78,6 @@ void EnemySpawner::initializeObjectsPositions(std::vector<std::unique_ptr<Tile>>
 	{
 		obstacles.push_back(std::unique_ptr<Tile>(new Tile(mp->getPosition(), true, false)));
 	}
-	std::cout << "amount of walls = " << Create::getAmountOfWalls() << std::endl;
-	std::cout << "size = " << obstacles.size()<<std::endl;
 }
 
 void EnemySpawner::updateObjectsPositions(std::vector<std::unique_ptr<Tile>>& mapPositions)
@@ -88,12 +97,13 @@ int EnemySpawner::getRandomEnemyType() const
 
 sf::Vector2f EnemySpawner::getRandomPosition() const
 {
-	sf::Vector2i randomPosition = { Random::getRandomNumber(0,MAP_WIDTH*40),Random::getRandomNumber(0,MAP_HEIGHT*40) };
+	sf::Vector2i randomPosition = { Random::getRandomNumber(0,MAP_WIDTH),Random::getRandomNumber(0,MAP_HEIGHT) };
+	randomPosition = { randomPosition.x * 40, randomPosition.y * 40 };
 
 	while (!isPossibleToAddPosition(randomPosition))
 	{
-		randomPosition = {Random::getRandomNumber(0,MAP_WIDTH*40),Random::getRandomNumber(0,MAP_HEIGHT*40) };
-		//std::cout << "( " << randomPosition.x << ", " << randomPosition.y << std::endl;
+		randomPosition = {Random::getRandomNumber(0,MAP_WIDTH),Random::getRandomNumber(0,MAP_HEIGHT) };
+		randomPosition = { randomPosition.x * 40, randomPosition.y * 40 };
 	}
 
 	return sf::Vector2f(randomPosition);
@@ -113,9 +123,9 @@ bool EnemySpawner::isPossibleToAddPosition(sf::Vector2i position) const
 
 bool EnemySpawner::isPositionFree(sf::Vector2i positionToCheck, sf::Vector2i obstaclePosition) const
 {
-	return (positionToCheck.x + 40 > obstaclePosition.x &&
+	return (!(positionToCheck.x + 40 > obstaclePosition.x &&
 		obstaclePosition.x + 40 > positionToCheck.x &&
 		positionToCheck.y + 40 > obstaclePosition.y &&
-		obstaclePosition.y + 40 > positionToCheck.y);
+		obstaclePosition.y + 40 > positionToCheck.y));
 }
 

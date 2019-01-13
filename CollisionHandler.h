@@ -16,6 +16,8 @@ class CollisionHandler
 public:
 	bool isIntersecting(Rect & rectangle1, Rect & rectangle2) const;
 	void characterWithObstacles(std::unique_ptr<Wrapper> & character, std::vector<std::unique_ptr<Wrapper>> & obstacles);
+	void playerWithNpcs(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & npcs, std::vector<std::unique_ptr<Text>> & messages);
+	void enemiesWithNpcs(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & npcs);
 	void enemiesWithObstacles(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	void playerWithEnemies(std::unique_ptr<Wrapper> & player, enemyPair & enemies, 
 		std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items);
