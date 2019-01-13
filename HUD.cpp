@@ -1,5 +1,6 @@
 #include "HUD.h"
 
+std::vector<std::unique_ptr<Text>> HUD::informations;
 
 
 HUD::HUD() :hp(64, 14), lvl(64, 14)
@@ -15,6 +16,35 @@ void HUD::update(std::unique_ptr<Wrapper>& player, sf::Vector2u windowSize)
 	updateSlots(player, windowSize);
 	updateInventory(player, windowSize);
 	updateEquipment(player, windowSize);
+}
+
+void HUD::addMissionInfo()
+{
+	for (auto & info : informations)
+	{
+		if (info->getHUDtype() == "MISSION" || info->getHUDtype() == "PROGRESS")
+		{
+			return;
+		}
+	}
+
+	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::White, "MISSION", 14, Missions::getCurrentMissionName())));
+	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::White, "PROGRESS", 14)));
+}
+
+void HUD::removeMissionInfo()
+{
+	for (auto info = begin(informations); info != end(informations);) 
+	{
+		if ((*info)->getHUDtype() == "MISSION" || (*info)->getHUDtype() == "PROGRESS")
+		{
+			info = informations.erase(info);
+		}
+		else
+		{
+			++info;
+		}
+	}
 }
 
 void HUD::updateInformations(std::unique_ptr<Wrapper> & player, sf::Vector2u windowSize)
@@ -54,6 +84,21 @@ void HUD::updateInformations(std::unique_ptr<Wrapper> & player, sf::Vector2u win
 		{
 			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 260);
 			info->updateHUDInformation(HUDposition, player->rect->player->getDefense());
+		}
+		else if (info->getHUDtype() == "MISSIONS:")
+		{
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 300);
+			info->updateHUDInformation(HUDposition);
+		}
+		else if (info->getHUDtype() == "MISSION")
+		{
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 320);
+			info->updateHUDInformation(HUDposition);
+		}
+		else if (info->getHUDtype() == "PROGRESS")
+		{
+			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 340);
+			info->updateHUDInformation(HUDposition, Missions::getCurrentProgress(), Missions::getCurrentGoal());
 		}
 	}
 }
@@ -224,6 +269,7 @@ void HUD::initializeText()
 	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::Yellow, "COINS", 16)));
 	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::White, "DMG", 16)));
 	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::White, "DEF", 16)));
+	informations.push_back(std::unique_ptr<Text>(new Text(sf::Color::Cyan, "MISSIONS:", 16)));
 }
 
 void HUD::initializeSlots()

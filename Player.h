@@ -1,6 +1,7 @@
 #pragma once
 #include "Character.h"
 #include "Inventory.h"
+#include "Missions.h"
 
 class Player : public Character
 {
@@ -33,6 +34,7 @@ private:
 	bool weapon = (int)Weapons::MELEE;
 	int distanceSkill, meleeSkill;
 	int distanceHits, meleeHits;
+
 private:
 	Inventory inventory;
 	void updateEqEffects();

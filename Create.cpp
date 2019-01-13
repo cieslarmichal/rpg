@@ -102,7 +102,6 @@ void Create::createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrap
 		std::unique_ptr<Sprite>(new Sprite("stuff/floor.png", 40, 40)))));
 }
 
-
 void Create::createRoomWithFloor(int roomSizeX, int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
 	std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor)
 {
@@ -168,9 +167,34 @@ void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_pt
 	}
 }
 
-void Create::createNpcMessage(std::string message, sf::Vector2f position, std::vector<std::unique_ptr<Text>>& notifications)
+void Create::createNpcMessage(std::string message, sf::Vector2f position, std::vector<std::unique_ptr<Text>>& notifications, bool longMsgLifetime)
 {
-	notifications.push_back(std::unique_ptr<Text>(new Text(message, { position.x-20,position.y - 30 }, sf::Color::White, false, 14, true, true)));
+	int messageSize = (int)message.size();
+
+	sf::Vector2f offset{ 0,0 };
+
+	if (messageSize <= 7)
+	{
+		offset = { 10,-30 };
+	}
+	else if (messageSize > 7 && messageSize <= 15)
+	{
+		offset = { -20,-30 };
+	}
+	else if (messageSize > 15 && messageSize <= 21)
+	{
+		offset = { -30,-30 };
+	}
+	else if (messageSize > 21 && messageSize <= 26)
+	{
+		offset = { -50,-30 };
+	}
+	else
+	{
+		offset = { -80,-30 };
+	}
+
+	notifications.push_back(std::unique_ptr<Text>(new Text(message, { position.x + offset.x,position.y + offset.y }, sf::Color::White, false, 14, true, !longMsgLifetime)));
 }
 
 void Create::createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications)

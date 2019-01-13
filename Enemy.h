@@ -11,6 +11,7 @@ public:
 	void setRandomMovementLength(int);
 	float getLootChance() const;
 	int getRandomMovementLength() const;
+	enum EnemyType { SKELETON = 0, SKELETON_BERSERKER = 1, DRAGON = 2 };
 private:
 	int randomMovementLength;
 	float lootChance;

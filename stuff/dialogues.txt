@@ -1,0 +1,12 @@
+Dialogue 1:
+Hi!
+I have some problems with skeletons.
+Kill 5 skeletons.
+
+Dialogue 2:
+Hello again!
+Those dragons really annoy me.
+Could u help me?
+Kill 2 of them please, I will award you.
+
+Dialogue3:

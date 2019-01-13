@@ -1,8 +1,6 @@
 #pragma once
 #include "Tile.h"
-#include "Skeleton.h"
-#include "SkeletonBerserker.h"
-#include "Dragon.h"
+#include "Enemy.h"
 #include "Random.h"
 #include "Create.h"
 #include "Directions.h"
@@ -25,7 +23,6 @@ private:
 	Skeleton * characterSkeleton;
 	SkeletonBerserker * characterSkeletonBerserker;
 	Dragon * characterDragon;
-	enum EnemyType { SKELETON = 0, SKELETON_BERSERKER = 1, DRAGON = 2 };
 	int getRandomEnemyType() const;
 	static int amountOfEnemies;
 private:

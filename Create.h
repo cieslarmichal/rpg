@@ -28,7 +28,7 @@ public:
 	static void createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 public:
 	//texts
-	static void createNpcMessage(std::string message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
+	static void createNpcMessage(std::string message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications, bool longMsgLifetime = false);
 	static void createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
 	static void createLevelMessage(std::string message, std::vector<std::unique_ptr<Text>> & notifications);
 };

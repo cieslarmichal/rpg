@@ -26,6 +26,8 @@ void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wra
 					Item item(randomItemID);
 					Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
 				}
+
+				Missions::updateKilled(checkEnemyType(victim->rect->enemy));
 			}
 		}
 
@@ -49,6 +51,7 @@ void Fight::attackDistance(std::unique_ptr<Player> & player, std::unique_ptr<Wra
 	if (victim->rect->character->getCurrentHp() <= 0)
 	{
 		Delete::setCharacterDead(victim);
+
 		if (victim->rect->enemy != nullptr)
 		{
 			LevelManager::getExperience(player, victim->rect->enemy);
@@ -60,6 +63,8 @@ void Fight::attackDistance(std::unique_ptr<Player> & player, std::unique_ptr<Wra
 				Item item(randomItemID);
 				Create::createItem(item, items, sf::Vector2f(victim->rect->getPosition().x + 4, victim->rect->getPosition().y + 18));
 			}
+
+			Missions::updateKilled(checkEnemyType(victim->rect->enemy));
 		}
 	}
 
@@ -139,3 +144,28 @@ bool Fight::containsValue(std::vector<int>  values, int value)
 	}
 	return false;
 }
+
+int Fight::checkEnemyType(std::unique_ptr<Enemy>& enemy)
+{
+	Skeleton * skeleton = dynamic_cast<Skeleton*>(&(*enemy));
+	SkeletonBerserker * skeletonBerserker = dynamic_cast<SkeletonBerserker*>(&(*enemy));
+	Dragon * dragon = dynamic_cast<Dragon*>(&(*enemy));
+
+	if (skeleton)
+	{
+		return Enemy::EnemyType::SKELETON;
+	}
+	else if (skeletonBerserker)
+	{
+		return Enemy::EnemyType::SKELETON_BERSERKER;
+	}
+	else if (dragon)
+	{
+		return Enemy::EnemyType::DRAGON;
+	}
+
+	return (int)Others::RESET;
+}
+
+
+

@@ -38,7 +38,7 @@ void CollisionHandler::characterWithObstacles(std::unique_ptr<Wrapper> & charact
 	}
 }
 
-void CollisionHandler::playerWithNpcs(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & npcs, std::vector<std::unique_ptr<Text>> & messages)
+void CollisionHandler::playerWithNpcs(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & npcs, std::vector<std::unique_ptr<Text>> & messages, int actionKey)
 {
 	characterWithObstacles(player, npcs);
 
@@ -47,9 +47,53 @@ void CollisionHandler::playerWithNpcs(std::unique_ptr<Wrapper> & player, std::ve
 		int diffX = (int)((int)npc->rect->getPosition().x - (int)player->rect->getPosition().x);
 		int diffY = (int)((int)npc->rect->getPosition().y - (int)player->rect->getPosition().y);
 		double absoluteDistance = std::sqrt(diffX*diffX + diffY * diffY);
+
 		if (absoluteDistance < 100)
 		{
-			Create::createNpcMessage("Press E to talk", npc->rect->getPosition(), messages);
+			if (!npc->rect->npc->isTalking())
+			{
+				if (npc->timing.getElapsedSeconds() > (float)1)
+				{
+					Create::createNpcMessage("Press E to talk", npc->rect->getPosition(), messages);
+					npc->rect->npc->startTalking(actionKey);
+				}
+			}
+			else
+			{
+				if (Missions::isCompleted())
+				{
+					if (npc->timing.getElapsedSeconds() > (float)2)
+					{
+						npc->timing.reset();
+						std::string npcMessage = "Great job, here is your award.";
+						Create::createNpcMessage(npcMessage, npc->rect->getPosition(), messages, true);
+						npc->rect->npc->setTalking(false);
+					}
+					Item awardItem(Missions::getCurrentAwardItemId());
+					player->rect->player->getInventory().addItem(awardItem);
+					HUD::removeMissionInfo();
+					Missions::nextMission();
+					npc->rect->npc->getDialogues().nextDialogueLine();
+				}
+				else
+				{
+					if (!npc->rect->npc->isThereNextDialogue())
+					{
+						HUD::addMissionInfo();
+					}
+					if (npc->timing.getElapsedSeconds() > (float)2)
+					{
+						npc->timing.reset();
+						std::string npcMessage = npc->rect->npc->talk();
+						Create::createNpcMessage(npcMessage, npc->rect->getPosition(), messages,true);
+					}
+				}
+			}
+
+		}
+		else
+		{
+			npc->rect->npc->setTalking(false);
 		}
 	}
 
@@ -363,7 +407,6 @@ void CollisionHandler::addBlockedEnemy(int enemyIndex, int direction)
 	{
 		blockedEnemies.push_back(Blocked(enemyIndex, direction));
 	}
-
 }
 
 bool CollisionHandler::canUnclockPlayerDirection(const Blocked & blocked, bool * playerCollision)
@@ -420,5 +463,4 @@ bool CollisionHandler::leftDistanceShortest(int * distances)
 bool CollisionHandler::rightDistanceShortest(int * distances)
 {
 	return (distances[RIGHT] < distances[BOT] && distances[RIGHT] < distances[LEFT] && distances[RIGHT] < distances[TOP]);
-
 }

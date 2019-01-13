@@ -5,9 +5,9 @@ int EnemySpawner::amountOfEnemies;
 EnemySpawner::EnemySpawner()
 {
 	// name, hp, attackDamage, attackSpeed, movementSpeed, experience, lootChance
-	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 1, 70, 0.2f);
-	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 0.13f);
-	characterDragon = new Dragon("Dragon", 1000, 25, 2, 1, 400, 0.05f);
+	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 1, 70, 1.0f);
+	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 1.0f);
+	characterDragon = new Dragon("Dragon", 1000, 25, 2, 1, 400, 1.0f);
 }
 
 EnemySpawner::~EnemySpawner()
@@ -60,13 +60,13 @@ void EnemySpawner::spawnRandomEnemy(enemyPair & enemies, sf::Vector2f respawnPos
 {
 	switch (getRandomEnemyType())
 	{
-	case EnemyType::SKELETON:
+	case Enemy::EnemyType::SKELETON:
 		spawnSkeleton(enemies, respawnPosition);
 		break;
-	case EnemyType::SKELETON_BERSERKER:
+	case Enemy::EnemyType::SKELETON_BERSERKER:
 		spawnSkeletonBerserker(enemies, respawnPosition);
 		break;
-	case EnemyType::DRAGON:
+	case Enemy::EnemyType::DRAGON:
 		spawnDragon(enemies, respawnPosition);
 		break;
 	}

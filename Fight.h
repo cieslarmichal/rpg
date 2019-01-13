@@ -22,4 +22,5 @@ private:
 	static int randomizeAttackType();
 	static bool containsValue(std::vector<int>, int value);
 	enum AttackType { WEAK = 0, NORMAL = 1, CRITICAL = 2 };
+	static int checkEnemyType(std::unique_ptr<Enemy> & enemy);
 };

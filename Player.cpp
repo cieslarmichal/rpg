@@ -97,6 +97,8 @@ void Player::pickUpItem(Item & item, int actionKey)
 	{
 		pickItemTimer.reset();
 
+		Missions::updateCollected(item.getType());
+
 		if (item.getType() == Item::Type::COIN)
 		{
 			setCoins(getCoins() + item.getSellValue());
