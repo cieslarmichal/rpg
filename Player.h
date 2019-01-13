@@ -8,12 +8,14 @@ public:
 	Player(std::string name, int hp, int attackDamage, int attackSpeed, float movSpeed);
 	~Player();
 	void levelUp();
+	void setCoins(int);
 	void distanceSkillUp();
 	void meleeSkillUp();
 	void distanceHitsUp();
 	void meleeHitsUp();
 	void setWeapon(bool);
 	int getLevel() const;
+	int getCoins() const;
 	int getDistanceLevel() const;
 	int getMeleeLevel() const;
 	bool getWeapon() const;
@@ -27,6 +29,7 @@ public:
 	void dropItem(int actionKey);
 private:
 	int level;
+	int coins;
 	bool weapon = (int)Weapons::MELEE;
 	int distanceSkill, meleeSkill;
 	int distanceHits, meleeHits;

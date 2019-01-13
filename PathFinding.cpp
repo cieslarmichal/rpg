@@ -103,6 +103,7 @@ sf::Vector2i PathFinding::solveAStar()
 				nextPosition.x = previous->x * 40;
 				nextPosition.y = previous->y * 40;
 				previous = previous->parent;
+
 			}
 		}
 	}
@@ -180,7 +181,7 @@ void PathFinding::initializeLogicMap(std::vector<std::unique_ptr<Tile>> & mapTil
 			bool foundTileIndex = false;
 			for (auto & tile : mapTiles)
 			{
-				if (tile->getPosition().x / tile->getWidth() == x && tile->getPosition().y / tile->getWidth() == y)
+				if (tile->getX() / tile->getWidth() == x && tile->getY() / tile->getWidth() == y)
 				{
 					foundTileIndex = true;
 					break;
@@ -217,7 +218,7 @@ void PathFinding::updateLogicMap(std::vector<std::unique_ptr<Tile>> & mapTiles)
 					bool foundTileIndex = false;
 					for (auto & tile : mapTiles)
 					{
-						if (tile->getPosition().x / tile->getWidth() == x && tile->getPosition().y / tile->getWidth() == y)
+						if (tile->getX()/ tile->getWidth() == x && tile->getY() / tile->getWidth() == y)
 						{
 							foundTileIndex = true;
 							break;

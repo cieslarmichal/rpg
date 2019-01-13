@@ -1,9 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <memory>
 #include "Character.h"
 #include "Draw.h"
 #include "Rect.h"
@@ -24,6 +19,8 @@
 #include "PathFinding.h"
 #include "Map.h"
 #include "EnemySpawner.h"
+#include "Npc.h"
+
 
 class Game
 {
@@ -52,12 +49,13 @@ private:
 	PathFinding pathfinding;
 private:
 	Player * characterPlayer;
-
+	Npc * characterNpc;
 private:
 	HUD hud;
 	std::unique_ptr<Wrapper> player;
 	StatusBar playerHealthBar;
 	std::vector <std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemies;
+	std::vector<std::unique_ptr<Wrapper>> npcs;
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
 	std::vector<std::unique_ptr<Text>> notifications;
 	std::vector<std::unique_ptr<Wrapper>> walls;

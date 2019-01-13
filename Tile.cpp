@@ -23,6 +23,16 @@ sf::Vector2f Tile::getPosition() const
 	return sf::Vector2f((float)x, (float)y);
 }
 
+int Tile::getX() const
+{
+	return x;
+}
+
+int Tile::getY() const
+{
+	return y;
+}
+
 int Tile::getWidth() const
 {
 	return width;

@@ -15,6 +15,7 @@ class Update
 public:
 	Update() = delete;
 	static void updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar, int direction, int action, std::vector<std::unique_ptr<Text>> & notifications);
+	static void updateNpc(std::vector<std::unique_ptr<Wrapper>> & npcs);
 	static void updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player);
 	static void updateObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	static void updateItems(std::vector<std::unique_ptr<Wrapper>> & items);

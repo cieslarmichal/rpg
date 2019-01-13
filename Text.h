@@ -7,7 +7,7 @@ class Text
 {
 public:
 	Text(sf::Color color, std::string type, int FontSize = 16);
-	Text(std::string message, sf::Vector2f pos, sf::Color color, bool move = true, int FontSize = 16);
+	Text(std::string message, sf::Vector2f pos, sf::Color color, bool move = true, int FontSize = 16, bool staticPosition = false, bool shortLifeTime = false);
 	void setDestroyed();
 	sf::Text & getText();
 	std::string getHUDtype() const;
@@ -26,7 +26,7 @@ private:
 	int fontSize;
 	float movementSpeed;
 	int lifetime, lifeCounter;
-	bool destroyed, set = false;
+	bool destroyed, set, staticPosition, shortLifeTime = false;
 	bool moving;
 	void setup();
 };

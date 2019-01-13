@@ -1,11 +1,15 @@
 #include "Create.h"
 
-int Create::amountOfWalls;
-
 std::unique_ptr<Wrapper> Create::createPlayer(Player & player, sf::Vector2f position)
 {
 	return std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(player, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/player.png", 64, 64)), 9));
+}
+
+void Create::createNpc(Npc & npc, std::vector<std::unique_ptr<Wrapper>> & npcs, sf::Vector2f position)
+{
+	npcs.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(npc, 40, 40, position)),
+		std::unique_ptr<Sprite>(new Sprite("stuff/npc.png", 30, 51)))));
 }
 
 void Create::createSkeleton(Skeleton & skeleton, enemyPair & enemies, sf::Vector2f position)
@@ -89,8 +93,6 @@ void Create::createWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapp
 	Obstacle obstacle;
 	obstacles.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/wall.png", 40, 40)))));
-
-	amountOfWalls++;
 }
 
 void Create::createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & floor)
@@ -166,6 +168,11 @@ void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_pt
 	}
 }
 
+void Create::createNpcMessage(std::string message, sf::Vector2f position, std::vector<std::unique_ptr<Text>>& notifications)
+{
+	notifications.push_back(std::unique_ptr<Text>(new Text(message, { position.x-20,position.y - 30 }, sf::Color::White, false, 14, true, true)));
+}
+
 void Create::createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications)
 {
 	std::string msg = std::to_string(message);
@@ -178,7 +185,3 @@ void Create::createLevelMessage(std::string message, std::vector<std::unique_ptr
 	notifications.push_back(std::unique_ptr<Text>(new Text(message, sf::Vector2f(400, 400), sf::Color::White, false, 22)));
 }
 
-int Create::getAmountOfWalls()
-{
-	return amountOfWalls;
-}

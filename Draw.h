@@ -10,6 +10,7 @@ class Draw
 public:
 	Draw(sf::RenderWindow & win);
 	void drawPlayer(std::unique_ptr<Wrapper> & player);
+	void drawNpcs(std::vector<std::unique_ptr<Wrapper>> & npcs);
 	void drawEnemies(enemyPair & enemies);
 	void drawStatusBar(StatusBar & statusBar);
 	void drawObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles);
