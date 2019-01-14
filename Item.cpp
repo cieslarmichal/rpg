@@ -20,9 +20,13 @@ int Item::randomizeItemID(float chance)
 	{
 		return Random::getRandomNumber(0, ITEMS_AMOUNT-1);
 	}
-	else if(Random::isSuccessful(0.5))
+	else if(Random::isSuccessful(0.4))
 	{
 		return (int)Id::COIN;
+	}
+	else if (Random::isSuccessful(0.1))
+	{
+		return Random::getRandomNumber(43, 48);
 	}
 	
 	return (int)Id::NOTHING;

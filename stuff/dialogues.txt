@@ -10,3 +10,9 @@ Could u help me?
 Kill 2 of them please, I will award you.
 
 Dialogue3:
+You still alive?
+Thank you for your help.
+I think you are really powerful.
+Im starving, please bring me some food.
+
+Dialogue4:

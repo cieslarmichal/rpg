@@ -5,9 +5,9 @@ int EnemySpawner::amountOfEnemies;
 EnemySpawner::EnemySpawner()
 {
 	// name, hp, attackDamage, attackSpeed, movementSpeed, experience, lootChance
-	characterSkeleton = new Skeleton("Skeleton", 200, 5, 3, 1, 70, 1.0f);
-	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 1.0f);
-	characterDragon = new Dragon("Dragon", 1000, 25, 2, 1, 400, 1.0f);
+	characterSkeleton = new Skeleton("Skeleton", 200, 15, 3, 1, 120, 0.2);
+	characterSkeletonBerserker = new SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 0.5f);
+	characterDragon = new Dragon("Dragon", 1000, 25, 2, 1, 400, 0.3f);
 }
 
 EnemySpawner::~EnemySpawner()
@@ -102,7 +102,7 @@ sf::Vector2f EnemySpawner::getRandomPosition() const
 
 	while (!isPossibleToAddPosition(randomPosition))
 	{
-		randomPosition = {Random::getRandomNumber(0,MAP_WIDTH),Random::getRandomNumber(0,MAP_HEIGHT) };
+		randomPosition = { Random::getRandomNumber(0,MAP_WIDTH),Random::getRandomNumber(0,MAP_HEIGHT) };
 		randomPosition = { randomPosition.x * 40, randomPosition.y * 40 };
 	}
 

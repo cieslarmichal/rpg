@@ -60,12 +60,12 @@ int Player::getCoins() const
 	return coins;
 }
 
-int Player::getDistanceLevel() const
+int Player::getDistanceSkill() const
 {
 	return distanceSkill;
 }
 
-int Player::getMeleeLevel() const
+int Player::getMeleeSkill() const
 {
 	return meleeSkill;
 }
@@ -183,3 +183,4 @@ void Player::updateEqEffects()
 		}
 	}
 }
+

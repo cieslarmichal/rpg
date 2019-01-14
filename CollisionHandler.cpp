@@ -52,10 +52,10 @@ void CollisionHandler::playerWithNpcs(std::unique_ptr<Wrapper> & player, std::ve
 		{
 			if (!npc->rect->npc->isTalking())
 			{
-				if (npc->timing.getElapsedSeconds() > (float)1)
+				npc->timing.reset();
+				if (!npc->rect->npc->startTalking(actionKey))
 				{
 					Create::createNpcMessage("Press E to talk", npc->rect->getPosition(), messages);
-					npc->rect->npc->startTalking(actionKey);
 				}
 			}
 			else
@@ -69,8 +69,12 @@ void CollisionHandler::playerWithNpcs(std::unique_ptr<Wrapper> & player, std::ve
 						Create::createNpcMessage(npcMessage, npc->rect->getPosition(), messages, true);
 						npc->rect->npc->setTalking(false);
 					}
+
 					Item awardItem(Missions::getCurrentAwardItemId());
 					player->rect->player->getInventory().addItem(awardItem);
+
+					LevelManager::gainExperience(player->rect->player, Missions::getCurrentAwardExperience());
+
 					HUD::removeMissionInfo();
 					Missions::nextMission();
 					npc->rect->npc->getDialogues().nextDialogueLine();
@@ -220,8 +224,6 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 			{
 				if (isIntersecting(*enemies[enemyIndex].first->rect, *enemies[otherEnemyIndex].first->rect))
 				{
-					Fight::setFightingMode(enemies[enemyIndex].first, true);
-
 					int distances[4];
 					distances[TOP] = abs(otherEnemy.first->rect->getBottomEdge() - enemy.first->rect->getTopEdge());
 					distances[BOT] = abs(otherEnemy.first->rect->getTopEdge() - enemy.first->rect->getBottomEdge());
@@ -360,8 +362,6 @@ void CollisionHandler::playerWithItems(std::unique_ptr<Wrapper> & player, std::v
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void CollisionHandler::setEnemyCollidingWithPlayer(std::vector<bool> & enemiesCollidingWithPlayer, int enemyIndex, bool isColliding)
 {
 	if (enemyIndex >= (int)enemiesCollidingWithPlayer.size())
@@ -382,7 +382,6 @@ bool CollisionHandler::possibleToAddBlockedEnemy(int enemyIndex, int direction)
 	}
 	return true;
 }
-
 
 bool CollisionHandler::possibleToAddBlockedCharacter(int characterIndex, int direction)
 {
@@ -442,7 +441,6 @@ void CollisionHandler::unlockBlockedCharacter(std::unique_ptr<Wrapper> & charact
 	Delete::setBlockedToDestroy(blocked);
 }
 
-
 bool CollisionHandler::topDistanceShortest(int * distances)
 {
 	return (distances[TOP] < distances[BOT] && distances[TOP] < distances[LEFT] && distances[TOP] < distances[RIGHT]);
@@ -464,3 +462,4 @@ bool CollisionHandler::rightDistanceShortest(int * distances)
 {
 	return (distances[RIGHT] < distances[BOT] && distances[RIGHT] < distances[LEFT] && distances[RIGHT] < distances[TOP]);
 }
+

@@ -13,6 +13,7 @@ public:
 	int getCurrentProgress() const;
 	int getGoal() const;
 	int getAwardItemId() const;
+	int getAwardExperience() const;
 	bool isCompleted() const;
 	void updateCollected(int itemType);
 	void updateKilled(int enemyType);
@@ -22,6 +23,7 @@ private:
 private:
 	std::string name;
 	int awardItemId;
+	int awardExp;
 	bool killing, collecting;
 	std::string killCollectWhat;
 	enum KeyWords { KILL = 0, COLLECT = 1 };

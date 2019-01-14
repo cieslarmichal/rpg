@@ -3,10 +3,6 @@
 
 Game::Game()
 {
-	//last dialogue line increases memory usage :O failed to load font
-	//enemies blocking each other
-	//make unique zobaczyc
-	//konczyc to bo trzeba tmp robic tez
 }
 
 Game::~Game()
@@ -95,7 +91,7 @@ void Game::createCharacters()
 {
 	// Player:
 	// name, hp, attackDamage, attackSpeed, movementSpeed
-	characterPlayer = new Player("Michal", 2500, 100, 3, 2);
+	characterPlayer = new Player("Michal", 2500, 100, 3, 8);
 	player = Create::createPlayer(*characterPlayer, { 24 * 40,30 * 40 });
 
 	characterNpc = new Npc("Carl", "stuff/dialogues.txt");
@@ -103,18 +99,18 @@ void Game::createCharacters()
 
 	enemySpawner.spawnSkeleton(enemies);
 	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
+	//enemySpawner.spawnSkeleton(enemies);
+	//enemySpawner.spawnSkeleton(enemies);
+	//enemySpawner.spawnSkeleton(enemies);
+	//enemySpawner.spawnSkeleton(enemies);
+	//enemySpawner.spawnSkeleton(enemies);
+	//enemySpawner.spawnSkeleton(enemies);
+	//enemySpawner.spawnSkeleton(enemies);
+	//enemySpawner.spawnSkeleton(enemies);
+	//enemySpawner.spawnSkeleton(enemies);
 
-	enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
-	enemySpawner.spawnDragon(enemies);
+	//enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
+	//enemySpawner.spawnDragon(enemies);
 
 }
 
@@ -132,7 +128,7 @@ void Game::createWorld()
 	}
 
 	initializeLogicMap();
-	////////////////////////////////////////
+
 	Missions::readMissions();
 }
 
@@ -170,7 +166,6 @@ void Game::drawWindow()
 	draw->drawHUD(hud);
 
 	//player->rect->character->getPathFinding().debugDrawMap(*window);
-
 
 	window->display();
 }

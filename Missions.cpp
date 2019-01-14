@@ -7,8 +7,8 @@ int Missions::currentMissionIndex;
 void Missions::readMissions()
 {
 	listOfMissions = File::getLines("stuff/missions.txt");
-	
-	for(auto & mission: listOfMissions)
+
+	for (auto & mission : listOfMissions)
 	{
 		missions.push_back(std::unique_ptr<Mission>(new Mission(mission)));
 	}
@@ -39,6 +39,11 @@ int Missions::getCurrentGoal()
 int Missions::getCurrentAwardItemId()
 {
 	return missions[currentMissionIndex]->getAwardItemId();
+}
+
+int Missions::getCurrentAwardExperience()
+{
+	return missions[currentMissionIndex]->getAwardExperience();
 }
 
 bool Missions::isCompleted()

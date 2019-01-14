@@ -48,7 +48,6 @@ bool Movement::movePlayer(Rect & player, int direction)
 			enemyTimer.reset();
 			player.character->getPathFinding().initializeStartEnd(player.getPosition(), sf::Vector2f(player.character->getTargetPosition()));
 			player.character->setNextMove(player.character->getPathFinding().solveAStar());
-			//std::cout << player.character->getNextMove().x << ", " << player.character->getNextMove().y << std::endl;
 		}
 
 		if (player.character->getNextMove() == sf::Vector2i(-1, -1))
@@ -106,13 +105,13 @@ bool Movement::moveEnemy(Rect & enemy, Rect & player)
 		{
 			if (std::abs(positiveX) >= std::abs(positiveY))
 			{
-				if (positiveX >= 0) return move(enemy, (int)Directions::LEFT);
-				else return move(enemy, (int)Directions::RIGHT);
+				if (positiveX >= 0 && enemy.character->getCanMoveLeft()) return move(enemy, (int)Directions::LEFT);
+				else if (positiveX < 0 && enemy.character->getCanMoveRight()) return move(enemy, (int)Directions::RIGHT);
 			}
 			else
 			{
-				if (positiveY >= 0) return move(enemy, (int)Directions::UP);
-				else return move(enemy, (int)Directions::DOWN);
+				if (positiveY >= 0 && enemy.character->getCanMoveUp()) return move(enemy, (int)Directions::UP);
+				else if (positiveY<0 && enemy.character->getCanMoveDown())return move(enemy, (int)Directions::DOWN);
 			}
 		}
 		else

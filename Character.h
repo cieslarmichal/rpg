@@ -15,6 +15,7 @@ public:
 	void setMaxHp(int);
 	void setCurrentHp(int);
 	void setAttackDamage(int);
+	void setBaseAttackDamage(int);
 	void setAttackSpeed(int);
 	void setMovementSpeed(float);
 	void setDefense(int);

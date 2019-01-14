@@ -26,6 +26,11 @@ int Mission::getAwardItemId() const
 	return awardItemId;
 }
 
+int Mission::getAwardExperience() const
+{
+	return awardExp;
+}
+
 bool Mission::isCompleted() const
 {
 	return completed;
@@ -89,10 +94,10 @@ void Mission::loadMission(std::string description)
 	ss.str(description);
 	std::string killOrCollect;
 	std::string emptySapce;
-	//Kill 5 dragons award: 17 
-	ss >> killOrCollect >> goal >> killCollectWhat >> emptySapce >> awardItemId;
+	//Kill 5 dragons experience: 200 award: 17 
+	ss >> killOrCollect >> goal >> killCollectWhat >> emptySapce >> awardExp >> emptySapce >> awardItemId;
 
-	name = killOrCollect + " " + std::to_string(goal) + " " + killCollectWhat;
+	name = killOrCollect + " " + std::to_string(goal) + " " + killCollectWhat + " " + std::to_string(awardExp) + " exp";
 
 	std::transform(killCollectWhat.begin(), killCollectWhat.end(), killCollectWhat.begin(), ::tolower);
 	std::transform(killOrCollect.begin(), killOrCollect.end(), killOrCollect.begin(), ::tolower);

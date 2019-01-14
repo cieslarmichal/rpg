@@ -18,7 +18,7 @@ void Fight::attackMelee(std::unique_ptr<Wrapper> & attacker, std::unique_ptr<Wra
 
 			if (victim->rect->enemy != nullptr)
 			{
-				LevelManager::getExperience(attacker->rect->player, victim->rect->enemy);
+				LevelManager::gainExperience(attacker->rect->player, victim->rect->enemy->getExperience());
 
 				int randomItemID = Item::randomizeItemID(victim->rect->enemy->getLootChance());
 				if (randomItemID != (int)Item::Id::NOTHING)
@@ -54,7 +54,7 @@ void Fight::attackDistance(std::unique_ptr<Player> & player, std::unique_ptr<Wra
 
 		if (victim->rect->enemy != nullptr)
 		{
-			LevelManager::getExperience(player, victim->rect->enemy);
+			LevelManager::gainExperience(player, victim->rect->enemy->getExperience());
 
 			int randomItemID = Item::randomizeItemID(victim->rect->enemy->getLootChance());
 

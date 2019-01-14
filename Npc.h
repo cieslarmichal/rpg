@@ -9,7 +9,7 @@ public:
 	Npc(std::string name, std::string dialoguePathFile);
 	~Npc();
 	std::string talk();
-	void startTalking(int actionKey);
+	bool startTalking(int actionKey);
 	void setTalking(bool);
 	bool isThereNextDialogue() const;
 	bool isTalking() const;
