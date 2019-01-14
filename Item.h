@@ -1,8 +1,8 @@
 #pragma once
-#include <string>
 #include "ItemFactory.h"
-#include "Directions.h"
+#include "Constants.h"
 #include "Random.h"
+#include <string>
 
 class Item
 {
@@ -49,6 +49,5 @@ private:
 	int damage, armor, restoringHp, sellValue;
 	bool destroyed, readyToDrop, readyToPick;
 	int distanceFromPlayer;
-
 };
 

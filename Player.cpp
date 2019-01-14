@@ -6,7 +6,9 @@ Player::Player(std::string name, int hp, int attackDamage, int attackSpeed, floa
 	: Character(name, hp, attackDamage, attackSpeed, 0, movementSpeed)
 {
 	level = distanceSkill = meleeSkill = 1;
+	coins = 0;
 	distanceHits = meleeHits = 0;
+	weapon = (int)Weapons::MELEE;
 	setMarked(true);
 }
 

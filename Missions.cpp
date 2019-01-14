@@ -12,6 +12,13 @@ void Missions::readMissions()
 	{
 		missions.push_back(std::unique_ptr<Mission>(new Mission(mission)));
 	}
+
+	currentMissionIndex = 0;
+}
+
+void Missions::startMission()
+{
+	missions[currentMissionIndex]->setStarted(true);
 }
 
 std::string Missions::getCurrentMissionName()
@@ -28,7 +35,7 @@ std::string Missions::getCurrentMissionName()
 
 int Missions::getCurrentProgress()
 {
-	return  missions[currentMissionIndex]->getCurrentProgress();
+	return  missions[currentMissionIndex]->getProgress();
 }
 
 int Missions::getCurrentGoal()
@@ -46,7 +53,12 @@ int Missions::getCurrentAwardExperience()
 	return missions[currentMissionIndex]->getAwardExperience();
 }
 
-bool Missions::isCompleted()
+bool Missions::isCurrentMissionStarted()
+{
+	return missions[currentMissionIndex]->isStarted();
+}
+
+bool Missions::isCurrentMissionCompleted()
 {
 	return missions[currentMissionIndex]->isCompleted();
 }
@@ -66,5 +78,7 @@ void Missions::nextMission()
 	if (currentMissionIndex + 1 != (int)listOfMissions.size())
 	{
 		currentMissionIndex++;
+		startMission();
 	}
 }
+

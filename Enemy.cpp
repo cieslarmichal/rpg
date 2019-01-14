@@ -5,11 +5,9 @@ Enemy::Enemy(std::string name, int hp, int attackDamage, int attackSpeed, int ex
 {
 
 	setDirection(Random::getRandomNumber(0, 3));
-	randomMovementLength = 65;
+	randomMovementLength = Random::getRandomNumber(25, 75);
 }
 
-
-//setters
 void Enemy::setRandomMovementLength(int inp)
 {
 	randomMovementLength = inp;
@@ -20,7 +18,6 @@ void Enemy::setLootChance(float inp)
 	lootChance = inp;
 }
 
-//getters
 float Enemy::getLootChance() const
 {
 	return lootChance;

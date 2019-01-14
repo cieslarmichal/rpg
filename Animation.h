@@ -1,6 +1,6 @@
 #pragma once
 #include "Sprite.h"
-#include "Directions.h"
+#include "Constants.h"
 #include "TimeHandler.h"
 
 class Animation

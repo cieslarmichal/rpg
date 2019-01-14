@@ -2,8 +2,8 @@
 #include "Rect.h"
 #include "Sprite.h"
 #include "Animation.h"
-#include <memory>
 #include "TimeHandler.h"
+#include <memory>
 
 class Wrapper
 {

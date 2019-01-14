@@ -76,3 +76,5 @@ void Update::updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectil
 		projectile->sprite->setPosition((int)projectile->rect->getPosition().x - 10, (int)projectile->rect->getPosition().y - 15);
 	}
 }
+
+

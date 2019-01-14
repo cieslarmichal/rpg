@@ -1,5 +1,5 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
 
 class TimeHandler
 {

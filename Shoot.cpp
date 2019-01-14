@@ -46,3 +46,4 @@ int Shoot::findTargetEnemy(enemyPair & enemies)
 	}
 	return (int)Others::RESET;
 }
+

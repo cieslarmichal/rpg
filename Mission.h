@@ -1,22 +1,24 @@
 #pragma once
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include "Item.h"
 #include "Enemy.h"
+#include "Item.h"
+#include <algorithm>
+#include <sstream>
+#include <string>
 
 class Mission
 {
 public:
 	Mission(std::string description);
+	void updateCollected(int itemType);
+	void updateKilled(int enemyType);
+	void setStarted(bool);
 	std::string getMissionName() const;
-	int getCurrentProgress() const;
+	int getProgress() const;
 	int getGoal() const;
 	int getAwardItemId() const;
 	int getAwardExperience() const;
+	bool isStarted() const;
 	bool isCompleted() const;
-	void updateCollected(int itemType);
-	void updateKilled(int enemyType);
 private:
 	void loadMission(std::string description);
 	void currentProgressUp();
@@ -27,6 +29,6 @@ private:
 	bool killing, collecting;
 	std::string killCollectWhat;
 	enum KeyWords { KILL = 0, COLLECT = 1 };
-	int currentProgress, goal;
-	bool completed;
+	int progress, goal;
+	bool started, completed;
 };

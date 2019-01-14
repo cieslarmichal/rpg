@@ -12,23 +12,27 @@ Item::Item()
 	name = "";
 	id = (int)Id::NOTHING;
 	type = (int)Others::RESET;
+	pathName = "";
+	damage = armor = restoringHp = sellValue = 0;
+	destroyed = readyToDrop = readyToPick = false;
+	distanceFromPlayer = 10000;
 }
 
 int Item::randomizeItemID(float chance)
 {
 	if (Random::isSuccessful(chance))
 	{
-		return Random::getRandomNumber(0, ITEMS_AMOUNT-1);
+		return Random::getRandomNumber(0, ITEMS_AMOUNT - 1);
 	}
-	else if(Random::isSuccessful(0.4))
+	else if (Random::isSuccessful(0.35))
 	{
 		return (int)Id::COIN;
 	}
-	else if (Random::isSuccessful(0.1))
+	else if (Random::isSuccessful(0.15))
 	{
 		return Random::getRandomNumber(43, 48);
 	}
-	
+
 	return (int)Id::NOTHING;
 }
 

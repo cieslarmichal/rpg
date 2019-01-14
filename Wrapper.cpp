@@ -1,7 +1,6 @@
 #include "Wrapper.h"
 
 
-
 Wrapper::Wrapper(std::unique_ptr<Rect> r, std::unique_ptr<Sprite> s, int a)
 {
 	rect = std::move(r);
@@ -15,3 +14,5 @@ Wrapper::Wrapper(std::unique_ptr<Rect> r, std::unique_ptr<Sprite> s, int a)
 		animation = std::unique_ptr<Animation>(new Animation(*sprite, a));
 	}
 }
+
+

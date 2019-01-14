@@ -1,9 +1,9 @@
 #pragma once
 #include "Item.h"
-#include <string>
-#include <vector>
-#include "Directions.h"
+#include "Constants.h"
 #include "TimeHandler.h"
+#include <vector>
+#include <string>
 
 class Inventory
 {
@@ -28,8 +28,8 @@ public:
 private:
 	std::vector<Item> equipment;
 	const int maxEquipped = 7;
-	int amountEquipped = 0;
 	std::vector<Item> items;
+	int amountEquipped = 0;
 	int capacity = 8;
 	void swapItems(int equipIndex, Item &);
 	bool swappedItems = false;

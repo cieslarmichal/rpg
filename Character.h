@@ -1,9 +1,7 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <string>
-#include <iostream>
-#include "Directions.h"
 #include "PathFinding.h"
+#include "Constants.h"
+#include <string>
 
 class Character
 {

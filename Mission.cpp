@@ -11,9 +11,9 @@ std::string Mission::getMissionName() const
 	return name;
 }
 
-int Mission::getCurrentProgress() const
+int Mission::getProgress() const
 {
-	return currentProgress;
+	return progress;
 }
 
 int Mission::getGoal() const
@@ -31,6 +31,11 @@ int Mission::getAwardExperience() const
 	return awardExp;
 }
 
+bool Mission::isStarted() const
+{
+	return started;
+}
+
 bool Mission::isCompleted() const
 {
 	return completed;
@@ -38,7 +43,7 @@ bool Mission::isCompleted() const
 
 void Mission::updateCollected(int itemType)
 {
-	if (!collecting) return;
+	if (!collecting || !started) return;
 
 	switch (itemType)
 	{
@@ -50,7 +55,7 @@ void Mission::updateCollected(int itemType)
 		break;
 	}
 
-	if (currentProgress >= goal)
+	if (progress >= goal)
 	{
 		completed = true;
 	}
@@ -58,7 +63,7 @@ void Mission::updateCollected(int itemType)
 
 void Mission::updateKilled(int enemyType)
 {
-	if (!killing) return;
+	if (!killing || !started) return;
 
 	switch (enemyType)
 	{
@@ -81,11 +86,11 @@ void Mission::updateKilled(int enemyType)
 		}
 		break;
 	}
+}
 
-	if (currentProgress >= goal)
-	{
-		completed = true;
-	}
+void Mission::setStarted(bool inp)
+{
+	started = inp;
 }
 
 void Mission::loadMission(std::string description)
@@ -113,15 +118,20 @@ void Mission::loadMission(std::string description)
 		collecting = true;
 	}
 
-	currentProgress = 0;
-	completed = false;
+	progress = 0;
+	started = completed = false;
 }
 
 void Mission::currentProgressUp()
 {
-	if (currentProgress + 1 <= goal)
+	if (progress + 1 <= goal)
 	{
-		currentProgress++;
+		progress++;
+	}
+
+	if (progress >= goal)
+	{
+		completed = true;
 	}
 }
 

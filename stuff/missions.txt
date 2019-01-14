@@ -1,3 +1,3 @@
-Kill 5 skeletons.	experience: 500		item: 1
-Kill 2 dragons.		experience:	1000	item: 17
-Collect 10 food.	experience:	300		item: 37
+Kill 5 skeletons	experience: 500		item: 1
+Kill 2 dragons		experience: 1000	item: 17
+Collect 10 food		experience: 300		item: 37

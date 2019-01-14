@@ -106,3 +106,4 @@ void Draw::drawRects(enemyPair & enemies)
 		window.draw(enemy.first->rect->getRect());
 	}
 }
+

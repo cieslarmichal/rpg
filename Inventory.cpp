@@ -3,10 +3,11 @@
 
 Inventory::Inventory()
 {
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < maxEquipped; i++)
 	{
 		equipment.push_back(Item());
 	}
+
 }
 
 bool Inventory::addItem(Item & item)
@@ -150,3 +151,4 @@ void Inventory::swapItems(int equipIndex, Item & item)
 		amountEquipped++;
 	}
 }
+

@@ -4,7 +4,7 @@ Tile::Tile(int xx, int yy, bool obstacle, bool enemy) :x(xx),y(yy), obstacle(obs
 {
 }
 
-Tile::Tile(sf::Vector2f position, bool obstacle, bool enemy) : x(position.x), y(position.y), obstacle(obstacle), enemy(enemy)
+Tile::Tile(sf::Vector2f position, bool obstacle, bool enemy) : x((int)position.x), y((int)position.y), obstacle(obstacle), enemy(enemy)
 {
 }
 
@@ -42,3 +42,4 @@ int Tile::getHeight() const
 {
 	return height;
 }
+

@@ -3,15 +3,14 @@
 
 Game::Game()
 {
+	//timers out of main loop
+	//sprite world
 }
 
 Game::~Game()
 {
 	delete window;
 	delete playerView;
-	delete draw;
-	delete characterPlayer;
-	delete characterNpc;
 }
 
 bool Game::run()
@@ -57,10 +56,16 @@ void Game::gameLoop()
 
 		updatePlayerView();
 
-		if (timer.getElapsedSeconds() >= 0.5)
+		if (logicMapTimer.getElapsedSeconds() >= (float)0.5)
 		{
-			timer.reset();
+			logicMapTimer.reset();
 			updateLogicMap();
+		}
+
+		if (respawnTimer.getElapsedSeconds() >= (float)30)
+		{
+			respawnTimer.reset();
+			enemySpawner.spawnRandomEnemy(enemies);
 		}
 
 		Delete::removeText(notifications);
@@ -84,33 +89,33 @@ void Game::initialize()
 	playerView->setCenter(sf::Vector2f(playerView->getSize().x / 2, playerView->getSize().y / 2));
 	window->setView(*playerView);
 
-	draw = new Draw(*window);
+	draw = std::make_unique<Draw>(Draw(*window));
 }
 
 void Game::createCharacters()
 {
 	// Player:
 	// name, hp, attackDamage, attackSpeed, movementSpeed
-	characterPlayer = new Player("Michal", 2500, 100, 3, 8);
+	characterPlayer = std::make_unique<Player>(Player("Michal", 2500, 100, 3, 2));
 	player = Create::createPlayer(*characterPlayer, { 24 * 40,30 * 40 });
 
-	characterNpc = new Npc("Carl", "stuff/dialogues.txt");
+	characterNpc = std::make_unique<Npc>(Npc("Carl", "stuff/dialogues.txt"));
 	Create::createNpc(*characterNpc, npcs, { 20 * 40,30 * 40 });
 
 	enemySpawner.spawnSkeleton(enemies);
 	enemySpawner.spawnSkeleton(enemies);
-	//enemySpawner.spawnSkeleton(enemies);
-	//enemySpawner.spawnSkeleton(enemies);
-	//enemySpawner.spawnSkeleton(enemies);
-	//enemySpawner.spawnSkeleton(enemies);
-	//enemySpawner.spawnSkeleton(enemies);
-	//enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
+	enemySpawner.spawnSkeleton(enemies);
 	//enemySpawner.spawnSkeleton(enemies);
 	//enemySpawner.spawnSkeleton(enemies);
 	//enemySpawner.spawnSkeleton(enemies);
 
-	//enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
-	//enemySpawner.spawnDragon(enemies);
+	enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
+	enemySpawner.spawnDragon(enemies);
 
 }
 
@@ -141,7 +146,7 @@ void Game::initializeLogicMap()
 
 void Game::updateLogicMap()
 {
-	Map::updateTiles(player, enemies,npcs);
+	Map::updateTiles(player, enemies, npcs);
 	pathfinding.updateLogicMap(Map::tiles);
 	enemySpawner.updateObjectsPositions(Map::precisePositions);
 }
@@ -187,3 +192,5 @@ void Game::clearWindow()
 	}
 	window->clear();
 }
+
+

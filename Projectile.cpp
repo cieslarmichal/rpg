@@ -8,7 +8,6 @@ Projectile::Projectile(int id) :enemyID(id)
 	damage = 1;
 }
 
-//setters
 void Projectile::setDamage(int inp)
 {
 	damage = inp;
@@ -29,7 +28,6 @@ void Projectile::setDestroyed(bool inp)
 	destroyed = inp;
 }
 
-//getters
 int Projectile::getDamage() const
 {
 	return damage;
@@ -54,3 +52,4 @@ bool Projectile::isDestroyed() const
 {
 	return destroyed;
 }
+

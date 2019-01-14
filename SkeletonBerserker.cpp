@@ -8,3 +8,4 @@ SkeletonBerserker::SkeletonBerserker(std::string name, int hp, int attackDamage,
 SkeletonBerserker::~SkeletonBerserker()
 {
 }
+

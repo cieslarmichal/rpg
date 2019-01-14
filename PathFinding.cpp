@@ -289,3 +289,4 @@ void PathFinding::debugDrawMap(sf::RenderWindow & window)
 		}
 	}
 }
+

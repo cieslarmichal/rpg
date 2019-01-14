@@ -4,7 +4,6 @@
 Text::Text(sf::Color col, std::string type, int font, std::string msg)
 	: color(col), fontSize(font), HUDtype(type), message(msg)
 {
-
 }
 
 Text::Text(std::string msg, sf::Vector2f pos, sf::Color col, bool move, int font, bool staticp, bool shortLife)

@@ -3,7 +3,7 @@
 #include "StatusBar.h"
 #include "Create.h"
 #include <cmath>
-#include "Directions.h"
+#include "Constants.h"
 
 typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 
