@@ -15,10 +15,11 @@ public:
 	void distanceHitsUp();
 	void meleeHitsUp();
 	void setWeapon(bool);
+public:
 	int getLevel() const;
 	int getCoins() const;
-	int getDistanceLevel() const;
-	int getMeleeLevel() const;
+	int getDistanceSkill() const;
+	int getMeleeSkill() const;
 	bool getWeapon() const;
 	int getDistanceHits() const;
 	int getMeleeHits() const;
@@ -34,9 +35,9 @@ private:
 	bool weapon = (int)Weapons::MELEE;
 	int distanceSkill, meleeSkill;
 	int distanceHits, meleeHits;
-
 private:
 	Inventory inventory;
 	void updateEqEffects();
 	TimeHandler pickItemTimer,useItemTimer;
 };
+

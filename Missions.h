@@ -11,6 +11,7 @@ public:
 	static int getCurrentProgress();
 	static int getCurrentGoal();
 	static int getCurrentAwardItemId();
+	static int getCurrentAwardExperience();
 	static bool isCompleted();
 	static void updateCollected(int itemType);
 	static void updateKilled(int enemyType);

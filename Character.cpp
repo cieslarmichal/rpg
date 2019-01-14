@@ -33,6 +33,11 @@ void Character::setAttackDamage(int inp)
 	attackDamage = inp;
 }
 
+void Character::setBaseAttackDamage(int inp)
+{
+	baseAttackDamage = inp;
+}
+
 void Character::setAttackSpeed(int inp)
 {
 	attackSpeed = inp;

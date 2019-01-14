@@ -27,12 +27,14 @@ std::string Npc::talk()
 	return currentDialogue;
 }
 
-void Npc::startTalking(int actionKey)
+bool Npc::startTalking(int actionKey)
 {
 	if (actionKey == (int)InputKeys::E)
 	{
 		talking = true;
+		return true;
 	}
+	return false;
 }
 
 void Npc::setTalking(bool inp)
