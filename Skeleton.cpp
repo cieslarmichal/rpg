@@ -7,5 +7,5 @@ Skeleton::Skeleton(std::string name, int hp, int attackDamage, int attackSpeed, 
 
 Skeleton::~Skeleton()
 {
-
 }
+

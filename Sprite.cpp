@@ -43,8 +43,6 @@ void Sprite::setPosition(sf::Vector2f position)
 	sprite.setPosition(position.x + (float)offByRectX, position.y + (float)offByRectY);
 }
 
-//getters
-
 std::string Sprite::getPathName()
 {
 	return pathName;
@@ -112,3 +110,4 @@ sf::Vector2i Sprite::calculateProjectileSprite(bool positiveX, bool positiveY, d
 
 	return dimension;
 }
+

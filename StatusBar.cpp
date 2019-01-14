@@ -19,13 +19,11 @@ StatusBar::StatusBar(int sx, int sy) : sizeX(sx), sizeY(sy)
 	text.setCharacterSize(16);
 }
 
-//setters
 void StatusBar::setDestroyed()
 {
 	destroyed = true;
 }
 
-//getters
 bool StatusBar::isDestroyed() const
 {
 	return destroyed;
@@ -87,7 +85,6 @@ void StatusBar::updateStatusBar(int value, int maxValue, std::string label, sf::
 void StatusBar::updateHUDStatusBar(int value, int maxValue, std::string label, sf::Vector2f position)
 {
 	if (!set) setup();
-	//setup do konstr
 	text.setString(label);
 	text.setPosition(position.x, position.y);
 	valueRect.setPosition(position.x,position.y+20);
@@ -99,19 +96,12 @@ void StatusBar::updateHUDStatusBar(int value, int maxValue, std::string label, s
 
 void StatusBar::setup()
 {
+	//this function cant be in constructor, errors
+
 	font.loadFromFile("stuff/font.ttf");
 	text.setOutlineColor(sf::Color::Black);
 	text.setOutlineThickness(1);
 	text.setFont(font);
-
-
-	/*if (character->sprite->getPathName() == "stuff/skeleton.png")
-	{
-		offTextX = 6;
-		offTextY = -21;
-		offRectX = 8;
-		offRectY = -5;
-	}*/
 	set = true;
 }
 
@@ -131,3 +121,5 @@ StatusBar & StatusBar::operator=(StatusBar other)
 	destroyed = other.destroyed;
 	return *this;
 }
+
+

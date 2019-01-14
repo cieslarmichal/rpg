@@ -1,6 +1,8 @@
 #pragma once
 #include "Item.h"
 #include "File.h"
+#include <iostream>
+
 class Item;
 
 class ItemFactory

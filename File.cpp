@@ -38,3 +38,4 @@ void File::close()
 	file->close();
 	delete file;
 }
+

@@ -7,4 +7,5 @@ enum class Weapons { MELEE = 0, DISTANCE = 1 };
 const int MAP_WIDTH = 50;
 const int MAP_HEIGHT = 40;
 const int ITEMS_AMOUNT = 49;
-const int MAX_ENEMIES_NUMBER = 30;
+const int MAX_ENEMIES_NUMBER = 12;
+

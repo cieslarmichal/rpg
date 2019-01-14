@@ -2,6 +2,8 @@
 
 Input::Input()
 {
+	pressedKeys[DIRECTION] = (int)Others::RESET;
+	pressedKeys[ACTION] = (int)Others::RESET;
 }
 
 int * Input::read()
@@ -52,3 +54,4 @@ int * Input::read()
 	}
 	return pressedKeys;
 }
+

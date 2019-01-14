@@ -1,7 +1,6 @@
 #include "Node.h"
 
 
-
 Node::Node()
 {
 	rect.setSize(sf::Vector2f((float)40, (float)40));
@@ -19,3 +18,4 @@ Node::~Node()
 	neighbours.clear();
 	parent = nullptr;
 }
+

@@ -4,7 +4,6 @@
 
 Obstacle::Obstacle(bool destr, int hpp) : destructable(destr), hp(hpp) {}
 
-//setters
 void Obstacle::setCurrentHp(int inp)
 {
 	hp = inp;
@@ -20,7 +19,6 @@ void Obstacle::setDestroyed(bool inp)
 	destroyed = inp;
 }
 
-//getters
 int Obstacle::getCurrentHp() const
 {
 	return hp;
@@ -35,3 +33,4 @@ int Obstacle::isDestroyed() const
 {
 	return destroyed;
 }
+

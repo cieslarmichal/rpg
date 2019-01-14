@@ -1,11 +1,8 @@
 #pragma once
-#include "Rect.h"
-#include "Text.h"
-#include "Projectile.h"
 #include "Wrapper.h"
 #include "StatusBar.h"
-#include <cmath>
-#include "Directions.h"
+#include "Text.h"
+#include "Constants.h"
 #include "TimeHandler.h"
 #include "Tile.h"
 #include "Random.h"
@@ -22,5 +19,6 @@ public:
 	static bool moveRandom(Rect & enemy);
 	static void moveText(Text & text);
 	static void moveProjectile(Rect & projectile, enemyPair & enemies);
+private:
 	static TimeHandler enemyTimer, playerTimer;
 };

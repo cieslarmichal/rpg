@@ -22,6 +22,7 @@ public:
 	Rect(Projectile &, int dimX, int dimY, sf::Vector2f position);
 	Rect(Item &, int dimX, int dimY, sf::Vector2f position);
 	Rect(int dimX, int dimY, sf::Vector2f position);
+public:
 	Character * character;
 	std::unique_ptr<Player> player = nullptr;
 	std::unique_ptr<Npc> npc = nullptr;
@@ -29,6 +30,10 @@ public:
 	std::unique_ptr<Obstacle> obstacle = nullptr;
 	std::unique_ptr<Projectile> projectile = nullptr;
 	std::unique_ptr<Item> item = nullptr;
+public:
+	const sf::RectangleShape & getRect() const;
+	sf::RectangleShape & getRect();
+	sf::Vector2f getPosition() const;
 	void setEdges();
 	void setLeftEdge(int);
 	void setRightEdge(int);
@@ -40,10 +45,6 @@ public:
 	int getBottomEdge();
 	int getDimX() const;
 	int getDimY() const;
-	const sf::RectangleShape & getRect() const;
-	sf::RectangleShape & getRect();
-	sf::Vector2f getPosition() const;
-	sf::Vector2f velocity{ 0,0 };
 private:
 	sf::RectangleShape rect;
 	int leftEdge, rightEdge, topEdge, bottomEdge;

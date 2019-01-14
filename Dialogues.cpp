@@ -7,6 +7,8 @@ Dialogues::Dialogues(std::string filePath)
 	loadDialogueLines(filePath);
 	currentDialogueIndex = 0;
 	currentAmountOfDialogues = (int)listOfDialogueLines[currentDialogueIndex].size();
+	currentDialogueLineIndex = 0;
+	amountDialogueLineIndex = (int)listOfDialogueLines.size();
 }
 
 std::string Dialogues::getCurrentDialogue()

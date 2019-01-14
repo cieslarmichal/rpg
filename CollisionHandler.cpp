@@ -44,63 +44,8 @@ void CollisionHandler::playerWithNpcs(std::unique_ptr<Wrapper> & player, std::ve
 
 	for (auto & npc : npcs)
 	{
-		int diffX = (int)((int)npc->rect->getPosition().x - (int)player->rect->getPosition().x);
-		int diffY = (int)((int)npc->rect->getPosition().y - (int)player->rect->getPosition().y);
-		double absoluteDistance = std::sqrt(diffX*diffX + diffY * diffY);
-
-		if (absoluteDistance < 100)
-		{
-			if (!npc->rect->npc->isTalking())
-			{
-				npc->timing.reset();
-				if (!npc->rect->npc->startTalking(actionKey))
-				{
-					Create::createNpcMessage("Press E to talk", npc->rect->getPosition(), messages);
-				}
-			}
-			else
-			{
-				if (Missions::isCompleted())
-				{
-					if (npc->timing.getElapsedSeconds() > (float)2)
-					{
-						npc->timing.reset();
-						std::string npcMessage = "Great job, here is your award.";
-						Create::createNpcMessage(npcMessage, npc->rect->getPosition(), messages, true);
-						npc->rect->npc->setTalking(false);
-					}
-
-					Item awardItem(Missions::getCurrentAwardItemId());
-					player->rect->player->getInventory().addItem(awardItem);
-
-					LevelManager::gainExperience(player->rect->player, Missions::getCurrentAwardExperience());
-
-					HUD::removeMissionInfo();
-					Missions::nextMission();
-					npc->rect->npc->getDialogues().nextDialogueLine();
-				}
-				else
-				{
-					if (!npc->rect->npc->isThereNextDialogue())
-					{
-						HUD::addMissionInfo();
-					}
-					if (npc->timing.getElapsedSeconds() > (float)2)
-					{
-						npc->timing.reset();
-						std::string npcMessage = npc->rect->npc->talk();
-						Create::createNpcMessage(npcMessage, npc->rect->getPosition(), messages,true);
-					}
-				}
-			}
-
-		}
-		else
-		{
-			npc->rect->npc->setTalking(false);
-		}
+		Interaction::playerWithNpc(player, npc, messages, actionKey);
 	}
-
 }
 
 void CollisionHandler::enemiesWithNpcs(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>>& npcs)

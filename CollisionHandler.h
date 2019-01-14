@@ -1,14 +1,13 @@
 #pragma once
-#include <iostream>
 #include "Wrapper.h"
 #include "StatusBar.h"
-#include "Text.h"
-#include "Directions.h"
+#include "Constants.h"
 #include "Fight.h"
 #include "Blocked.h"
 #include "Delete.h"
 #include "Item.h"
 #include "HUD.h"
+#include "Interaction.h"
 
 typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 
@@ -21,10 +20,10 @@ public:
 		std::vector<std::unique_ptr<Text>> & messages, int actionKey);
 	void enemiesWithNpcs(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & npcs);
 	void enemiesWithObstacles(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	void playerWithEnemies(std::unique_ptr<Wrapper> & player, enemyPair & enemies, 
+	void playerWithEnemies(std::unique_ptr<Wrapper> & player, enemyPair & enemies,
 		std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items);
 	void enemiesWithEnemies(enemyPair & enemies);
-	void projectilesWithEnemies(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & projectiles, 
+	void projectilesWithEnemies(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & projectiles,
 		enemyPair & enemies, std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items);
 	void projectilesWithWalls(std::vector<std::unique_ptr<Wrapper>> & projectiles, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	void playerWithItems(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Wrapper>> & items, int actionKey);

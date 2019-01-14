@@ -1,9 +1,9 @@
 #pragma once
-#include "Tile.h"
 #include "Enemy.h"
-#include "Random.h"
 #include "Create.h"
-#include "Directions.h"
+#include "Random.h"
+#include "Tile.h"
+#include "Constants.h"
 
 typedef std::vector <std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 
@@ -11,7 +11,6 @@ class EnemySpawner
 {
 public:
 	EnemySpawner();
-	~EnemySpawner();
 	void spawnSkeleton(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
 	void spawnSkeletonBerserker(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
 	void spawnDragon(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
@@ -20,9 +19,9 @@ public:
 	void initializeObjectsPositions(std::vector<std::unique_ptr<Tile>> & mapPositions);
 	void updateObjectsPositions(std::vector<std::unique_ptr<Tile>> & mapPositions);
 private:
-	Skeleton * characterSkeleton;
-	SkeletonBerserker * characterSkeletonBerserker;
-	Dragon * characterDragon;
+	std::unique_ptr<Skeleton>  characterSkeleton;
+	std::unique_ptr<SkeletonBerserker> characterSkeletonBerserker;
+	std::unique_ptr<Dragon> characterDragon;
 	int getRandomEnemyType() const;
 	static int amountOfEnemies;
 private:

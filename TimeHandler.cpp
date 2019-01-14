@@ -1,7 +1,6 @@
 #include "TimeHandler.h"
 
 
-
 TimeHandler::TimeHandler()
 {
 	elapsed = clock.getElapsedTime();

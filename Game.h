@@ -1,14 +1,7 @@
 #pragma once
-#include "Character.h"
 #include "Draw.h"
-#include "Rect.h"
-#include "Sprite.h"
-#include "Player.h"
 #include "Input.h"
 #include "Movement.h"
-#include "Animation.h"
-#include "Skeleton.h"
-#include "Obstacle.h"
 #include "Wrapper.h"
 #include "Update.h"
 #include "CollisionHandler.h"
@@ -19,9 +12,7 @@
 #include "PathFinding.h"
 #include "Map.h"
 #include "EnemySpawner.h"
-#include "Npc.h"
 #include "Missions.h"
-
 
 class Game
 {
@@ -42,15 +33,15 @@ private:
 private:
 	sf::RenderWindow * window;
 	sf::View * playerView;
-	TimeHandler timer;
+	TimeHandler logicMapTimer, respawnTimer;
 	Input input;
-	Draw * draw;
+	std::unique_ptr<Draw> draw;
 	EnemySpawner enemySpawner;
 	CollisionHandler collisionHandler;
 	PathFinding pathfinding;
 private:
-	Player * characterPlayer;
-	Npc * characterNpc;
+	std::unique_ptr<Player> characterPlayer;
+	std::unique_ptr<Npc> characterNpc;
 private:
 	HUD hud;
 	std::unique_ptr<Wrapper> player;

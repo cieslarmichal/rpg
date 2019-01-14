@@ -32,7 +32,7 @@ public:
 private:
 	int level;
 	int coins;
-	bool weapon = (int)Weapons::MELEE;
+	bool weapon;
 	int distanceSkill, meleeSkill;
 	int distanceHits, meleeHits;
 private:

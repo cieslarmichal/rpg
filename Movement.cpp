@@ -146,3 +146,4 @@ void Movement::moveProjectile(Rect & rect, enemyPair & enemies)
 
 	rect.getRect().move(flagX * rect.projectile->getMovementSpeed()*std::cos(angle), flagY * rect.projectile->getMovementSpeed() * std::sin(angle));
 }
+

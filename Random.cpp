@@ -9,7 +9,7 @@ int Random::getRandomNumber(int rangeStart, int rangeEnd)
 	return dist(mt);
 }
 
-bool Random::isSuccessful(float probability)
+bool Random::isSuccessful(double probability)
 {
 	int numberOfTens = 0;
 	while (probability <= 100)
@@ -18,7 +18,8 @@ bool Random::isSuccessful(float probability)
 		numberOfTens++;
 	}
 
-	int randomNumber = getRandomNumber(1, pow(10, numberOfTens));
+	int randomNumber = getRandomNumber(1, (int)pow(10, numberOfTens));
 	if (randomNumber > 0 && randomNumber <= probability) return true;
 	return false;
 }
+

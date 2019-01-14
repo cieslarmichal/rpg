@@ -3,6 +3,7 @@
 
 Npc::Npc(std::string name, std::string dialoguePathFile) :Character(name, 100, 1, 1, 100, 2), dialogues(dialoguePathFile)
 {
+	currentDialogue = "";
 }
 
 Npc::~Npc()
@@ -61,3 +62,4 @@ Dialogues & Npc::getDialogues()
 {
 	return dialogues;
 }
+

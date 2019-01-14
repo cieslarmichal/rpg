@@ -89,7 +89,6 @@ Rect::Rect(int dx, int dy, sf::Vector2f pos) : dimX(dx), dimY(dy)
 	rect.setOutlineThickness(1);
 }
 
-//setters
 void Rect::setLeftEdge(int inp)
 {
 	leftEdge = inp;
@@ -109,8 +108,6 @@ void Rect::setBottomEdge(int inp)
 {
 	bottomEdge = inp;
 }
-
-//getters
 
 int Rect::getLeftEdge()
 {
@@ -171,3 +168,4 @@ void Rect::setEdges()
 	bottomEdge = (int)rect.getPosition().y + dimY;
 	topEdge = (int)rect.getPosition().y;
 }
+

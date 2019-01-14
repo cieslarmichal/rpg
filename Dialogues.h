@@ -1,8 +1,8 @@
 #pragma once
-#include <vector>
-#include <string>
 #include "File.h"
 #include <algorithm>
+#include <vector>
+#include <string>
 
 class Dialogues
 {
