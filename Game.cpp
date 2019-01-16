@@ -1,15 +1,22 @@
 #include "Game.h"
 
 
-Game::Game()
+Game::Game(sf::RenderWindow & win)
 {
+	window = &win;
 	//timers out of main loop
 	//sprite world
+	// npc && status bar only drawing name
+	//more npc
+	//mission Talk to Carl etc
+	//unique new -> make unique
+	//typedef-> using
+	//enum classes
 }
 
 Game::~Game()
 {
-	delete window;
+	window = nullptr;
 	delete playerView;
 }
 
@@ -18,16 +25,15 @@ bool Game::run()
 	initialize();
 	createWorld();
 	createCharacters();
-	gameLoop();
-
-	return true;
+	return gameLoop();
 }
 
-void Game::gameLoop()
+bool Game::gameLoop()
 {
 	while (window->isOpen())
 	{
 		clearWindow();
+		if (closeWindow()) return (int)Mode::MENU;
 
 		int *inputKeys = input.read();
 
@@ -76,13 +82,15 @@ void Game::gameLoop()
 
 		drawWindow();
 	}
+
+	return true;
 }
 
 void Game::initialize()
 {
-	window = new sf::RenderWindow(sf::VideoMode(1280, 800), "RPG game");
+	/*window = new sf::RenderWindow(sf::VideoMode(1280, 800), "RPG game");
 	window->setPosition(sf::Vector2i(10, 50));
-	window->setFramerateLimit(60);
+	window->setFramerateLimit(60);*/
 
 	playerView = new sf::View(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
 	playerView->setSize(sf::Vector2f((window->getSize())));
@@ -177,20 +185,28 @@ void Game::drawWindow()
 
 void Game::clearWindow()
 {
+	window->clear();
+}
+
+bool Game::closeWindow()
+{
 	sf::Event event;
 	while (window->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 		{
 			window->close();
+			return true;
 		}
 
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+		if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Escape)
 		{
 			window->close();
+			return true;
 		}
 	}
-	window->clear();
+
+	return false;
 }
 
 

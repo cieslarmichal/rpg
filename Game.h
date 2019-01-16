@@ -17,7 +17,7 @@
 class Game
 {
 public:
-	Game();
+	Game(sf::RenderWindow &);
 	~Game();
 	bool run();
 private:
@@ -26,10 +26,11 @@ private:
 	void createWorld();
 	void initializeLogicMap();
 	void updateLogicMap();
-	void gameLoop();
+	bool gameLoop();
 	void updatePlayerView();
 	void drawWindow();
 	void clearWindow();
+	bool closeWindow();
 private:
 	sf::RenderWindow * window;
 	sf::View * playerView;

@@ -2,6 +2,14 @@
 
 void Delete::removeEnemies(enemyPair & enemies)
 {
+	for (auto & enemy : enemies)
+	{
+		if (enemy.first->rect->character->isDead())
+		{
+			EnemySpawner::setAmountOfEnemies(EnemySpawner::getAmountOfEnemies() - 1);
+		}
+	}
+
 	enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
 		[](std::pair<std::unique_ptr<Wrapper>, StatusBar> & e) {return e.first->rect->character->isDead(); }), enemies.end());
 }
