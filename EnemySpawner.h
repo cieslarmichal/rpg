@@ -15,6 +15,8 @@ public:
 	void spawnSkeletonBerserker(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
 	void spawnDragon(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
 	void spawnRandomEnemy(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
+	static void setAmountOfEnemies(int);
+	static int getAmountOfEnemies();
 public:
 	void initializeObjectsPositions(std::vector<std::unique_ptr<Tile>> & mapPositions);
 	void updateObjectsPositions(std::vector<std::unique_ptr<Tile>> & mapPositions);

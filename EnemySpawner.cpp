@@ -65,6 +65,16 @@ void EnemySpawner::spawnRandomEnemy(enemyPair & enemies, sf::Vector2f respawnPos
 	}
 }
 
+void EnemySpawner::setAmountOfEnemies(int inp)
+{
+	amountOfEnemies = inp;
+}
+
+int EnemySpawner::getAmountOfEnemies()
+{
+	return amountOfEnemies;
+}
+
 void EnemySpawner::initializeObjectsPositions(std::vector<std::unique_ptr<Tile>>& mapPositions)
 {
 	for (auto & mp : mapPositions)

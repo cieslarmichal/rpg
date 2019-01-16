@@ -4,6 +4,7 @@
 #include "Text.h"
 #include "Blocked.h"
 #include "Create.h"
+#include "EnemySpawner.h"
 
 typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
 
