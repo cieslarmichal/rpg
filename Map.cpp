@@ -15,7 +15,7 @@ void Map::readTiles(std::vector<std::unique_ptr<Wrapper>> & walls)
 	}
 }
 
-void Map::updateTiles(std::unique_ptr<Wrapper> & player, enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & npcs)
+void Map::updateTiles(std::unique_ptr<Wrapper>& player, vectorOfCharacters & enemies, vectorOfCharacters & npcs)
 {
 	tiles.clear();
 	precisePositions.clear();
@@ -28,9 +28,11 @@ void Map::updateTiles(std::unique_ptr<Wrapper> & player, enemyPair & enemies, st
 
 	for (auto & npc : npcs)
 	{
-		tiles.push_back(std::unique_ptr<Tile>(new Tile((int)npc->rect->getPosition().x + 20, (int)npc->rect->getPosition().y + 20, true, true)));
-		precisePositions.push_back(std::unique_ptr<Tile>(new Tile((int)npc->rect->getPosition().x, (int)npc->rect->getPosition().y, true, true)));
+		tiles.push_back(std::unique_ptr<Tile>(new Tile((int)npc.first->rect->getPosition().x + 20, (int)npc.first->rect->getPosition().y + 20, true, true)));
+		precisePositions.push_back(std::unique_ptr<Tile>(new Tile((int)npc.first->rect->getPosition().x, (int)npc.first->rect->getPosition().y, true, true)));
 	}
 
 	precisePositions.push_back(std::unique_ptr<Tile>(new Tile((int)player->rect->getPosition().x, (int)player->rect->getPosition().y, true, true)));
 }
+
+

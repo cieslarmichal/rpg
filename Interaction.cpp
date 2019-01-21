@@ -39,7 +39,7 @@ void Interaction::action(character & player, character & npc, texts & messages)
 		std::string npcMessage = "Great job, here is your award.";
 		Create::createNpcMessage(npcMessage, npc->rect->getPosition(), messages, true);
 
-		if (npc->timing.getElapsedSeconds() > (float)2)
+		if (npc->timing.getElapsedSeconds() > (float)1.5)
 		{
 			npc->timing.reset();
 			npc->rect->npc->setTalking(false);
@@ -61,7 +61,7 @@ void Interaction::action(character & player, character & npc, texts & messages)
 			Missions::startMission();
 			HUD::addMissionInfo();
 		}
-		if (npc->timing.getElapsedSeconds() > (float)2)
+		if (npc->timing.getElapsedSeconds() > (float)1.5)
 		{
 			npc->timing.reset();
 			std::string npcMessage = npc->rect->npc->talk();

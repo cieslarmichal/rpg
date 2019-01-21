@@ -34,16 +34,16 @@ void Application::run()
 
 void Application::createMenuWindow()
 {
-	if (app != nullptr)
-	{
-		delete app;
-		app = nullptr;
-	}
-
 	if (menu != nullptr)
 	{
 		delete menu;
 		menu = nullptr;
+	}
+
+	if (app != nullptr)
+	{
+		delete app;
+		app = nullptr;
 	}
 
 	app = new sf::RenderWindow(sf::VideoMode(800, 600), "RPG game");
@@ -56,17 +56,19 @@ void Application::createMenuWindow()
 
 void Application::createGameWindow()
 {
+	if (game != nullptr)
+	{
+		std::cout << sizeof(*game);
+		delete game;
+		game = nullptr;
+	}
+
 	if (app != nullptr)
 	{
 		delete app;
 		app = nullptr;
 	}
 
-	if (game != nullptr)
-	{
-		delete game;
-		game = nullptr;
-	}
 
 	app = new sf::RenderWindow(sf::VideoMode(1280, 800), "RPG game");
 	app->setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2 - app->getSize().x / 2, sf::VideoMode::getDesktopMode().height / 2 - app->getSize().y / 2));

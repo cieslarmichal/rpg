@@ -9,22 +9,24 @@
 #include "HUD.h"
 #include "Interaction.h"
 
-typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
+
+using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>>;
 
 class CollisionHandler
 {
 public:
 	bool isIntersecting(Rect & rectangle1, Rect & rectangle2) const;
 	void characterWithObstacles(std::unique_ptr<Wrapper> & character, std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	void playerWithNpcs(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & npcs,
+	void characterWithObstacles(std::unique_ptr<Wrapper> & character, vectorOfCharacters & obstacles);
+	void playerWithNpcs(std::unique_ptr<Wrapper> & player, vectorOfCharacters & npcs,
 		std::vector<std::unique_ptr<Text>> & messages, int actionKey);
-	void enemiesWithNpcs(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & npcs);
-	void enemiesWithObstacles(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	void playerWithEnemies(std::unique_ptr<Wrapper> & player, enemyPair & enemies,
+	void enemiesWithNpcs(vectorOfCharacters & enemies, vectorOfCharacters & npcs);
+	void enemiesWithObstacles(vectorOfCharacters & enemies, std::vector<std::unique_ptr<Wrapper>> & obstacles);
+	void playerWithEnemies(std::unique_ptr<Wrapper> & player, vectorOfCharacters & enemies,
 		std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items);
-	void enemiesWithEnemies(enemyPair & enemies);
+	void enemiesWithEnemies(vectorOfCharacters & enemies);
 	void projectilesWithEnemies(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & projectiles,
-		enemyPair & enemies, std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items);
+		vectorOfCharacters & enemies, std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items);
 	void projectilesWithWalls(std::vector<std::unique_ptr<Wrapper>> & projectiles, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	void playerWithItems(std::unique_ptr<Wrapper> & player, std::vector <std::unique_ptr<Wrapper>> & items, int actionKey);
 private:

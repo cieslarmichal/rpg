@@ -3,11 +3,11 @@
 #include "StatusBar.h"
 #include "Constants.h"
 
-typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
+using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>>;
 
 class Mark
 {
 public:
 	Mark() = delete;
-	static void markTarget(int key, std::unique_ptr<Wrapper> & player, enemyPair & enemies, sf::RenderWindow & window);
+	static void markTarget(int key, std::unique_ptr<Wrapper> & player, vectorOfCharacters & enemies, sf::RenderWindow & window);
 };

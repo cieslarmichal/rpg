@@ -4,18 +4,15 @@
 Game::Game(sf::RenderWindow & win)
 {
 	window = &win;
-	//timers out of main loop
 	//sprite world
-	// npc && status bar only drawing name
-	//more npc
-	//mission Talk to Carl etc
-	//unique new -> make unique
-	//typedef-> using
-	//enum classes
+	//ladowanie w innym watku threads
 }
 
 Game::~Game()
 {
+	Missions::clearMissions();
+	HUD::clearHUDInfo();
+
 	window = nullptr;
 	delete playerView;
 }
@@ -68,7 +65,7 @@ bool Game::gameLoop()
 			updateLogicMap();
 		}
 
-		if (respawnTimer.getElapsedSeconds() >= (float)30)
+		if (respawnTimer.getElapsedSeconds() >= (float)20)
 		{
 			respawnTimer.reset();
 			enemySpawner.spawnRandomEnemy(enemies);
@@ -88,10 +85,6 @@ bool Game::gameLoop()
 
 void Game::initialize()
 {
-	/*window = new sf::RenderWindow(sf::VideoMode(1280, 800), "RPG game");
-	window->setPosition(sf::Vector2i(10, 50));
-	window->setFramerateLimit(60);*/
-
 	playerView = new sf::View(sf::FloatRect(0, 0, (float)window->getSize().x, (float)window->getSize().y));
 	playerView->setSize(sf::Vector2f((window->getSize())));
 	playerView->setCenter(sf::Vector2f(playerView->getSize().x / 2, playerView->getSize().y / 2));
@@ -115,13 +108,6 @@ void Game::createCharacters()
 	enemySpawner.spawnSkeleton(enemies);
 	enemySpawner.spawnSkeleton(enemies);
 	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	//enemySpawner.spawnSkeleton(enemies);
-	//enemySpawner.spawnSkeleton(enemies);
-	//enemySpawner.spawnSkeleton(enemies);
-
 	enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
 	enemySpawner.spawnDragon(enemies);
 
@@ -139,6 +125,7 @@ void Game::createWorld()
 	{
 		std::cerr << err << std::endl;
 	}
+	Create::createTree({ 30 * 40,6 * 40 }, walls);
 
 	initializeLogicMap();
 

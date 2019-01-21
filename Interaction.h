@@ -4,8 +4,8 @@
 #include "HUD.h"
 #include "Text.h"
 
-typedef std::unique_ptr<Wrapper> character;
-typedef std::vector<std::unique_ptr<Text>> texts;
+using character = std::unique_ptr<Wrapper>;
+using texts = std::vector<std::unique_ptr<Text>>;
 
 class Interaction
 {

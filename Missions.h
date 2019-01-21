@@ -18,6 +18,7 @@ public:
 	static void updateCollected(int itemType);
 	static void updateKilled(int enemyType);
 	static void nextMission();
+	static void clearMissions();
 private:
 	static std::vector<std::unique_ptr<Mission>> missions;
 	static std::vector<std::string> listOfMissions;

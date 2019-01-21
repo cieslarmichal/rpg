@@ -151,7 +151,7 @@ int Fight::checkEnemyType(std::unique_ptr<Enemy>& enemy)
 	SkeletonBerserker * skeletonBerserker = dynamic_cast<SkeletonBerserker*>(&(*enemy));
 	Dragon * dragon = dynamic_cast<Dragon*>(&(*enemy));
 
-	if (skeleton)
+	if (skeleton && !skeletonBerserker)
 	{
 		return Enemy::EnemyType::SKELETON;
 	}

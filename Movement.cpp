@@ -132,7 +132,7 @@ void Movement::moveText(Text & text)
 	text.getText().move(0, -text.getMovementSpeed());
 }
 
-void Movement::moveProjectile(Rect & rect, enemyPair & enemies)
+void Movement::moveProjectile(Rect & rect, vectorOfCharacters & enemies)
 {
 	int flagX, flagY; //true shoot with +speed, false with -speed
 	int enemyIndex = rect.projectile->getEnemyID();

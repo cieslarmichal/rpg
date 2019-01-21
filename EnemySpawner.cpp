@@ -10,7 +10,7 @@ EnemySpawner::EnemySpawner()
 	characterDragon = std::make_unique<Dragon>(Dragon("Dragon", 1000, 25, 2, 1, 400, 0.4f));
 }
 
-void EnemySpawner::spawnSkeleton(enemyPair & enemies, sf::Vector2f respawnPosition)
+void EnemySpawner::spawnSkeleton(vectorOfCharacters & enemies, sf::Vector2f respawnPosition)
 {
 	if (!(amountOfEnemies <= MAX_ENEMIES_NUMBER)) return;
 
@@ -23,7 +23,7 @@ void EnemySpawner::spawnSkeleton(enemyPair & enemies, sf::Vector2f respawnPositi
 	Create::createSkeleton(*characterSkeleton, enemies, respawnPosition);
 }
 
-void EnemySpawner::spawnSkeletonBerserker(enemyPair & enemies, sf::Vector2f respawnPosition)
+void EnemySpawner::spawnSkeletonBerserker(vectorOfCharacters & enemies, sf::Vector2f respawnPosition)
 {
 	if (!(amountOfEnemies <= MAX_ENEMIES_NUMBER)) return;
 
@@ -36,7 +36,7 @@ void EnemySpawner::spawnSkeletonBerserker(enemyPair & enemies, sf::Vector2f resp
 	Create::createSkeletonBerserker(*characterSkeletonBerserker, enemies, respawnPosition);
 }
 
-void EnemySpawner::spawnDragon(enemyPair & enemies, sf::Vector2f respawnPosition)
+void EnemySpawner::spawnDragon(vectorOfCharacters & enemies, sf::Vector2f respawnPosition)
 {
 	if (!(amountOfEnemies <= MAX_ENEMIES_NUMBER)) return;
 
@@ -49,7 +49,7 @@ void EnemySpawner::spawnDragon(enemyPair & enemies, sf::Vector2f respawnPosition
 	Create::createDragon(*characterDragon, enemies, respawnPosition);
 }
 
-void EnemySpawner::spawnRandomEnemy(enemyPair & enemies, sf::Vector2f respawnPosition)
+void EnemySpawner::spawnRandomEnemy(vectorOfCharacters & enemies, sf::Vector2f respawnPosition)
 {
 	switch (getRandomEnemyType())
 	{

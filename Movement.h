@@ -7,7 +7,8 @@
 #include "Tile.h"
 #include "Random.h"
 
-typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
+using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>>;
+
 
 class Movement
 {
@@ -18,7 +19,7 @@ public:
 	static bool moveEnemy(Rect & enemy, Rect & player);
 	static bool moveRandom(Rect & enemy);
 	static void moveText(Text & text);
-	static void moveProjectile(Rect & projectile, enemyPair & enemies);
+	static void moveProjectile(Rect & projectile, vectorOfCharacters & enemies);
 private:
 	static TimeHandler enemyTimer, playerTimer;
 };

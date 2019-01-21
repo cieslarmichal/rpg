@@ -1,20 +1,13 @@
 #include "TimeHandler.h"
 
-
 TimeHandler::TimeHandler()
 {
 	elapsed = clock.getElapsedTime();
-	elapsed2 = clock2.getElapsedTime();
 }
 
 void TimeHandler::reset()
 {
 	clock.restart();
-}
-
-void TimeHandler::reset2()
-{
-	clock2.restart();
 }
 
 float TimeHandler::getElapsedSeconds()
@@ -23,8 +16,9 @@ float TimeHandler::getElapsedSeconds()
 	return elapsed.asSeconds();
 }
 
-float TimeHandler::getElapsedSeconds2()
+float TimeHandler::getElapsedAndReset()
 {
-	elapsed2 = clock2.getElapsedTime();
-	return elapsed2.asSeconds();
+	return clock.restart().asSeconds();
 }
+
+

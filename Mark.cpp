@@ -1,7 +1,7 @@
 #include "Mark.h"
 
 
-void Mark::markTarget(int key, std::unique_ptr<Wrapper> & player, enemyPair & enemies, sf::RenderWindow & window)
+void Mark::markTarget(int key, std::unique_ptr<Wrapper> & player, vectorOfCharacters & enemies, sf::RenderWindow & window)
 {
 	if (key == (int)InputKeys::MOUSELEFT)
 	{

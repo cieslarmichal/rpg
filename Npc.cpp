@@ -12,13 +12,21 @@ Npc::~Npc()
 
 std::string Npc::talk()
 {
-	if (talking && dialogueTimer.getElapsedSeconds() > (float)2 && dialogues.isNextDialogue())
+	if (talking && dialogueTimer.getElapsedSeconds() > (float)1.5 && dialogues.isNextDialogue())
 	{
 		dialogueTimer.reset();
-		currentDialogue =  dialogues.getCurrentDialogue();
+		dialogueCounter++;
+		if (dialogueCounter % 2 == 0)
+		{
+			currentDialogue = dialogues.getCurrentDialogue();
+		}
+		else
+		{
+			currentDialogue = "";
+		}
 	}
 
-	if(!dialogues.isNextDialogue() && dialogueTimer.getElapsedSeconds()>(float)2)
+	if(!dialogues.isNextDialogue() && dialogueTimer.getElapsedSeconds()>(float)1.5)
 	{
 		dialogueTimer.reset();
 		talking = false;
