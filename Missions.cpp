@@ -82,3 +82,10 @@ void Missions::nextMission()
 	}
 }
 
+void Missions::clearMissions()
+{
+	missions.erase(missions.begin(), missions.end());
+	listOfMissions.erase(listOfMissions.begin(), listOfMissions.end());
+	currentMissionIndex = 0;
+}
+

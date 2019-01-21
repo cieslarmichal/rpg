@@ -6,13 +6,14 @@
 #include "Create.h"
 #include "EnemySpawner.h"
 
-typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
+using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>>;
+
 
 class Delete
 {
 public:
 	Delete() = delete;
-	static void removeEnemies(enemyPair & characters);
+	static void removeEnemies(vectorOfCharacters & characters);
 	static void removeText(std::vector < std::unique_ptr<Text>> & texts);
 	static void removeProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles);
 	static void removeItems(std::vector<std::unique_ptr<Wrapper>> & items);

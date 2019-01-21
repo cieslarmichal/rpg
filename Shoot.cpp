@@ -1,7 +1,7 @@
 #include "Shoot.h"
 
 
-void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & projectiles)
+void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, vectorOfCharacters & enemies, std::vector<std::unique_ptr<Wrapper>> & projectiles)
 {
 	if (player->rect->player->getWeapon() != (int)Weapons::DISTANCE) return;
 
@@ -33,7 +33,7 @@ void Shoot::shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, st
 	}
 }
 
-int Shoot::findTargetEnemy(enemyPair & enemies)
+int Shoot::findTargetEnemy(vectorOfCharacters & enemies)
 {
 	int enemyIndex = 0;
 	for (auto & enemy : enemies)

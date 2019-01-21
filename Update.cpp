@@ -16,15 +16,15 @@ void Update::updatePlayer(std::unique_ptr<Wrapper> & player, StatusBar & statBar
 	Create::createLevelMessage(levelMessage, notifications);
 }
 
-void Update::updateNpc(std::vector<std::unique_ptr<Wrapper>>& npcs)
+void Update::updateNpc(vectorOfCharacters & npcs)
 {
 	for (auto & npc : npcs)
 	{
-		npc->sprite->setPosition(npc->rect->getPosition());
+		npc.first->sprite->setPosition(npc.first->rect->getPosition());
 	}
 }
 
-void Update::updateEnemies(enemyPair & enemies, std::unique_ptr<Wrapper> & player)
+void Update::updateEnemies(vectorOfCharacters & enemies, std::unique_ptr<Wrapper> & player)
 {
 	for (auto & enemy : enemies)
 	{
@@ -68,7 +68,7 @@ void Update::updateHUD(std::unique_ptr<Wrapper> & player, HUD & hud, sf::Vector2
 	hud.update(player, windowSize);
 }
 
-void Update::updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, enemyPair & enemies)
+void Update::updateProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles, vectorOfCharacters & enemies)
 {
 	for (auto & projectile : projectiles)
 	{

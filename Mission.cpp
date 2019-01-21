@@ -6,6 +6,11 @@ Mission::Mission(std::string name)
 	loadMission(name);
 }
 
+Mission::~Mission()
+{
+	std::cout << "x" << std::endl;
+}
+
 std::string Mission::getMissionName() const
 {
 	return name;

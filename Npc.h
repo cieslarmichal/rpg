@@ -16,6 +16,7 @@ public:
 	Dialogues & getDialogues();
 private:
 	std::string currentDialogue;
+	int dialogueCounter = 0;
 	Dialogues dialogues;
 	TimeHandler dialogueTimer;
 	bool talking = false;

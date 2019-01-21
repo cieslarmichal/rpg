@@ -38,17 +38,50 @@ void CollisionHandler::characterWithObstacles(std::unique_ptr<Wrapper> & charact
 	}
 }
 
-void CollisionHandler::playerWithNpcs(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & npcs, std::vector<std::unique_ptr<Text>> & messages, int actionKey)
+void CollisionHandler::characterWithObstacles(std::unique_ptr<Wrapper>& character, vectorOfCharacters & obstacles)
+{
+	for (auto & obstacle : obstacles)
+	{
+		if (isIntersecting(*character->rect, *obstacle.first->rect))
+		{
+			int distances[4];
+			distances[TOP] = abs(obstacle.first->rect->getBottomEdge() - character->rect->getTopEdge());
+			distances[BOT] = abs(obstacle.first->rect->getTopEdge() - character->rect->getBottomEdge());
+			distances[LEFT] = abs(obstacle.first->rect->getRightEdge() - character->rect->getLeftEdge());
+			distances[RIGHT] = abs(obstacle.first->rect->getLeftEdge() - character->rect->getRightEdge());
+
+			if (topDistanceShortest(distances))
+			{
+				character->rect->character->setCanMoveUp(false);
+			}
+			else if (botDistanceShortest(distances))
+			{
+				character->rect->character->setCanMoveDown(false);
+			}
+			else if (leftDistanceShortest(distances))
+			{
+				character->rect->character->setCanMoveLeft(false);
+			}
+			else if (rightDistanceShortest(distances))
+			{
+				character->rect->character->setCanMoveRight(false);
+			}
+		}
+	}
+}
+
+
+void CollisionHandler::playerWithNpcs(std::unique_ptr<Wrapper> & player, vectorOfCharacters & npcs, std::vector<std::unique_ptr<Text>> & messages, int actionKey)
 {
 	characterWithObstacles(player, npcs);
 
 	for (auto & npc : npcs)
 	{
-		Interaction::playerWithNpc(player, npc, messages, actionKey);
+		Interaction::playerWithNpc(player, npc.first, messages, actionKey);
 	}
 }
 
-void CollisionHandler::enemiesWithNpcs(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>>& npcs)
+void CollisionHandler::enemiesWithNpcs(vectorOfCharacters & enemies, vectorOfCharacters & npcs)
 {
 	for (auto & enemy : enemies)
 	{
@@ -56,7 +89,7 @@ void CollisionHandler::enemiesWithNpcs(enemyPair & enemies, std::vector<std::uni
 	}
 }
 
-void CollisionHandler::enemiesWithObstacles(enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & obstacles)
+void CollisionHandler::enemiesWithObstacles(vectorOfCharacters & enemies, std::vector<std::unique_ptr<Wrapper>> & obstacles)
 {
 	for (auto & enemy : enemies)
 	{
@@ -64,7 +97,7 @@ void CollisionHandler::enemiesWithObstacles(enemyPair & enemies, std::vector<std
 	}
 }
 
-void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enemyPair & enemies,
+void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, vectorOfCharacters & enemies,
 	std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items)
 {
 	std::vector<bool> enemiesCollidingWithPlayer;
@@ -153,7 +186,7 @@ void CollisionHandler::playerWithEnemies(std::unique_ptr<Wrapper> & player, enem
 	Delete::removeBlocked(blockedCharacters);
 }
 
-void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
+void CollisionHandler::enemiesWithEnemies(vectorOfCharacters & enemies)
 {
 	std::vector<std::vector<bool>> enemiesCollidingWithEnemies;
 
@@ -227,7 +260,7 @@ void CollisionHandler::enemiesWithEnemies(enemyPair & enemies)
 }
 
 void CollisionHandler::projectilesWithEnemies(std::unique_ptr<Wrapper> & player, std::vector<std::unique_ptr<Wrapper>> & projectiles,
-	enemyPair & enemies, std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items)
+	vectorOfCharacters & enemies, std::vector<std::unique_ptr<Text>> & notifications, std::vector<std::unique_ptr<Wrapper>> & items)
 {
 	for (auto & projectile : projectiles)
 	{

@@ -8,10 +8,15 @@ void Draw::drawPlayer(std::unique_ptr<Wrapper> & player)
 	window.draw(player->sprite->getSprite());
 }
 
-void Draw::drawNpcs(std::vector<std::unique_ptr<Wrapper>>& npcs)
+void Draw::drawNpcs(vectorOfCharacters & npcs)
 {
-	drawObstacles(npcs);
+	for (auto & npc : npcs)
+	{
+		drawPlayer(npc.first);
+		window.draw(npc.second.getText());
+	}
 }
+
 
 void Draw::drawStatusBar(StatusBar & statusBar)
 {
@@ -20,7 +25,7 @@ void Draw::drawStatusBar(StatusBar & statusBar)
 	window.draw(statusBar.getText());
 }
 
-void Draw::drawEnemies(enemyPair & enemies)
+void Draw::drawEnemies(vectorOfCharacters & enemies)
 {
 	for (auto & enemy : enemies)
 	{
@@ -99,7 +104,7 @@ void Draw::drawRects(std::vector<std::unique_ptr<Wrapper>> & tests)
 	}
 }
 
-void Draw::drawRects(enemyPair & enemies)
+void Draw::drawRects(vectorOfCharacters & enemies)
 {
 	for (auto & enemy : enemies)
 	{

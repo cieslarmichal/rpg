@@ -12,6 +12,7 @@ class HUD
 public:
 	HUD();
 	void update(std::unique_ptr<Wrapper> & player,sf::Vector2u windowSize);
+	static void clearHUDInfo();
 	static void addMissionInfo();
 	static void removeMissionInfo();
 public:

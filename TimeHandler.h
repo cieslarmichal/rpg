@@ -6,10 +6,9 @@ class TimeHandler
 public:
 	TimeHandler();
 	void reset();
-	void reset2();
 	float getElapsedSeconds();
-	float getElapsedSeconds2();
+	float getElapsedAndReset();
 private:
-	sf::Clock clock, clock2;
-	sf::Time elapsed, elapsed2;
+	sf::Clock clock;
+	sf::Time elapsed;
 };

@@ -1,6 +1,6 @@
 #include "Delete.h"
 
-void Delete::removeEnemies(enemyPair & enemies)
+void Delete::removeEnemies(vectorOfCharacters & enemies)
 {
 	for (auto & enemy : enemies)
 	{

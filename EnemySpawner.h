@@ -5,16 +5,17 @@
 #include "Tile.h"
 #include "Constants.h"
 
-typedef std::vector <std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
+using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>>;
+
 
 class EnemySpawner
 {
 public:
 	EnemySpawner();
-	void spawnSkeleton(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
-	void spawnSkeletonBerserker(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
-	void spawnDragon(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
-	void spawnRandomEnemy(enemyPair & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
+	void spawnSkeleton(vectorOfCharacters & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
+	void spawnSkeletonBerserker(vectorOfCharacters & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
+	void spawnDragon(vectorOfCharacters & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
+	void spawnRandomEnemy(vectorOfCharacters & enemies, sf::Vector2f respawnPosition = { RANDOM,RANDOM });
 	static void setAmountOfEnemies(int);
 	static int getAmountOfEnemies();
 public:

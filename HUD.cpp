@@ -18,6 +18,11 @@ void HUD::update(std::unique_ptr<Wrapper>& player, sf::Vector2u windowSize)
 	updateEquipment(player, windowSize);
 }
 
+void HUD::clearHUDInfo()
+{
+	informations.erase(informations.begin(), informations.end());
+}
+
 void HUD::addMissionInfo()
 {
 	for (auto & info : informations)

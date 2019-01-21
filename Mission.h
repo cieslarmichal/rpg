@@ -9,6 +9,7 @@ class Mission
 {
 public:
 	Mission(std::string description);
+	~Mission();
 	void updateCollected(int itemType);
 	void updateKilled(int enemyType);
 	void setStarted(bool);

@@ -6,27 +6,28 @@ std::unique_ptr<Wrapper> Create::createPlayer(Player & player, sf::Vector2f posi
 		std::unique_ptr<Sprite>(new Sprite("stuff/player.png", 64, 64)), 9));
 }
 
-void Create::createNpc(Npc & npc, std::vector<std::unique_ptr<Wrapper>> & npcs, sf::Vector2f position)
+void Create::createNpc(Npc & npc, vectorOfCharacters & npcs, sf::Vector2f position)
 {
-	npcs.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(npc, 40, 40, position)),
-		std::unique_ptr<Sprite>(new Sprite("stuff/npc.png", 30, 51)))));
+	StatusBar npcStatusBar;
+	npcs.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(npc, 40, 40, position)),
+		std::unique_ptr<Sprite>(new Sprite("stuff/npc.png", 30, 51)))), npcStatusBar));
 }
 
-void Create::createSkeleton(Skeleton & skeleton, enemyPair & enemies, sf::Vector2f position)
+void Create::createSkeleton(Skeleton & skeleton, vectorOfCharacters & enemies, sf::Vector2f position)
 {
 	StatusBar enemyStatusBar;
 	enemies.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(skeleton, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/skeleton.png", 48, 48)), 2)), enemyStatusBar));
 }
 
-void Create::createSkeletonBerserker(SkeletonBerserker & skeletonBerserker, enemyPair & enemies, sf::Vector2f position)
+void Create::createSkeletonBerserker(SkeletonBerserker & skeletonBerserker, vectorOfCharacters & enemies, sf::Vector2f position)
 {
 	StatusBar enemyStatusBar;
 	enemies.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(skeletonBerserker, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/skeletonBerserker.png", 48, 48)), 2)), enemyStatusBar));
 }
 
-void Create::createDragon(Dragon & dragon, enemyPair & enemies, sf::Vector2f position)
+void Create::createDragon(Dragon & dragon, vectorOfCharacters & enemies, sf::Vector2f position)
 {
 	StatusBar enemyStatusBar;
 	enemies.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(dragon, 40, 40, position)),
@@ -95,11 +96,19 @@ void Create::createWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapp
 		std::unique_ptr<Sprite>(new Sprite("stuff/wall.png", 40, 40)))));
 }
 
+void Create::createTree(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>>& obstacles)
+{
+	Obstacle obstacle;
+	obstacles.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
+		std::unique_ptr<Sprite>(new Sprite("stuff/tree.png", 68, 108)))));
+
+}
+
 void Create::createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & floor)
 {
 	Obstacle obstacle;
 	floor.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
-		std::unique_ptr<Sprite>(new Sprite("stuff/floor.png", 40, 40)))));
+		std::unique_ptr<Sprite>(new Sprite("stuff/grass.bmp", 40, 40)))));
 }
 
 void Create::createRoomWithFloor(int roomSizeX, int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,

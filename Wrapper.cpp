@@ -7,11 +7,11 @@ Wrapper::Wrapper(std::unique_ptr<Rect> r, std::unique_ptr<Sprite> s, int a)
 	sprite = std::move(s);
 	if (a == 0)
 	{
-		animation = std::unique_ptr<Animation>(new Animation(*sprite));
+		animation = std::make_unique<Animation>(Animation(*sprite));
 	}
 	else
 	{
-		animation = std::unique_ptr<Animation>(new Animation(*sprite, a));
+		animation = std::make_unique<Animation>(Animation(*sprite, a));
 	}
 }
 

@@ -5,12 +5,12 @@
 #include <cmath>
 #include "Constants.h"
 
-typedef std::vector < std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemyPair;
+using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>>;
 
 class Shoot
 {
 public:
 	Shoot() = delete;
-	static void shootEnemy(std::unique_ptr<Wrapper>& player, enemyPair & enemies, std::vector<std::unique_ptr<Wrapper>> & projectiles);
-	static int findTargetEnemy(enemyPair & enemies);
+	static void shootEnemy(std::unique_ptr<Wrapper>& player, vectorOfCharacters & enemies, std::vector<std::unique_ptr<Wrapper>> & projectiles);
+	static int findTargetEnemy(vectorOfCharacters & enemies);
 };
