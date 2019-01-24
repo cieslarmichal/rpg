@@ -29,7 +29,12 @@ Sprite::Sprite(std::string path, int sx, int sy, int dimx, int dimy) : spriteX(s
 	else if (path == "stuff/tree.png")
 	{
 		offByRectX = -18;
-		offByRectY = -60;
+		offByRectY = -74;
+	}
+	else if (path == "stuff/stone.png")
+	{
+		offByRectX = -4;
+		offByRectY = 2;
 	}
 }
 

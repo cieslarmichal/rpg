@@ -4,9 +4,6 @@
 Game::Game(sf::RenderWindow & win)
 {
 	window = &win;
-	//tree first plan
-	//stone
-	//wooden floor in respawn
 }
 
 Game::~Game()
@@ -47,6 +44,10 @@ bool Game::gameLoop()
 		collisionHandler.enemiesWithEnemies(enemies);
 		collisionHandler.projectilesWithWalls(projectiles, walls);
 		collisionHandler.projectilesWithEnemies(player, projectiles, enemies, notifications, items);
+		//trees
+		collisionHandler.characterWithObstacles(player, trees);
+		collisionHandler.enemiesWithObstacles(enemies, trees);
+		collisionHandler.projectilesWithWalls(projectiles, trees);
 
 		Update::updatePlayer(player, playerHealthBar, inputKeys[Input::DIRECTION], inputKeys[Input::ACTION], notifications);
 		Update::updateEnemies(enemies, player);
@@ -55,6 +56,7 @@ bool Game::gameLoop()
 		Update::updateHUD(player, hud, window->getSize());
 		Update::updateObstacles(walls);
 		Update::updateObstacles(floor);
+		Update::updateObstacles(trees);
 		Update::updateItems(items);
 		Update::updateProjectiles(projectiles, enemies);
 
@@ -110,11 +112,11 @@ void Game::createCharacters()
 
 void Game::createWorld()
 {
-	Create::createMapFrame(MAP_WIDTH, MAP_HEIGHT, walls);
+	Create::createMapFrame(MAP_WIDTH, MAP_HEIGHT, trees);
 
 	try
 	{
-		Create::createWorldFromTxt("stuff/map.txt", walls, floor);
+		Create::createWorldFromTxt("stuff/map.txt", walls, floor, trees);
 	}
 	catch (const char * err)
 	{
@@ -146,7 +148,7 @@ void Game::createWorld()
 
 void Game::initializeLogicMap()
 {
-	Map::readTiles(walls);
+	Map::readTiles(walls, trees);
 	pathfinding.initializeLogicMap(Map::tiles);
 	enemySpawner.initializeObjectsPositions(Map::precisePositions);
 }
@@ -173,6 +175,8 @@ void Game::drawWindow()
 	draw->drawProjectiles(projectiles);
 	draw->drawEnemies(enemies);
 	draw->drawPlayer(player);
+	draw->drawObstacles(trees);
+	draw->drawEnemiesStatusBar(enemies);
 	draw->drawStatusBar(playerHealthBar);
 	draw->drawText(notifications);
 	draw->drawHUD(hud);

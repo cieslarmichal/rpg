@@ -18,15 +18,15 @@ public:
 	static void createProjectile(std::unique_ptr<Wrapper>& player, Projectile & projectile, std::vector<std::unique_ptr<Wrapper>> & projectiles, sf::Vector2i dimSprite);
 	static void createItem(Item & item, std::vector<std::unique_ptr<Wrapper>> & items, sf::Vector2f position);
 public:
-	static void createWorldFromTxt(std::string pathFile, std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor);
-	static void createRoomWithFloor(int roomSizeX, int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
-		std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor);
-	static void createRoomWithoutFloor(int roomSizeX, int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
-		std::vector<std::unique_ptr<Wrapper>> & walls);
-	static void createMapFrame(int sizeX, int sizeY, std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	static void createWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	static void createTree(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);
-	static void createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);
+	static void createWorldFromTxt(std::string pathFile, std::vector<std::unique_ptr<Wrapper>> & walls, 
+		std::vector<std::unique_ptr<Wrapper>> & floor, std::vector<std::unique_ptr<Wrapper>> & trees);
+	static void createMapFrame(int sizeX, int sizeY, std::vector<std::unique_ptr<Wrapper>> & trees);
+public:
+	static void createStoneWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & walls);
+	static void createStone(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & walls);
+	static void createTree(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & trees);
+	static void createGrassFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & floor);
+	static void createWoodenFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & floor);
 public:
 	static void createNpcMessage(std::string message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications, bool longMsgLifetime = false);
 	static void createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications);
