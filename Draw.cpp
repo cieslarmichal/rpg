@@ -31,6 +31,13 @@ void Draw::drawEnemies(vectorOfCharacters & enemies)
 	for (auto & enemy : enemies)
 	{
 		window.draw(enemy.first->sprite->getSprite());
+	}
+}
+
+void Draw::drawEnemiesStatusBar(vectorOfCharacters & enemies)
+{
+	for (auto & enemy : enemies)
+	{
 		window.draw(enemy.second->getValueRect());
 		window.draw(enemy.second->getText());
 	}

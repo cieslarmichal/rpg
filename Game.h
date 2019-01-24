@@ -52,6 +52,7 @@ private:
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
 	std::vector<std::unique_ptr<Text>> notifications;
 	std::vector<std::unique_ptr<Wrapper>> walls;
+	std::vector<std::unique_ptr<Wrapper>> trees;
 	std::vector<std::unique_ptr<Wrapper>> floor;
 	std::vector<std::unique_ptr<Wrapper>> items;
 };

@@ -85,65 +85,42 @@ void Create::createItem(Item & item, std::vector<std::unique_ptr<Wrapper>> & ite
 	}
 }
 
-void Create::createWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles)
+void Create::createStoneWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & walls)
 {
 	Obstacle obstacle;
-	obstacles.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
+	walls.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/wall.png", 40, 40)))));
 }
 
-void Create::createTree(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>>& obstacles)
+void Create::createStone(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>>& walls)
+{
+	Obstacle obstacle;
+	walls.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
+		std::unique_ptr<Sprite>(new Sprite("stuff/stone.png", 40, 40)))));
+}
+
+void Create::createTree(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>>& trees)
 {
 	Obstacle obstacle(true);
-	obstacles.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
+	trees.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/tree.png", 68, 108)))));
 }
 
-void Create::createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & floor)
+void Create::createGrassFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & floor)
 {
 	Obstacle obstacle;
 	floor.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/grass.bmp", 40, 40)))));
 }
 
-void Create::createRoomWithFloor(int roomSizeX, int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
-	std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor)
+void Create::createWoodenFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>>& floor)
 {
-	for (int vertical = 0; vertical <= roomSizeY; vertical++)
-	{
-		for (int horizontal = 0; horizontal <= roomSizeX; horizontal++)
-		{
-			if ((!((horizontal == doorLocDown) && vertical == roomSizeY)) && (!((horizontal == doorLocTop) && vertical == 0)) &&
-				(!((vertical == doorLocRight) && horizontal == roomSizeX)) && (!((vertical == doorLocLeft) && horizontal == 0)) &&
-				(horizontal == 0 || horizontal == roomSizeX || vertical == 0 || vertical == roomSizeY))
-			{
-				createWall({ (float)(40 * horizontal + position.x * 40),(float)(40 * vertical + position.y * 40) }, walls);
-			}
-			else
-			{
-				createFloor({ (float)(40 * horizontal + position.x * 40),(float)(40 * vertical + position.y * 40) }, floor);
-			}
-		}
-	}
+	Obstacle obstacle;
+	floor.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
+		std::unique_ptr<Sprite>(new Sprite("stuff/wood.png", 40, 40)))));
 }
 
-void Create::createRoomWithoutFloor(int roomSizeX, int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown, std::vector<std::unique_ptr<Wrapper>>& walls)
-{
-	for (int vertical = 0; vertical <= roomSizeY; vertical++)
-	{
-		for (int horizontal = 0; horizontal <= roomSizeX; horizontal++)
-		{
-			if ((!((horizontal == doorLocDown) && vertical == roomSizeY)) && (!((horizontal == doorLocTop) && vertical == 0)) &&
-				(!((vertical == doorLocRight) && horizontal == roomSizeX)) && (!((vertical == doorLocLeft) && horizontal == 0)) &&
-				(horizontal == 0 || horizontal == roomSizeX || vertical == 0 || vertical == roomSizeY))
-			{
-				createWall({ (float)(40 * horizontal + position.x * 40),(float)(40 * vertical + position.y * 40) }, walls);
-			}
-		}
-	}
-}
-
-void Create::createMapFrame(int sizeX, int sizeY, std::vector<std::unique_ptr<Wrapper>>& obstacles)
+void Create::createMapFrame(int sizeX, int sizeY, std::vector<std::unique_ptr<Wrapper>>& trees)
 {
 	for (int vertical = 0; vertical <= sizeY; vertical++)
 	{
@@ -151,16 +128,16 @@ void Create::createMapFrame(int sizeX, int sizeY, std::vector<std::unique_ptr<Wr
 		{
 			if (horizontal == 0 || horizontal == sizeX || vertical == 0 || vertical == sizeY)
 			{
-				createTree({ (float)(40 * horizontal),(float)(40 * vertical) }, obstacles);
+				createTree({ (float)(40 * horizontal),(float)(40 * vertical) }, trees);
 			}
 		}
 	}
 }
 
-
-void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor)
+void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_ptr<Wrapper>> & walls,
+	std::vector<std::unique_ptr<Wrapper>> & floor, std::vector<std::unique_ptr<Wrapper>> & trees)
 {
-	std::vector<std::string > lines(File::getLines("stuff/map.txt"));
+	std::vector<std::string> lines(File::getLines("stuff/map.txt"));
 
 	int y = -1;
 	for (auto line : lines)
@@ -175,15 +152,27 @@ void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_pt
 		{
 			if (line[x] == '#')
 			{
-				createWall({ (float)(x * 40),(float)(y * 40) }, walls);
+				createStoneWall({ (float)(x * 40),(float)(y * 40) }, walls);
 			}
 			else if (line[x] == '|')
 			{
-				createTree({ (float)(x * 40), (float)(y * 40) }, walls);
+				createTree({ (float)(x * 40), (float)(y * 40) }, trees);
+
+				createGrassFloor({ (float)(x * 40),(float)(y * 40) }, floor);
+			}
+			else if (line[x] == '_')
+			{
+				createWoodenFloor({ (float)(x * 40),(float)(y * 40) }, floor);
+			}
+			else if (line[x] == '*')
+			{
+				createStone({ (float)(x * 40),(float)(y * 40) }, walls);
+
+				createGrassFloor({ (float)(x * 40),(float)(y * 40) }, floor);
 			}
 			else
 			{
-				createFloor({ (float)(x * 40),(float)(y * 40) }, floor);
+				createGrassFloor({ (float)(x * 40),(float)(y * 40) }, floor);
 			}
 		}
 		y++;
@@ -195,7 +184,7 @@ void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_pt
 		{
 			if (x<0 || y<0 || x>MAP_WIDTH || y>MAP_HEIGHT)
 			{
-				createFloor({ (float)(x * 40),(float)(y * 40) }, floor);
+				createGrassFloor({ (float)(x * 40),(float)(y * 40) }, floor);
 			}
 		}
 	}

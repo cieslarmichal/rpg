@@ -3,7 +3,7 @@
 std::vector<std::unique_ptr<Tile>> Map::tiles;
 std::vector<std::unique_ptr<Tile>> Map::precisePositions;
 
-void Map::readTiles(std::vector<std::unique_ptr<Wrapper>> & walls)
+void Map::readTiles(std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & trees)
 {
 	tiles.clear();
 	precisePositions.clear();
@@ -12,6 +12,12 @@ void Map::readTiles(std::vector<std::unique_ptr<Wrapper>> & walls)
 	{
 		tiles.push_back(std::unique_ptr<Tile>(new Tile((int)wall->rect->getPosition().x + 20, (int)wall->rect->getPosition().y + 20, true)));
 		precisePositions.push_back(std::unique_ptr<Tile>(new Tile((int)wall->rect->getPosition().x, (int)wall->rect->getPosition().y, true)));
+	}
+
+	for (auto & tree : trees)
+	{
+		tiles.push_back(std::unique_ptr<Tile>(new Tile((int)tree->rect->getPosition().x + 20, (int)tree->rect->getPosition().y + 20, true)));
+		precisePositions.push_back(std::unique_ptr<Tile>(new Tile((int)tree->rect->getPosition().x, (int)tree->rect->getPosition().y, true)));
 	}
 }
 

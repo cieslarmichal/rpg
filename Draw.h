@@ -13,6 +13,7 @@ public:
 	void drawPlayer(std::unique_ptr<Wrapper> & player);
 	void drawNpcs(vectorOfCharacters & npcs);
 	void drawEnemies(vectorOfCharacters & enemies);
+	void drawEnemiesStatusBar(vectorOfCharacters & enemies);
 	void drawStatusBar(StatusBar & statusBar);
 	void drawObstacles(std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	void drawProjectiles(std::vector<std::unique_ptr<Wrapper>> & projectiles);
