@@ -5,9 +5,9 @@ int EnemySpawner::amountOfEnemies{ 0 };
 EnemySpawner::EnemySpawner()
 {
 	// name, hp, attackDamage, attackSpeed, movementSpeed, experience, lootChance
-	characterSkeleton = std::make_unique<Skeleton>(Skeleton("Skeleton", 200, 15, 3, 1, 120, 0.35f));
-	characterSkeletonBerserker = std::make_unique<SkeletonBerserker>(SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 0.5f));
-	characterDragon = std::make_unique<Dragon>(Dragon("Dragon", 1000, 25, 2, 1, 400, 0.4f));
+	characterSkeleton = std::make_unique<Skeleton>(Skeleton("Skeleton", 200, 15, 3, 1, 120, 0.45f));
+	characterSkeletonBerserker = std::make_unique<SkeletonBerserker>(SkeletonBerserker("Berserker", 400, 40, 5, 4, 1000, 0.75f));
+	characterDragon = std::make_unique<Dragon>(Dragon("Dragon", 1000, 25, 2, 1, 400, 0.55f));
 }
 
 void EnemySpawner::spawnSkeleton(vectorOfCharacters & enemies, sf::Vector2f respawnPosition)
@@ -73,6 +73,38 @@ void EnemySpawner::setAmountOfEnemies(int inp)
 int EnemySpawner::getAmountOfEnemies()
 {
 	return amountOfEnemies;
+}
+
+void EnemySpawner::readEnemiesFromTxt(vectorOfCharacters & enemies)
+{
+	std::vector<std::string > lines(File::getLines("stuff/map.txt"));
+
+	int y = -1;
+	for (auto line : lines)
+	{
+		if (y == -1)
+		{
+			y++;
+			continue;
+		}
+
+		for (int x = 0; x < (int)line.size(); x++)
+		{
+			if (line[x] == 'S')
+			{
+				spawnSkeleton(enemies,{ (float)(x * 40),(float)(y * 40) });
+			}
+			else if (line[x] == 'D')
+			{
+				spawnDragon(enemies, { (float)(x * 40),(float)(y * 40) });
+			}
+			else if (line[x] == 'B')
+			{
+				spawnSkeletonBerserker(enemies, { (float)(x * 40),(float)(y * 40) });
+			}
+		}
+		y++;
+	}
 }
 
 void EnemySpawner::initializeObjectsPositions(std::vector<std::unique_ptr<Tile>>& mapPositions)

@@ -31,7 +31,7 @@ void Update::updateEnemies(vectorOfCharacters & enemies, std::unique_ptr<Wrapper
 		bool isMoving = Movement::moveEnemy(*enemy.first->rect, *player->rect);
 		if (isMoving) enemy.first->animation->update(enemy.first->rect->character->getDirection());
 		enemy.first->sprite->setPosition(enemy.first->rect->getPosition());
-		enemy.second.updateStatusBar(enemy.first->rect->character->getCurrentHp(), enemy.first->rect->character->getMaxHp(),
+		enemy.second->updateStatusBar(enemy.first->rect->character->getCurrentHp(), enemy.first->rect->character->getMaxHp(),
 			enemy.first->rect->character->getName(), enemy.first->rect->getPosition());
 		enemy.first->rect->setEdges();
 	}

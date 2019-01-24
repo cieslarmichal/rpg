@@ -8,8 +8,7 @@
 #include "Inventory.h"
 #include "HUD.h"
 
-using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>>;
-
+using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, std::unique_ptr<StatusBar>>>;
 
 class Update
 {

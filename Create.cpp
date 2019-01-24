@@ -8,30 +8,26 @@ std::unique_ptr<Wrapper> Create::createPlayer(Player & player, sf::Vector2f posi
 
 void Create::createNpc(Npc & npc, vectorOfCharacters & npcs, sf::Vector2f position)
 {
-	StatusBar npcStatusBar;
 	npcs.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(npc, 40, 40, position)),
-		std::unique_ptr<Sprite>(new Sprite("stuff/npc.png", 30, 51)))), npcStatusBar));
+		std::unique_ptr<Sprite>(new Sprite("stuff/npc.png", 30, 51)))), std::unique_ptr<StatusBar>(new StatusBar())));
 }
 
 void Create::createSkeleton(Skeleton & skeleton, vectorOfCharacters & enemies, sf::Vector2f position)
 {
-	StatusBar enemyStatusBar;
 	enemies.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(skeleton, 40, 40, position)),
-		std::unique_ptr<Sprite>(new Sprite("stuff/skeleton.png", 48, 48)), 2)), enemyStatusBar));
+		std::unique_ptr<Sprite>(new Sprite("stuff/skeleton.png", 48, 48)), 2)), std::unique_ptr<StatusBar>(new StatusBar())));
 }
 
 void Create::createSkeletonBerserker(SkeletonBerserker & skeletonBerserker, vectorOfCharacters & enemies, sf::Vector2f position)
 {
-	StatusBar enemyStatusBar;
 	enemies.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(skeletonBerserker, 40, 40, position)),
-		std::unique_ptr<Sprite>(new Sprite("stuff/skeletonBerserker.png", 48, 48)), 2)), enemyStatusBar));
+		std::unique_ptr<Sprite>(new Sprite("stuff/skeletonBerserker.png", 48, 48)), 2)), std::unique_ptr<StatusBar>(new StatusBar())));
 }
 
 void Create::createDragon(Dragon & dragon, vectorOfCharacters & enemies, sf::Vector2f position)
 {
-	StatusBar enemyStatusBar;
 	enemies.push_back(std::make_pair(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(dragon, 40, 40, position)),
-		std::unique_ptr<Sprite>(new Sprite("stuff/dragon.png", 96, 96)), 3)), enemyStatusBar));
+		std::unique_ptr<Sprite>(new Sprite("stuff/dragon.png", 96, 96)), 3)), std::unique_ptr<StatusBar>(new StatusBar())));
 }
 
 void Create::createProjectile(std::unique_ptr<Wrapper>& player, Projectile & projectile, std::vector<std::unique_ptr<Wrapper>> & projectiles, sf::Vector2i dimSprite)
@@ -98,10 +94,9 @@ void Create::createWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapp
 
 void Create::createTree(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>>& obstacles)
 {
-	Obstacle obstacle;
+	Obstacle obstacle(true);
 	obstacles.push_back(std::unique_ptr<Wrapper>(new Wrapper(std::unique_ptr<Rect>(new Rect(obstacle, 40, 40, position)),
 		std::unique_ptr<Sprite>(new Sprite("stuff/tree.png", 68, 108)))));
-
 }
 
 void Create::createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & floor)
@@ -148,6 +143,21 @@ void Create::createRoomWithoutFloor(int roomSizeX, int roomSizeY, sf::Vector2f p
 	}
 }
 
+void Create::createMapFrame(int sizeX, int sizeY, std::vector<std::unique_ptr<Wrapper>>& obstacles)
+{
+	for (int vertical = 0; vertical <= sizeY; vertical++)
+	{
+		for (int horizontal = 0; horizontal <= sizeX; horizontal++)
+		{
+			if (horizontal == 0 || horizontal == sizeX || vertical == 0 || vertical == sizeY)
+			{
+				createTree({ (float)(40 * horizontal),(float)(40 * vertical) }, obstacles);
+			}
+		}
+	}
+}
+
+
 void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor)
 {
 	std::vector<std::string > lines(File::getLines("stuff/map.txt"));
@@ -167,12 +177,27 @@ void Create::createWorldFromTxt(std::string pathFile, std::vector<std::unique_pt
 			{
 				createWall({ (float)(x * 40),(float)(y * 40) }, walls);
 			}
-			else if (line[x] == '-')
+			else if (line[x] == '|')
+			{
+				createTree({ (float)(x * 40), (float)(y * 40) }, walls);
+			}
+			else
 			{
 				createFloor({ (float)(x * 40),(float)(y * 40) }, floor);
 			}
 		}
 		y++;
+	}
+
+	for (int y = -8; y <= MAP_HEIGHT + 8; y++)
+	{
+		for (int x = -13; x <= MAP_WIDTH + 13; x++)
+		{
+			if (x<0 || y<0 || x>MAP_WIDTH || y>MAP_HEIGHT)
+			{
+				createFloor({ (float)(x * 40),(float)(y * 40) }, floor);
+			}
+		}
 	}
 }
 
@@ -203,7 +228,7 @@ void Create::createNpcMessage(std::string message, sf::Vector2f position, std::v
 		offset = { -80,-30 };
 	}
 
-	notifications.push_back(std::unique_ptr<Text>(new Text(message, { position.x + offset.x,position.y + offset.y }, sf::Color::White, false, 14, true, !longMsgLifetime)));
+	notifications.push_back(std::unique_ptr<Text>(new Text(message, { position.x + offset.x,position.y + offset.y }, sf::Color::White, false, 15, true, !longMsgLifetime)));
 }
 
 void Create::createDamageMessage(int message, sf::Vector2f position, std::vector<std::unique_ptr<Text>> & notifications)

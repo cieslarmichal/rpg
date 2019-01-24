@@ -11,7 +11,7 @@ void Delete::removeEnemies(vectorOfCharacters & enemies)
 	}
 
 	enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
-		[](std::pair<std::unique_ptr<Wrapper>, StatusBar> & e) {return e.first->rect->character->isDead(); }), enemies.end());
+		[](std::pair<std::unique_ptr<Wrapper>, std::unique_ptr<StatusBar>> & e) {return e.first->rect->character->isDead(); }), enemies.end());
 }
 
 void Delete::removeText(std::vector < std::unique_ptr<Text>> & texts)

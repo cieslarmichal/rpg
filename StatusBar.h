@@ -9,11 +9,12 @@ public:
 	void setDestroyed();
 	sf::RectangleShape & getValueRect();
 	sf::RectangleShape & getFrameRect();
-	sf::Text & getText();
+	const sf::Text & getText();
+	sf::Text & getRefText();
 	bool isDestroyed() const;
 	void updateStatusBar(int value, int maxValue, std::string label, sf::Vector2f position);
 	void updateHUDStatusBar(int value, int maxValue, std::string label, sf::Vector2f position);
-	StatusBar & operator=(StatusBar other); //necessary
+	StatusBar & operator=(const StatusBar & other); //necessary
 private:
 	sf::RectangleShape valueRect;
 	sf::RectangleShape frameRect;

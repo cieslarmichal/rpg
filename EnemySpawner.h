@@ -5,8 +5,7 @@
 #include "Tile.h"
 #include "Constants.h"
 
-using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>>;
-
+using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, std::unique_ptr<StatusBar>>>;
 
 class EnemySpawner
 {
@@ -19,10 +18,11 @@ public:
 	static void setAmountOfEnemies(int);
 	static int getAmountOfEnemies();
 public:
+	void readEnemiesFromTxt(vectorOfCharacters & enemies);
 	void initializeObjectsPositions(std::vector<std::unique_ptr<Tile>> & mapPositions);
 	void updateObjectsPositions(std::vector<std::unique_ptr<Tile>> & mapPositions);
 private:
-	std::unique_ptr<Skeleton>  characterSkeleton;
+	std::unique_ptr<Skeleton> characterSkeleton;
 	std::unique_ptr<SkeletonBerserker> characterSkeletonBerserker;
 	std::unique_ptr<Dragon> characterDragon;
 	int getRandomEnemyType() const;

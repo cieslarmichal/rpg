@@ -19,6 +19,8 @@ Player::~Player()
 void Player::levelUp()
 {
 	level++;
+	setCurrentHp(getMaxHp());
+	setBaseAttackDamage(getBaseAttackDamage() + 1);
 }
 
 void Player::setCoins(int inp)

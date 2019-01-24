@@ -39,7 +39,12 @@ sf::RectangleShape & StatusBar::getFrameRect()
 	return frameRect;
 }
 
-sf::Text & StatusBar::getText()
+const sf::Text & StatusBar::getText()
+{
+	return text;
+}
+
+sf::Text & StatusBar::getRefText()
 {
 	return text;
 }
@@ -100,17 +105,19 @@ void StatusBar::setup()
 
 	font.loadFromFile("stuff/font.ttf");
 	text.setOutlineColor(sf::Color::Black);
-	text.setOutlineThickness(1);
+	text.setOutlineThickness(2);
 	text.setFont(font);
 	set = true;
 }
 
-StatusBar & StatusBar::operator=(StatusBar other)
+StatusBar & StatusBar::operator=(const StatusBar & other)
 {
+	label = other.label;
 	font = other.font;
 	text = other.text;
 	text.setFont(font);
 	valueRect = other.valueRect;
+	frameRect = other.frameRect;
 	sizeX = other.sizeX;
 	sizeY = other.sizeY;
 	offTextX = other.offTextX;
@@ -119,6 +126,7 @@ StatusBar & StatusBar::operator=(StatusBar other)
 	offRectY = other.offRectY;
 	set = other.set;
 	destroyed = other.destroyed;
+
 	return *this;
 }
 
