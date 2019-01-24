@@ -13,7 +13,7 @@ void Draw::drawNpcs(vectorOfCharacters & npcs)
 	for (auto & npc : npcs)
 	{
 		drawPlayer(npc.first);
-		window.draw(npc.second.getText());
+		window.draw(npc.second->getText());
 	}
 }
 
@@ -25,13 +25,14 @@ void Draw::drawStatusBar(StatusBar & statusBar)
 	window.draw(statusBar.getText());
 }
 
+
 void Draw::drawEnemies(vectorOfCharacters & enemies)
 {
 	for (auto & enemy : enemies)
 	{
 		window.draw(enemy.first->sprite->getSprite());
-		window.draw(enemy.second.getValueRect());
-		window.draw(enemy.second.getText());
+		window.draw(enemy.second->getValueRect());
+		window.draw(enemy.second->getText());
 	}
 }
 

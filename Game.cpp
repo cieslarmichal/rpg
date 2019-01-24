@@ -4,8 +4,9 @@
 Game::Game(sf::RenderWindow & win)
 {
 	window = &win;
-	//sprite world
-	//ladowanie w innym watku threads
+	//tree first plan
+	//stone
+	//wooden floor in respawn
 }
 
 Game::~Game()
@@ -65,7 +66,7 @@ bool Game::gameLoop()
 			updateLogicMap();
 		}
 
-		if (respawnTimer.getElapsedSeconds() >= (float)20)
+		if (respawnTimer.getElapsedSeconds() >= (float)50)
 		{
 			respawnTimer.reset();
 			enemySpawner.spawnRandomEnemy(enemies);
@@ -78,6 +79,7 @@ bool Game::gameLoop()
 		Delete::removeAndAddItems(player->rect->player->getInventory().getItems(), items, player->rect->getPosition());
 
 		drawWindow();
+
 	}
 
 	return true;
@@ -97,25 +99,18 @@ void Game::createCharacters()
 {
 	// Player:
 	// name, hp, attackDamage, attackSpeed, movementSpeed
-	characterPlayer = std::make_unique<Player>(Player("Michal", 2500, 100, 3, 2));
-	player = Create::createPlayer(*characterPlayer, { 24 * 40,30 * 40 });
+	characterPlayer = std::make_unique<Player>(Player("Michal", 250, 1000, 3, 2));
+	player = Create::createPlayer(*characterPlayer, { 5 * 40,20 * 40 });
 
 	characterNpc = std::make_unique<Npc>(Npc("Carl", "stuff/dialogues.txt"));
-	Create::createNpc(*characterNpc, npcs, { 20 * 40,30 * 40 });
+	Create::createNpc(*characterNpc, npcs, { 7 * 40,34 * 40 });
 
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeleton(enemies);
-	enemySpawner.spawnSkeletonBerserker(enemies, { 40 * 40,5 * 40 });
-	enemySpawner.spawnDragon(enemies);
-
+	enemySpawner.readEnemiesFromTxt(enemies);
 }
 
 void Game::createWorld()
 {
-	Create::createRoomWithoutFloor(MAP_WIDTH, MAP_HEIGHT, { 0, 0 }, -10, -10, -10, -10, walls);
+	Create::createMapFrame(MAP_WIDTH, MAP_HEIGHT, walls);
 
 	try
 	{
@@ -125,7 +120,24 @@ void Game::createWorld()
 	{
 		std::cerr << err << std::endl;
 	}
-	Create::createTree({ 30 * 40,6 * 40 }, walls);
+
+	//apples
+	Item apple(43);
+	Create::createItem(apple, items, { 30 * 40, 6 * 40 });
+	Create::createItem(apple, items, { 30 * 40, 7 * 40 + 3 });
+	Create::createItem(apple, items, { 30 * 40 + 10, 10 * 40 + 10 });
+	Create::createItem(apple, items, { 33 * 40, 7 * 40 + 8 });
+	Create::createItem(apple, items, { 31 * 40, 6 * 40 + 9 });
+	Create::createItem(apple, items, { 35 * 40 + 13, 11 * 40 });
+
+	//start items
+	Item axe(2);
+	Item hat(35);
+	Item food(44);
+	//change pos
+	Create::createItem(axe, items, { 5 * 40 + 30,19 * 40 });
+	Create::createItem(hat, items, { 5 * 40,19 * 40 });
+	Create::createItem(food, items, { 5 * 40 - 30,19 * 40 });
 
 	initializeLogicMap();
 
@@ -191,6 +203,11 @@ bool Game::closeWindow()
 			window->close();
 			return true;
 		}
+	}
+
+	if (player->rect->character->getCurrentHp() <= 0)
+	{
+		return true;
 	}
 
 	return false;

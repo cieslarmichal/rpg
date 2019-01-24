@@ -2,35 +2,14 @@
 
 
 
-Obstacle::Obstacle(bool destr, int hpp) : destructable(destr), hp(hpp) {}
-
-void Obstacle::setCurrentHp(int inp)
+Obstacle::Obstacle(bool treee) :tree(treee)
 {
-	hp = inp;
+
 }
 
-void Obstacle::setDestructable(bool inp)
+bool Obstacle::isTree() const
 {
-	destructable = inp;
+	return tree;
 }
 
-void Obstacle::setDestroyed(bool inp)
-{
-	destroyed = inp;
-}
-
-int Obstacle::getCurrentHp() const
-{
-	return hp;
-}
-
-bool Obstacle::isDestructable() const
-{
-	return destructable;
-}
-
-int Obstacle::isDestroyed() const
-{
-	return destroyed;
-}
 

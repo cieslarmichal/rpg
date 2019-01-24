@@ -58,7 +58,6 @@ void Application::createGameWindow()
 {
 	if (game != nullptr)
 	{
-		std::cout << sizeof(*game);
 		delete game;
 		game = nullptr;
 	}

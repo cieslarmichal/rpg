@@ -108,7 +108,7 @@ void Text::setup()
 {
 	font.loadFromFile("stuff/font.ttf");
 	text.setOutlineColor(sf::Color::Black);
-	text.setOutlineThickness(1);
+	text.setOutlineThickness(2);
 	text.setFont(font);
 	text.setFillColor(color);
 	text.setCharacterSize(fontSize);

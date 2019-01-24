@@ -8,7 +8,6 @@ Mission::Mission(std::string name)
 
 Mission::~Mission()
 {
-	std::cout << "x" << std::endl;
 }
 
 std::string Mission::getMissionName() const

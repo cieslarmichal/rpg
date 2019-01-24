@@ -34,8 +34,7 @@ private:
 private:
 	sf::RenderWindow * window;
 	sf::View * playerView;
-	TimeHandler logicMapTimer, respawnTimer, deltaTimer;
-	float dt;
+	TimeHandler logicMapTimer, respawnTimer;
 	Input input;
 	std::unique_ptr<Draw> draw;
 	EnemySpawner enemySpawner;
@@ -48,8 +47,8 @@ private:
 	HUD hud;
 	std::unique_ptr<Wrapper> player;
 	StatusBar playerHealthBar;
-	std::vector <std::pair<std::unique_ptr<Wrapper>, StatusBar>> enemies;
-	std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>> npcs;
+	std::vector <std::pair<std::unique_ptr<Wrapper>, std::unique_ptr<StatusBar>>> enemies;
+	std::vector<std::pair<std::unique_ptr<Wrapper>, std::unique_ptr<StatusBar>>> npcs;
 	std::vector<std::unique_ptr<Wrapper>> projectiles;
 	std::vector<std::unique_ptr<Text>> notifications;
 	std::vector<std::unique_ptr<Wrapper>> walls;

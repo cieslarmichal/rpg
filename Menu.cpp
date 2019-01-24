@@ -21,7 +21,7 @@ int Menu::chooseMode()
 	while (window->isOpen())
 	{
 		clear();
-		
+
 		switch (events())
 		{
 		case (int)Action::CONFIRM:
@@ -53,17 +53,17 @@ void Menu::initialize()
 	menu[(int)Item::PLAY].setFont(font);
 	menu[(int)Item::PLAY].setFillColor(sf::Color::Red);
 	menu[(int)Item::PLAY].setString("Play");
-	menu[(int)Item::PLAY].setPosition(sf::Vector2f((window->getSize().x / 2), window->getSize().y / (itemAmount + 1) * 1));
+	menu[(int)Item::PLAY].setPosition(sf::Vector2f(((float)window->getSize().x / 2), (float)window->getSize().y / (itemAmount + 1) * 1));
 
 	menu[(int)Item::OPTIONS].setFont(font);
 	menu[(int)Item::OPTIONS].setFillColor(sf::Color::White);
 	menu[(int)Item::OPTIONS].setString("Options");
-	menu[(int)Item::OPTIONS].setPosition(sf::Vector2f((window->getSize().x / 2), window->getSize().y / (itemAmount + 1) * 2));
+	menu[(int)Item::OPTIONS].setPosition(sf::Vector2f(((float)window->getSize().x / 2), (float)window->getSize().y / (itemAmount + 1) * 2));
 
 	menu[(int)Item::EXIT].setFont(font);
 	menu[(int)Item::EXIT].setFillColor(sf::Color::White);
 	menu[(int)Item::EXIT].setString("Exit");
-	menu[(int)Item::EXIT].setPosition(sf::Vector2f((window->getSize().x / 2), window->getSize().y / (itemAmount + 1) * 3));
+	menu[(int)Item::EXIT].setPosition(sf::Vector2f((float)(window->getSize().x / 2), (float)window->getSize().y / (itemAmount + 1) * 3));
 
 	currentItemIndex = 0;
 }

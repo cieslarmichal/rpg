@@ -1,8 +1,8 @@
 #include "LevelManager.h"
 
-int LevelManager::requireExperience(100);
-int LevelManager::requireDistanceHits(15);
-int LevelManager::requireMeleeHits(15);
+int LevelManager::requireExperience(220);
+int LevelManager::requireDistanceHits(12);
+int LevelManager::requireMeleeHits(16);
 int LevelManager::currentExperience(0);
 
 

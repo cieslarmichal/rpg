@@ -4,7 +4,7 @@
 #include "Text.h"
 #include "File.h"
 
-using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, StatusBar>>;
+using vectorOfCharacters = std::vector<std::pair<std::unique_ptr<Wrapper>, std::unique_ptr<StatusBar>>>;
 
 class Create
 {
@@ -23,6 +23,7 @@ public:
 		std::vector<std::unique_ptr<Wrapper>> & walls, std::vector<std::unique_ptr<Wrapper>> & floor);
 	static void createRoomWithoutFloor(int roomSizeX, int roomSizeY, sf::Vector2f position, int doorLocRight, int doorLocLeft, int doorLocTop, int doorLocDown,
 		std::vector<std::unique_ptr<Wrapper>> & walls);
+	static void createMapFrame(int sizeX, int sizeY, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	static void createWall(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	static void createTree(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);
 	static void createFloor(sf::Vector2f position, std::vector<std::unique_ptr<Wrapper>> & obstacles);

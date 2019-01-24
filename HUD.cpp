@@ -60,14 +60,14 @@ void HUD::updateInformations(std::unique_ptr<Wrapper> & player, sf::Vector2u win
 		{
 			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 2);
 			hp.getValueRect().setFillColor(sf::Color::Red);
-			hp.getText().setFillColor(sf::Color::Red);
+			hp.getRefText().setFillColor(sf::Color::Red);
 			hp.updateHUDStatusBar(player->rect->character->getCurrentHp(), player->rect->character->getMaxHp(), ("HP "+std::to_string(player->rect->player->getCurrentHp())), HUDposition);
 		}
 		else if (info->getHUDtype() == "LVL")
 		{
 			sf::Vector2f HUDposition = sf::Vector2f(player->rect->getPosition().x - (float)windowSize.x / 2 + 5, player->rect->getPosition().y - (float)windowSize.y / 2 + 37);
 			lvl.getValueRect().setFillColor(sf::Color::White);
-			lvl.getText().setFillColor(sf::Color::White);
+			lvl.getRefText().setFillColor(sf::Color::White);
 			lvl.updateHUDStatusBar(LevelManager::getCurrentExperience(), LevelManager::getRequireExperience(), ("LVL " + std::to_string(player->rect->player->getLevel())), HUDposition);
 		}
 		else if (info->getHUDtype() == "EXP")
